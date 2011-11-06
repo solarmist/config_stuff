@@ -18,7 +18,7 @@ export BROWSER="firefox"
 export XTERM="urxvtc"
 export RSYNC_PROXY="localhost:8118"
 export CLASSPATH="${CLASSPATH}:/Applications/Development/weka-3-6-4/weka.jar"
-export PATH="/opt/local/bin:/opt/local/sbin:${PATH}"
+export PATH="${HOME}/bin/scripts:${HOME}/bin:/opt/local/bin:/opt/local/sbin:${PATH}"
 export MANPATH="/opt/local/share/man:${MANPATH}"
 # }}}
 
