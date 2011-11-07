@@ -14,8 +14,7 @@ in_path()
     oldIFS=$IFS
     IFS=":"
 
-    for dir in $path
-    do
+    for dir in $path; do
 	if [ -x $dir/$cmd ] ; then
 	    retval=0  # if we're here, we cound $cmd in $dir
 	fi
