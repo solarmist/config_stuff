@@ -83,8 +83,10 @@ compctl -k "(add delete draft edit list import preview publish update)" nb
 # }}}
 
 # {{{ Virtualenv wrapper
-export WORKON_HOME=$HOME/sandbox/virtualenvs
-source $(which 'virtualenvwrapper.sh')
+if $(which -s 'virtualenvwrapper.sh') ; then
+    export WORKON_HOME=$HOME/sandbox/virtualenvs
+    source $(which 'virtualenvwrapper.sh')
+fi
 # }}}
 # }}}
 
