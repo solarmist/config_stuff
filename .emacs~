@@ -1,3 +1,0 @@
-(setq scheme-program-name
-            "/Applications/Development/mit-scheme.app/Contents/Resources/mit-scheme")
-(require 'xscheme)
