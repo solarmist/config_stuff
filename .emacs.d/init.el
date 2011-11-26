@@ -34,4 +34,4 @@
 
 (color-theme-zenburn)
 
-(progn (cd "~/Documents/"))
+(progn (cd "~/"))
