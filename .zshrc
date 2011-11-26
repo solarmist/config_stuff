@@ -35,6 +35,9 @@ export LESS_TERMCAP_us=$'\E[1;32m'    # begin underline
 
 # {{{ Aliases
 alias port="sudo /opt/local/bin/port"
+alias yum="sudo yum"
+alias easy_install="sudo easy_install"
+alias pip="sudo pip"
 alias ..="cd .."
 alias ...="cd ../.."
 alias ls="ls -F"
