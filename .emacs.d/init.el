@@ -6,7 +6,8 @@
 ;; Third party libraries are stored in ~/.emacs.d/extern
 (add-to-list 'load-path "~/.emacs.d/extern")
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.\\([pP][Llm]\\|al\\|[tT]\\)\\'" . cperl-mode))
+(add-to-list 'auto-mode-alist
+	     '("\\.\\([pP][Llm]\\|al\\|[tT]\\)\\'" . cperl-mode))
 (add-to-list 'interpreter-mode-alist '("perl" . cperl-mode))
 (add-to-list 'interpreter-mode-alist '("perl5" . cperl-mode))
 (add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
@@ -22,7 +23,8 @@
 (setq default-frame-alist '((width . 85) (height . 50)))
 (setq tramp-default-method "ssh")
 (setq scheme-program-name
-      "~/Local Applications/Development/mit-scheme.app/Contents/Resources/mit-scheme")
+      "~/Local Applications/Development/mit-scheme.app/\
+Contents/Resources/mit-scheme")
 
 ;; Autoload
 (autoload 'js2-mode "js2" nil t)
