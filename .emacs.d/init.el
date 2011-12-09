@@ -3,6 +3,8 @@
 
 ;; Add all top-level subdirectories of .emacs.d to the load path
 (add-to-list 'load-path "~/.emacs.d/")
+;; Package managed libraries
+(add-to-list 'load-path "~/.emacs.d/elpa")
 ;; Third party libraries are stored in ~/.emacs.d/extern
 (add-to-list 'load-path "~/.emacs.d/extern")
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
