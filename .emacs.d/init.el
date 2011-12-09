@@ -29,6 +29,9 @@ Contents/Resources/mit-scheme")
 ;; Autoload
 (autoload 'js2-mode "js2" nil t)
 
+(autoload 'linum-mode "linum" "toggle line numbers on/off" t)
+(global-set-key (kbd "C-<f5>") 'linum-mode)
+
 ;; Setting to run right away
 (progn (cd "~/.emacs.d/extern")
        (normal-top-level-add-subdirs-to-load-path))
@@ -47,6 +50,8 @@ Contents/Resources/mit-scheme")
 (require 'column-marker)
 
 ;; Hooks
+(when (require 'rainbow-delimiters nil 'noerror)
+  (add-hook 'scheme-mode-hook 'rainbow-delimiters-mode))
 (add-hook 'font-lock-mode-hook (lambda () (interactive) (column-marker-3 79)))
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
