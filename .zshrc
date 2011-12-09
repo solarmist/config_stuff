@@ -147,6 +147,10 @@ zstyle ':vcs_info:*' enable bzr git
 
 # {{{ Functions
 
+function chpwd() {
+    print -Pn "\e]2;%n@%M\a"
+}
+
 function cl () { cd $1 && ls }
 function covtest () {
     nosetests --cover-package=$1 --cover-erase --with-coverage
@@ -264,6 +268,7 @@ $PR_GREEN$PR_SHIFT_IN$PR_LLCORNER$PR_GREEN$PR_HBAR$PR_SHIFT_OUT(\
 }
 
 # Prompt init
+chpwd
 setprompt
 
 # }}}
