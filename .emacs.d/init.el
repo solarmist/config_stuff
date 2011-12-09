@@ -13,6 +13,7 @@
 (add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
 
 ;; Set variables
+(setq dired-listing-switches "-lRS")
 (setq-default show-trailing-whitespace t)
 (setq-default cperl-indent-level 4)
 (setq inhibit-splash-screen t)
