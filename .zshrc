@@ -1,7 +1,7 @@
 # -*- shell-script -*-
-# 
+#
 # anrxc's init file for Z-SHELL 4.3.10 on Arch GNU/Linux.
-# http://sysphere.org/~anrxc/ 
+# http://sysphere.org/~anrxc/
 # modified by Danny Navarro
 
 # {{{ User settings
@@ -13,13 +13,19 @@ export SAVEHIST=1000000
 export LESSHISTFILE="-"
 export PAGER="${HOME}/bin/vimpager"
 export READNULLCMD="${PAGER}"
-export EDITOR="vim"
+export EDITOR="emacs"
 export BROWSER="firefox"
 export XTERM="urxvtc"
 export RSYNC_PROXY="localhost:8118"
 export CLASSPATH="${CLASSPATH}:/Applications/Development/weka-3-6-4/weka.jar"
 export PATH="${HOME}/bin/scripts:${HOME}/bin:/opt/local/bin:/opt/local/sbin:${PATH}"
 export MANPATH="/opt/local/share/man:${MANPATH}"
+
+# By default: export WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
+# We take out the slash, period, angle brackets, dash here.
+# I like killing/moving whole paths, so comment this out
+# export WORDCHARS='*?_[]~=&;!#$%^(){}'
+
 # }}}
 
 # {{{ Manual pages
@@ -48,16 +54,16 @@ alias lfi="ls -lF --color=always| egrep -v --color=always '^d'"
 alias ldi="ls -lF --color=always| egrep --color=always '^d'"
 alias lst="ls -htlF | grep --color=always `date +%Y-%m-%d`"
 alias grep="grep --color=always"
-alias cp="cp -ia"
-alias mv="mv -i"
-#alias rm="rm -i"
+alias cp="cp -a"
+alias mv="mv"
+alias rm="rm -dv"
 alias cls="clear"
 alias upmem="ps aux | sort -k 6"
 alias g="gvim"
 alias vi="vim"
 alias top="htop"
-alias psg="ps auxw | grep -i "
-alias psptree="ps auxwwwf"
+alias psg="ps auxw | grep --color=always -i "
+alias psptree="ps auxwww -f"
 alias df="df -hT"
 alias du="du -hc"
 alias dus="du -S | sort -n"
@@ -68,15 +74,9 @@ alias retract="eject -t -v "
 alias ping="ping -c 5"
 alias sat="date +%R"
 alias calc="bc -l <<<"
-alias iodrag="ionice -c3 nice -n19"
-alias spell="aspell -a <<< "
+alias spell="ispell -a <<< "
 alias passgen="< /dev/urandom tr -cd \[:graph:\] | fold -w 32 | head -n 5"
 alias pjson='python -mjson.tool'
-alias yi='~/.cabal/bin/yi'
-alias gyi='yi -f pango'
-alias -g rc.lua="/Volume/Yuki/solarmist/.config/awesome/rc.lua"
-alias -g awlib="/usr/share/awesome/lib/"
-alias -g vimfiles="/usr/share/vim/vimfiles/"
 #alias less=$PAGER
 #alias zless=$PAGER
 # }}}
@@ -109,6 +109,8 @@ setopt nobeep
 bindkey -e # emacs
 bindkey "\e[A" up-line-or-search
 bindkey "\e[B" down-line-or-search
+bindkey '^xx' backward-kill-word
+# Allow killing of part of a word/path
 zle -N backward-kill-partial-word
 bindkey '^x/' backward-kill-partial-word
 
@@ -141,11 +143,15 @@ zstyle ':vcs_info:*' stagedstr '%F{28}●'
 zstyle ':vcs_info:*' unstagedstr '%F{11}●'
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:[svn]' formats '[%b%c%u]'
-zstyle ':vcs_info:*' enable bzr git
+zstyle ':vcs_info:*' enable hg git
 
 # }}}
 
 # {{{ Functions
+
+function chpwd() {
+    print -Pn "\e]2;%n@%m: %c\a"
+}
 
 function cl () { cd $1 && ls }
 function covtest () {
@@ -264,6 +270,7 @@ $PR_GREEN$PR_SHIFT_IN$PR_LLCORNER$PR_GREEN$PR_HBAR$PR_SHIFT_OUT(\
 }
 
 # Prompt init
+chpwd
 setprompt
 
 # }}}
