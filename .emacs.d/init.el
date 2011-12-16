@@ -54,7 +54,9 @@ Contents/Resources/mit-scheme")
 
 ;; Hooks
 (when (require 'rainbow-delimiters nil 'noerror)
-  (add-hook 'scheme-mode-hook 'rainbow-delimiters-mode))
+  (add-hook 'scheme-mode-hook 'rainbow-delimiters-mode)
+  (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)
+  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
 (add-hook 'font-lock-mode-hook (lambda () (interactive) (column-marker-3 79)))
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
