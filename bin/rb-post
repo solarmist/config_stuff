@@ -1,0 +1,2 @@
+#! /bin/sh
+post-review --server=http://review.solarmist.net --username=special_user --password=run_special --submit-as=$USER --guess-summary --guess-description $*
