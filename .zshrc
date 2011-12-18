@@ -273,5 +273,13 @@ $PR_GREEN$PR_SHIFT_IN$PR_LLCORNER$PR_GREEN$PR_HBAR$PR_SHIFT_OUT(\
 chpwd
 setprompt
 
+# If we aren't on os x
+if ! [ -f /usr/bin/sw_vers ]
+    if [ -x "$SSH_AUTH_SOCK" ]
+	eval `ssh-agent`
+	trap "kill $SSH_AGENT_PID" 0
+    fi
+fi
+
 # }}}
 # }}}
