@@ -51,6 +51,7 @@ Contents/Resources/mit-scheme")
 ;; External requires
 (require 'color-theme-zenburn)
 (require 'column-marker)
+(require 'jinja2-mode)
 
 ;; Hooks
 (when (require 'rainbow-delimiters nil 'noerror)
