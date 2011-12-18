@@ -274,8 +274,8 @@ chpwd
 setprompt
 
 # If we aren't on os x
-if ! [ -f /usr/bin/sw_vers ]
-    if [ -x "$SSH_AUTH_SOCK" ]
+if ! [ -f /usr/bin/sw_vers ]; then
+    if [ -x "$SSH_AUTH_SOCK" ]; then
 	eval `ssh-agent`
 	trap "kill $SSH_AGENT_PID" 0
     fi
