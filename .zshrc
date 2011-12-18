@@ -42,7 +42,6 @@ export LESS_TERMCAP_us=$'\E[1;32m'    # begin underline
 
 # {{{ Aliases
 # If this is linux then add --color=always to ls
-c=""
 if ! [ -f /usr/bin/sw_vers ]; then
     c="--color=always"
 fi
