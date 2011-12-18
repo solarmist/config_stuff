@@ -20,7 +20,8 @@ export RSYNC_PROXY="localhost:8118"
 export CLASSPATH="${CLASSPATH}:/Applications/Development/weka-3-6-4/weka.jar"
 export PATH="${HOME}/bin/scripts:${HOME}/bin:/opt/local/bin:/opt/local/sbin:${PATH}"
 export MANPATH="/opt/local/share/man:${MANPATH}"
-
+export CLICOLOR=1 # Colorize Mac OS
+export GREP_OPTIONS="--color=always"
 # By default: export WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
 # We take out the slash, period, angle brackets, dash here.
 # I like killing/moving whole paths, so comment this out
@@ -40,23 +41,28 @@ export LESS_TERMCAP_us=$'\E[1;32m'    # begin underline
 # }}}
 
 # {{{ Aliases
+# If this is linux then add --color=always to ls
+c=""
+if ! [ -f /usr/bin/sw_vers ]; then
+    c="--color=always"
+fi
 alias port="sudo /opt/local/bin/port"
 alias yum="sudo yum"
 alias easy_install="sudo easy_install"
 alias pip="sudo pip"
 alias ..="cd .."
 alias ...="cd ../.."
-alias ls="ls -F --color=always"
-alias ll="ls -lF --color=always"
-alias la="ls -AF --color=always"
-alias lla="ls -AlF --color=always"
-alias lfi="ls -lF --color=always| egrep -v --color=always '^d'"
-alias ldi="ls -lF --color=always| egrep --color=always '^d'"
-alias lst="ls -htlF | grep --color=always `date +%Y-%m-%d`"
-alias grep="grep --color=always"
+alias ls="ls -F $c"
+alias ll="ls -lF $c"
+alias la="ls -AF $c"
+alias lla="ls -AlF $c"
+alias lfi="ls -lF $c| egrep -v '^d'"
+alias ldi="ls -lF $c| egrep  '^d'"
+alias lst="ls -htlF $c| grep `date +%Y-%m-%d`"
+alias grep="grep"
 alias cp="cp -a"
 alias mv="mv"
-alias rm="rm -dv"
+alias rm="rm -v"
 alias cls="clear"
 alias upmem="ps aux | sort -k 6"
 alias g="gvim"
@@ -86,7 +92,7 @@ compctl -k "(add delete draft edit list import preview publish update)" nb
 # }}}
 
 # {{{ Virtualenv wrapper
-if $(which -s 'virtualenvwrapper.sh') ; then
+if $(which 'virtualenvwrapper.sh') ; then
     export WORKON_HOME=$HOME/sandbox/virtualenvs
     source $(which 'virtualenvwrapper.sh')
 fi
