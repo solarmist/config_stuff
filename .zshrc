@@ -277,7 +277,7 @@ setprompt
 if ! [ -f /usr/bin/sw_vers ]; then
     if [ -x "$SSH_AUTH_SOCK" ]; then
 	eval `ssh-agent`
-	ssh-add ~/.ssh/id_rsa
+	eval `ssh-add ~/.ssh/id_rsa`
 	trap "kill $SSH_AGENT_PID" 0
     fi
 fi
