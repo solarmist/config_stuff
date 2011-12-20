@@ -45,6 +45,14 @@ export LESS_TERMCAP_us=$'\E[1;32m'    # begin underline
 if ! [ -f /usr/bin/sw_vers ]; then
     c="--color=always"
 fi
+
+alias gb="git branch"
+alias gba="git branch -a"
+alias gc="git commit -v"
+alias gd="git diff"
+alias gl=" git pull"
+alias gp="git push"
+alias gst="git status"
 alias port="sudo /opt/local/bin/port"
 alias yum="sudo yum"
 alias easy_install="sudo easy_install"
