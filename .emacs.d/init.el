@@ -29,6 +29,10 @@
       "~/Local Applications/Development/mit-scheme.app/\
 Contents/Resources/mit-scheme")
 
+;; Set the irc channels to join
+(setq erc-autojoin-channels-alist
+      '(("freenode.net" "#emacs" "#buildbot")))
+
 ;; Autoload
 (autoload 'js2-mode "js2" nil t)
 
@@ -47,6 +51,7 @@ Contents/Resources/mit-scheme")
 ;; Requires
 (require 'tramp)
 (require 'xscheme)
+(require 'erc)
 
 ;; External requires
 (require 'color-theme-zenburn)
@@ -60,6 +65,11 @@ Contents/Resources/mit-scheme")
   (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
 (add-hook 'font-lock-mode-hook (lambda () (interactive) (column-marker-3 79)))
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
+
+;; Erc setup
+(erc :server "irc.freenode.net"
+     :port 6667
+     :nick "solarmist")
 
 ;; Window system specific
 (if window-system
