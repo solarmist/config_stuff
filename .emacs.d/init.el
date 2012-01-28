@@ -49,6 +49,7 @@ Contents/Resources/mit-scheme")
 (require 'xscheme)
 (require 'erc)
 (require 'erc-highlight-nicknames)
+(require 'erc-services)
 
 ;; External requires
 (require 'color-theme-zenburn)
@@ -64,14 +65,29 @@ Contents/Resources/mit-scheme")
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
 ;; Erc setup
+(load "~/.emacs.d/.ercpass")
+;; .ercpass should look like
+;; (setq freenode-solarmist-pass "password")
+
+(erc-services-mode 1)
+(erc-prompt-for-nickserv-password nil)
+
+;; Identify password
+(setq erc-nickserv-password
+      '((freenode (("solarmist" . ,freenode-solarmist-pass)))
+	))
+
 ;; Set the irc channels to join
 (setq erc-autojoin-channels-alist
       '(("freenode.net" "#emacs" "#screen" "#buildbot" "#erc")
 	;; Other servers and rooms
 	))
 
+
+
 (setq erc-interpret-mirc-color t)
 
+;; Setup prompt to show channel name
 (setq erc-prompt (lambda ()
      (if (and (boundp 'erc-default-recipients)
 	      (erc-default-target))
