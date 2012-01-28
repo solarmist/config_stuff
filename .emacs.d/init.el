@@ -29,10 +29,6 @@
       "~/Local Applications/Development/mit-scheme.app/\
 Contents/Resources/mit-scheme")
 
-;; Set the irc channels to join
-(setq erc-autojoin-channels-alist
-      '(("freenode.net" "#emacs" "#buildbot")))
-
 ;; Autoload
 (autoload 'js2-mode "js2" nil t)
 
@@ -52,6 +48,7 @@ Contents/Resources/mit-scheme")
 (require 'tramp)
 (require 'xscheme)
 (require 'erc)
+(require 'erc-highlight-nicknames)
 
 ;; External requires
 (require 'color-theme-zenburn)
@@ -67,9 +64,35 @@ Contents/Resources/mit-scheme")
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
 ;; Erc setup
+;; Set the irc channels to join
+(setq erc-autojoin-channels-alist
+      '(("freenode.net" "#emacs" "#screen" "#buildbot" "#erc")
+	;; Other servers and rooms
+	))
+
+(setq erc-interpret-mirc-color t)
+
+(setq erc-prompt (lambda ()
+     (if (and (boundp 'erc-default-recipients)
+	      (erc-default-target))
+         (erc-propertize (concat (erc-default-target) ">")
+			 'read-only t
+			 'rear-nonsticky t
+			 'front-nonsticky t)
+       (erc-propertize (concat "ERC>")
+		       'read-only t
+		       'rear-nonsticky t
+		       'front-nonsticky t))))
+(and
+ (add-to-list 'erc-modules 'highlight-nicknames)
+ (erc-update-modules))
+
 (erc :server "irc.freenode.net"
      :port 6667
-     :nick "solarmist")
+     :nick "solarmist"
+     ;; :password
+     ;; :full-name
+     )
 
 ;; Window system specific
 (if window-system
