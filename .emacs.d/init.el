@@ -65,28 +65,16 @@ Contents/Resources/mit-scheme")
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
 ;; Erc setup
+
+;; Load my passwords
 (load "~/.emacs.d/.ercpass")
 ;; .ercpass should look like
 ;; (setq freenode-solarmist-pass "password")
 
-(erc-services-mode 1)
-(erc-prompt-for-nickserv-password nil)
-
-;; Identify password
-(setq erc-nickserv-password
-      '((freenode (("solarmist" . ,freenode-solarmist-pass)))
-	))
-
-;; Set the irc channels to join
-(setq erc-autojoin-channels-alist
-      '(("freenode.net" "#emacs" "#screen" "#buildbot" "#erc")
-	;; Other servers and rooms
-	))
-
-
-
-(setq erc-interpret-mirc-color t)
-
+ (setq erc-nickserv-passwords
+       '((freenode (("solarmist" . ,freenode-solarmist-pass)))
+	 ;; (DALnet (("nick" . "password")))
+	 ))
 ;; Setup prompt to show channel name
 (setq erc-prompt (lambda ()
      (if (and (boundp 'erc-default-recipients)
@@ -99,14 +87,11 @@ Contents/Resources/mit-scheme")
 		       'read-only t
 		       'rear-nonsticky t
 		       'front-nonsticky t))))
-(and
- (add-to-list 'erc-modules 'highlight-nicknames)
- (erc-update-modules))
 
 (erc :server "irc.freenode.net"
      :port 6667
      :nick "solarmist"
-     ;; :password
+     :password freenode-solarmist-pass
      ;; :full-name
      )
 
@@ -120,18 +105,26 @@ Contents/Resources/mit-scheme")
 
 ;; Emacs controlled variables
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(global-font-lock-mode t))
+ '(erc-autojoin-channels-alist (quote (("freenode.net" "#emacs" "#screen" "#buildbot" "#erc"))))
+ '(erc-autojoin-mode t)
+ '(erc-interpret-mirc-color t)
+ '(erc-modules (quote (autoaway completion match move-to-prompt ring services stamp spelling highlight-nicknames netsplit fill button match track readonly networks ring noncommands irccontrols move-to-prompt stamp menu list)))
+ '(erc-nickserv-identify-mode (quote autodetect))
+ '(erc-nickserv-passwords nil)
+ '(erc-prompt-for-nickserv-password nil)
+ '(erc-services-mode t)
+ '(global-font-lock-mode t)
+ '(ispell-program-name "/opt/local/bin/ispell"))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
-; (set-face-attribute 'default nil :height 180)
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  )
 
 ;; Function for fixing mouse use mini-buffer errors
