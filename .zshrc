@@ -313,23 +313,26 @@ function test_identities {
     fi
 }
 
+# Check that we aren't on Mac OS
+if ! [ -f /usr/bin/sw_vers ]; then
 # check for running ssh-agent with proper $SSH_AGENT_PID
-if [ -n "$SSH_AGENT_PID" ]; then
-    ps -ef | grep "$SSH_AGENT_PID" | grep ssh-agent > /dev/null
-    if [ $? -eq 0 ]; then
-	test_identities
-    fi
-# if $SSH_AGENT_PID is not properly set, we might be able to load one from
-# $SSH_ENV
-else
-    if [ -f "$SSH_ENV" ]; then
-	. "$SSH_ENV" > /dev/null
-    fi
-    ps -ef | grep "$SSH_AGENT_PID" | grep -v grep | grep ssh-agent > /dev/null
-    if [ $? -eq 0 ]; then
-        test_identities
+    if [ -n "$SSH_AGENT_PID" ]; then
+        ps -ef | grep "$SSH_AGENT_PID" | grep ssh-agent > /dev/null
+        if [ $? -eq 0 ]; then
+	    test_identities
+	fi
+    # if $SSH_AGENT_PID is not properly set, we might be able to load one from
+    # $SSH_ENV
     else
-        start_agent
+	if [ -f "$SSH_ENV" ]; then
+	    . "$SSH_ENV" > /dev/null
+	fi
+	ps -ef | grep "$SSH_AGENT_PID" | grep -v grep | grep ssh-agent > /dev/null
+	if [ $? -eq 0 ]; then
+            test_identities
+	else
+            start_agent
+	fi
     fi
 fi
 
