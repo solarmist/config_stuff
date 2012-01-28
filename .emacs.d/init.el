@@ -56,6 +56,11 @@ Contents/Resources/mit-scheme")
 (require 'column-marker)
 (require 'jinja2-mode)
 
+;; Load my passwords
+(load "~/.emacs.d/.ercpass")
+;; .ercpass should look like
+;; (setq freenode-solarmist-pass "password")
+
 ;; Hooks
 (when (require 'rainbow-delimiters nil 'noerror)
   (add-hook 'scheme-mode-hook 'rainbow-delimiters-mode)
@@ -65,16 +70,10 @@ Contents/Resources/mit-scheme")
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
 ;; Erc setup
-
-;; Load my passwords
-(load "~/.emacs.d/.ercpass")
-;; .ercpass should look like
-;; (setq freenode-solarmist-pass "password")
-
- (setq erc-nickserv-passwords
-       '((freenode (("solarmist" . ,freenode-solarmist-pass)))
-	 ;; (DALnet (("nick" . "password")))
-	 ))
+(setq erc-nickserv-passwords
+      '((freenode (("solarmist" . ,freenode-solarmist-pass)))
+	;; (DALnet (("nick" . "password")))
+	))
 ;; Setup prompt to show channel name
 (setq erc-prompt (lambda ()
      (if (and (boundp 'erc-default-recipients)
