@@ -88,16 +88,15 @@ Contents/Resources/mit-scheme")
 		       'rear-nonsticky t
 		       'front-nonsticky t))))
 
-(erc :server "irc.freenode.net"
-     :port 6667
-     :nick "solarmist"
-     :password freenode-solarmist-pass
-     ;; :full-name
-     )
-
 ;; Window system specific
 (if window-system
     (progn (color-theme-zenburn)
+	   (erc :server "irc.freenode.net"
+		:port 6667
+		:nick "solarmist"
+		:password freenode-solarmist-pass
+		;; :full-name
+		)
 	   ))
 
 ;; Set the initial working directory
