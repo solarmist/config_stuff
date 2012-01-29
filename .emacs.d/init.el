@@ -1,5 +1,6 @@
 ;; Joshua Olson init.el
 ;; Process scripts and external libraries
+;; Note: Modified Flyspell.el to use Mouse-3 rather than Mouse-2
 
 ;; Add all top-level subdirectories of .emacs.d to the load path
 (add-to-list 'load-path "~/.emacs.d/")
