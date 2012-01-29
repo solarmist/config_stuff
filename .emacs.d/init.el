@@ -60,7 +60,7 @@ Contents/Resources/mit-scheme")
 ;; (setq freenode-solarmist-pass "password")
 
 ;; Hooks
-;; Hooks for programming modes
+;; Hooks for programming modes 
 (dolist (hook (list 'c-mode-common-hook
 		    'emacs-lisp-mode-hook
 		    'scheme-mode-hoook
@@ -71,7 +71,9 @@ Contents/Resources/mit-scheme")
 		    'html-mode
 		    ))
   (add-hook hook 'rainbow-delimiters-mode)
-  (add-hook hook 'whitespace-mode))
+  (add-hook hook 'whitespace-mode)
+  (add-hook hook 'flyspell-prog-mode)
+  )
 
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
@@ -109,44 +111,20 @@ Contents/Resources/mit-scheme")
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(erc-autojoin-channels-alist '(("freenode.net"
-					"#erc"
-					"#screen"
-					"#buildbot"
-					"#emacs"
-					)))
+ '(erc-autojoin-channels-alist (quote (("freenode.net" "#erc" "#screen" "#buildbot" "#emacs"))))
  '(erc-autojoin-mode t)
  '(erc-interpret-mirc-color nil)
- '(erc-mode-hook '(pcomplete-erc-setup 
-		   erc-munge-invisibility-spec
-		   erc-move-to-prompt-setup
-		   erc-button-setup
-		   erc-imenu-setup))
- '(erc-modules '(completion
-		 highlight-nicknames
-		 netsplit
-		 fill
-		 button
-		 match
-		 track
-		 readonly
-		 networks
-		 ring
-		 noncommands
-		 irccontrols
-		 move-to-prompt
-		 stamp
-		 menu
-		 list))
+ '(erc-mode-hook (quote (pcomplete-erc-setup erc-munge-invisibility-spec erc-move-to-prompt-setup erc-button-setup erc-imenu-setup erc-spelling-mode)))
+ '(erc-modules (quote (completion highlight-nicknames netsplit fill button match track readonly networks ring noncommands irccontrols move-to-prompt stamp menu list)))
  '(erc-nickserv-identify-mode (quote autodetect))
- '(erc-nickserv-passwords nil t)
+ '(erc-nickserv-passwords nil)
  '(erc-prompt-for-nickserv-password nil)
  '(erc-services-mode t)
+ '(ido-create-new-buffer (quote always))
+ '(ido-enable-flex-matching t)
+ '(ido-everywhere t)
  '(ispell-program-name "/opt/local/bin/ispell")
- '(whitespace-style '(face
-		      lines-tail
-		      space-before-tab
-		      space-after-tab)))
+ '(whitespace-style (quote (face lines-tail space-before-tab space-after-tab))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
