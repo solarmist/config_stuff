@@ -16,13 +16,12 @@
 
 ;; Set variables
 (setq dired-listing-switches "-lRS")
-(setq-default show-trailing-whitespace t)
 (setq-default cperl-indent-level 4)
 (setq inhibit-splash-screen t)
 (setq debug-on-error t)
 (setq make-backup-files nil)
 (setq initial-frame-alist '((top . 10) (left . 30)
-			    (width . 164) (height . 50)))
+			    (width . 165) (height . 50)))
 (setq default-frame-alist '((width . 85) (height . 50)))
 (setq tramp-default-method "ssh")
 (setq scheme-program-name
@@ -49,12 +48,11 @@ Contents/Resources/mit-scheme")
 (require 'xscheme)
 (require 'erc)
 (require 'erc-highlight-nicknames)
-(require 'erc-services)
 
 ;; External requires
 (require 'color-theme-zenburn)
-(require 'column-marker)
 (require 'jinja2-mode)
+(require 'rainbow-delimiters)
 
 ;; Load my passwords
 (load "~/.emacs.d/.ercpass")
@@ -62,23 +60,26 @@ Contents/Resources/mit-scheme")
 ;; (setq freenode-solarmist-pass "password")
 
 ;; Hooks
-(when (require 'rainbow-delimiters nil 'noerror)
-  (add-hook 'scheme-mode-hook 'rainbow-delimiters-mode)
-  (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)
-  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode))
-(add-hook 'font-lock-mode-hook (lambda () (interactive) (column-marker-3 79)))
+;; Hooks for programming modes
+(dolist (hook (list 'c-mode-common-hook
+		    'emacs-lisp-mode-hook
+		    'scheme-mode-hoook
+		    'python-mode-hook
+		    'lisp-mode-hook
+		    'jinja2-mode
+		    'css-mode
+		    'html-mode
+		    ))
+  (add-hook hook 'rainbow-delimiters-mode)
+  (add-hook hook 'whitespace-mode))
+
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
 
 ;; Erc setup
-(setq erc-nickserv-passwords
-      '((freenode (("solarmist" . ,freenode-solarmist-pass)))
-	;; (DALnet (("nick" . "password")))
-	))
-;; Setup prompt to show channel name
 (setq erc-prompt (lambda ()
      (if (and (boundp 'erc-default-recipients)
 	      (erc-default-target))
-         (erc-propertize (concat (erc-default-target) ">")
+	 (erc-propertize (concat (erc-default-target) ">")
 			 'read-only t
 			 'rear-nonsticky t
 			 'front-nonsticky t)
@@ -108,16 +109,44 @@ Contents/Resources/mit-scheme")
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(erc-autojoin-channels-alist (quote (("freenode.net" "#emacs" "#screen" "#buildbot" "#erc"))))
+ '(erc-autojoin-channels-alist '(("freenode.net"
+					"#erc"
+					"#screen"
+					"#buildbot"
+					"#emacs"
+					)))
  '(erc-autojoin-mode t)
- '(erc-interpret-mirc-color t)
- '(erc-modules (quote (autoaway completion match move-to-prompt ring services stamp spelling highlight-nicknames netsplit fill button match track readonly networks ring noncommands irccontrols move-to-prompt stamp menu list)))
+ '(erc-interpret-mirc-color nil)
+ '(erc-mode-hook '(pcomplete-erc-setup 
+		   erc-munge-invisibility-spec
+		   erc-move-to-prompt-setup
+		   erc-button-setup
+		   erc-imenu-setup))
+ '(erc-modules '(completion
+		 highlight-nicknames
+		 netsplit
+		 fill
+		 button
+		 match
+		 track
+		 readonly
+		 networks
+		 ring
+		 noncommands
+		 irccontrols
+		 move-to-prompt
+		 stamp
+		 menu
+		 list))
  '(erc-nickserv-identify-mode (quote autodetect))
- '(erc-nickserv-passwords nil)
+ '(erc-nickserv-passwords nil t)
  '(erc-prompt-for-nickserv-password nil)
  '(erc-services-mode t)
- '(global-font-lock-mode t)
- '(ispell-program-name "/opt/local/bin/ispell"))
+ '(ispell-program-name "/opt/local/bin/ispell")
+ '(whitespace-style '(face
+		      lines-tail
+		      space-before-tab
+		      space-after-tab)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
