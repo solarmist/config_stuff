@@ -100,6 +100,10 @@ Contents/Resources/mit-scheme")
 		:password freenode-solarmist-pass
 		;; :full-name
 		)
+	   (erc :server "irc.friendfinderinc.com"
+		:port 7000
+		:nick "jdolson"
+		:password ffn-jdolson-pass)
 	   ))
 
 ;; Set the initial working directory
@@ -112,7 +116,7 @@ Contents/Resources/mit-scheme")
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(erc-autojoin-channels-alist (quote (("freenode.net" "#erc" "#screen" "#buildbot" "#emacs"))))
+ '(erc-autojoin-channels-alist (quote (("freenode.net" "#erc" "#screen" "#buildbot" "#emacs") ("irc.friendfinderinc.com" "#builds" "#prog"))))
  '(erc-autojoin-mode t)
  '(erc-interpret-mirc-color nil)
  '(erc-mode-hook (quote (pcomplete-erc-setup erc-munge-invisibility-spec erc-move-to-prompt-setup erc-button-setup erc-imenu-setup erc-spelling-mode)))
