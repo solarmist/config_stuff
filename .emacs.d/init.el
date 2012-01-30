@@ -61,7 +61,7 @@ Contents/Resources/mit-scheme")
 ;; (setq freenode-solarmist-pass "password")
 
 ;; Hooks
-;; Hooks for programming modes 
+;; Hooks for programming modes
 (dolist (hook (list 'c-mode-common-hook
 		    'emacs-lisp-mode-hook
 		    'scheme-mode-hoook
@@ -109,6 +109,10 @@ Contents/Resources/mit-scheme")
 ;; Set the initial working directory
 (progn (cd "~/"))
 
+;; Change default font for work machine
+(if (string= "JOSOIMAC27A.local" system-name)
+    (set-face-attribute 'default nil :height 180))
+
 ;; Emacs controlled variables
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -129,7 +133,7 @@ Contents/Resources/mit-scheme")
  '(ido-enable-flex-matching t)
  '(ido-everywhere t)
  '(ispell-program-name "/opt/local/bin/ispell")
- '(whitespace-style (quote (face lines-tail space-before-tab space-after-tab))))
+ '(whitespace-style (quote (face trailing lines-tail space-before-tab empty space-after-tab))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
