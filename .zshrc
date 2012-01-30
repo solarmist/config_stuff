@@ -53,6 +53,7 @@ alias gd="git diff"
 alias gl=" git pull"
 alias gp="git push"
 alias gst="git status"
+alias testify='testify -v'
 alias port="sudo /opt/local/bin/port"
 alias yum="sudo yum"
 alias easy_install="sudo easy_install"
