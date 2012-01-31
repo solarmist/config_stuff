@@ -100,10 +100,6 @@ Contents/Resources/mit-scheme")
 		:password freenode-solarmist-pass
 		;; :full-name
 		)
-	   (erc :server "irc.friendfinderinc.com"
-		:port 7000
-		:nick "jdolson"
-		:password ffn-jdolson-pass)
 	   ))
 
 ;; Set the initial working directory
@@ -111,7 +107,13 @@ Contents/Resources/mit-scheme")
 
 ;; Change default font for work machine
 (if (string= "JOSOIMAC27A.local" system-name)
-    (set-face-attribute 'default nil :height 180))
+    (prog (set-face-attribute 'default nil :height 180)
+	  (erc :server "irc.friendfinderinc.com"
+	       :port 7000
+	       :nick "jdolson"
+	       :password ffn-jdolson-pass)
+	  )
+)
 
 ;; Emacs controlled variables
 (custom-set-variables
