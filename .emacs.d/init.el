@@ -100,14 +100,17 @@ Contents/Resources/mit-scheme")
 		:password freenode-solarmist-pass
 		;; :full-name
 		)
-	   (erc :server "irc.friendfinderinc.com"
-		:port 7000
-		:nick "jdolson"
-		:password ffn-jdolson-pass)
 	   ))
 
 ;; Set the initial working directory
 (progn (cd "~/"))
+
+(if (and window-system
+	 (string= system-name "JDOLSO.local"))
+    (erc :server "irc.friendfinderinc.com"
+	 :port 7000
+	 :nick "jdolson"
+	 :password ffn-jdolson-pass))
 
 ;; Emacs controlled variables
 (custom-set-variables
