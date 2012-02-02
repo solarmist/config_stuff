@@ -1,9 +1,15 @@
 com
 DEV
+dir
 ffn
 Flyspell
 friendfinderinc
+httpd
 MQ
 pre
 pyflakes
 QM
+SOA
+sudo
+VirtualHost
+wsgi
