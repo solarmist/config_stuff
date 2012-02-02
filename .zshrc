@@ -126,7 +126,7 @@ bindkey "\e[B" down-line-or-search
 bindkey '^xx' backward-kill-word
 # Allow killing of part of a word/path
 zle -N backward-kill-partial-word
-bindkey '^x/' backward-kill-partial-word
+bindkey '^w' backward-kill-partial-word
 
 # Prompt requirements
 setopt extended_glob prompt_subst

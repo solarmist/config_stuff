@@ -1,3 +1,4 @@
+admin
 com
 DEV
 dir
@@ -11,5 +12,7 @@ pyflakes
 QM
 SOA
 sudo
+unsubscribe
 VirtualHost
 wsgi
+xHookups
