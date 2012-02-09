@@ -107,7 +107,7 @@ Contents/Resources/mit-scheme")
 
 ;; Change default font for work machine
 (if (string= "JOSOIMAC27A.local" system-name)
-    (prog (set-face-attribute 'default nil :height 180)
+    (progn (set-face-attribute 'default nil :height 180)
 	  (erc :server "irc.friendfinderinc.com"
 	       :port 7000
 	       :nick "jdolson"
