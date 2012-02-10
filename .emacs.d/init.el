@@ -121,6 +121,8 @@ Contents/Resources/mit-scheme")
 		:password freenode-solarmist-pass
 		;; :full-name
 		)
+	   )
+)
 
 
 ;; Emacs controlled variables
