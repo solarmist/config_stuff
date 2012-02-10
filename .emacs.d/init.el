@@ -94,12 +94,6 @@ Contents/Resources/mit-scheme")
 ;; Window system specific
 (if window-system
     (progn (color-theme-zenburn)
-	   (erc :server "irc.freenode.net"
-		:port 6667
-		:nick "solarmist"
-		:password freenode-solarmist-pass
-		;; :full-name
-		)
 	   ))
 
 ;; Set the initial working directory
@@ -112,8 +106,22 @@ Contents/Resources/mit-scheme")
 	       :port 7000
 	       :nick "jdolson"
 	       :password ffn-jdolson-pass)
+	   (erc :server "irc.freenode.net"
+		:port 6667
+		:nick "jdolson"
+		;; :full-name
+		)
 	  )
 )
+
+(if (string= "Haruhi.local" system-name)
+    (progn (erc :server "irc.freenode.net"
+		:port 6667
+		:nick "solarmist"
+		:password freenode-solarmist-pass
+		;; :full-name
+		)
+
 
 ;; Emacs controlled variables
 (custom-set-variables
