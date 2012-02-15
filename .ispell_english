@@ -4,9 +4,11 @@ config
 DEV
 dir
 ffn
+flymake
 Flyspell
 friendfinderinc
 httpd
+https
 inline
 json
 MQ
