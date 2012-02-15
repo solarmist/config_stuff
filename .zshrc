@@ -291,18 +291,18 @@ function setprompt () {
             echo -en "\e]PE93e0e3" # bright-cyan   (cyan)
             echo -en "\e]P7dcdccc" # white         (lightgrey)
             echo -en "\e]PFffffff" # bright-white  (white)
-            PROMPT='$PR_GREEN%n@%m$PR_WHITE:$PR_YELLOW%l$PR_WHITE:$PR_RED%~$PR_YELLOW%%$PR_NO_COLOUR '
+            PROMPT='$PR_YELLOW%n@%m$PR_WHITE:$PR_GREEN%l$PR_WHITE:$PR_RED%~$PR_GREEN%%$PR_NO_COLOUR '
             ;;
         *)  # Main prompt
-            PROMPT='$PR_SET_CHARSET$PR_GREEN$PR_SHIFT_IN$PR_ULCORNER$PR_GREEN$PR_HBAR\
-$PR_SHIFT_OUT($PR_GREEN%(!.%SROOT%s.%n)$PR_GREEN@%m$PR_WHITE:$PR_YELLOW%l$PR_GREEN)\
-$PR_SHIFT_IN$PR_HBAR$PR_GREEN$PR_HBAR${(e)PR_FILLBAR}$PR_GREEN$PR_HBAR$PR_SHIFT_OUT(\
-$PR_RED%$PR_PWDLEN<...<%~%<<$PR_GREEN)$PR_SHIFT_IN$PR_HBAR$PR_GREEN$PR_URCORNER$PR_SHIFT_OUT\
+            PROMPT='$PR_SET_CHARSET$PR_YELLOW$PR_SHIFT_IN$PR_ULCORNER$PR_YELLOW$PR_HBAR\
+$PR_SHIFT_OUT($PR_YELLOW%(!.%SROOT%s.%n)$PR_YELLOW@%m$PR_WHITE:$PR_GREEN%l$PR_YELLOW)\
+$PR_SHIFT_IN$PR_HBAR$PR_YELLOW$PR_HBAR${(e)PR_FILLBAR}$PR_YELLOW$PR_HBAR$PR_SHIFT_OUT(\
+$PR_RED%$PR_PWDLEN<...<%~%<<$PR_YELLOW)$PR_SHIFT_IN$PR_HBAR$PR_YELLOW$PR_URCORNER$PR_SHIFT_OUT\
 
-$PR_GREEN$PR_SHIFT_IN$PR_LLCORNER$PR_GREEN$PR_HBAR$PR_SHIFT_OUT(\
-%(?..$PR_RED%?$PR_WHITE:)%(!.$PR_RED.$PR_YELLOW)%#$PR_GREEN)$PR_NO_COLOUR '
+$PR_YELLOW$PR_SHIFT_IN$PR_LLCORNER$PR_YELLOW$PR_HBAR$PR_SHIFT_OUT(\
+%(?..$PR_RED%?$PR_WHITE:)%(!.$PR_RED.$PR_GREEN)%#$PR_YELLOW)$PR_NO_COLOUR '
 
-            RPROMPT='${vcs_info_msg_0_}$PR_GREEN$PR_SHIFT_IN$PR_HBAR$PR_GREEN$PR_LRCORNER$PR_SHIFT_OUT$PR_NO_COLOUR'
+            RPROMPT='${vcs_info_msg_0_}$PR_YELLOW$PR_SHIFT_IN$PR_HBAR$PR_YELLOW$PR_LRCORNER$PR_SHIFT_OUT$PR_NO_COLOUR'
             ;;
     esac
 }
@@ -319,20 +319,20 @@ setprompt
 #     if [ -n "$SSH_AGENT_PID" ]; then
 #         ps -ef | grep "$SSH_AGENT_PID" | grep ssh-agent > /dev/null
 #         if [ $? -eq 0 ]; then
-# 	    test_identities
-# 	fi
+#	    test_identities
+#	fi
 #     # if $SSH_AGENT_PID is not properly set, we might be able to load one from
 #     # $SSH_ENV
 #     else
-# 	if [ -f "$SSH_ENV" ]; then
-# 	    . "$SSH_ENV" > /dev/null
-# 	fi
-# 	ps -ef | grep "$SSH_AGENT_PID" | grep -v grep | grep ssh-agent > /dev/null
-# 	if [ $? -eq 0 ]; then
+#	if [ -f "$SSH_ENV" ]; then
+#	    . "$SSH_ENV" > /dev/null
+#	fi
+#	ps -ef | grep "$SSH_AGENT_PID" | grep -v grep | grep ssh-agent > /dev/null
+#	if [ $? -eq 0 ]; then
 #             test_identitiesv
-# 	else
+#	else
 #             start_agent
-# 	fi
+#	fi
 #     fi
 # fi
 
