@@ -20,7 +20,10 @@
 (setq-default cperl-indent-level 4)
 (setq inhibit-splash-screen t)
 (setq debug-on-error t)
+; disable backup
 (setq make-backup-files nil)
+; disable auto save
+(setq auto-save-default nil)
 (setq initial-frame-alist '((top . 10) (left . 30)
 			    (width . 165) (height . 50)))
 (setq default-frame-alist '((width . 85) (height . 50)))
@@ -82,18 +85,21 @@ Contents/Resources/mit-scheme")
 (add-hook 'before-save-hook 'whitespace-cleanup)
 
 ;; Flymake setup
+(setq flymake-log-level 3)
 (when (load "flymake" t)
-  (defun flymake-pylint-init ()
-    (let* ((temp-file (flymake-init-create-temp-buffer-copy
-		       'flymake-create-temp-inplace))
-	   (local-file (file-relative-name
-			temp-file
-			(file-name-directory buffer-file-name))))
-      (list "~/bin/pychecker.sh" (list  local-file))))
-  )
-(add-to-list 'flymake-allowed-file-name-masks
-	     '("*\\.py\\'" flymake-pylint-init))
-(add-hook 'find-file-hook 'flymake-find-file-hook)
+  ; Make sure it's not a remote buffer or flymake would not work
+  (defun flymake-pyflakes-init ()
+    (when (not (subsetp (list (current-buffer)) (tramp-list-remote-buffers)))
+      (let* ((temp-file (flymake-init-create-temp-buffer-copy
+			 'flymake-create-temp-in-system-tempdir))
+	     (local-file (file-relative-name
+			  temp-file
+			  (file-name-directory buffer-file-name))))
+	(list "~/bin/pychecker.sh" (list local-file)))))
+
+  (add-to-list 'flymake-allowed-file-name-masks
+	       '("\\.py\\'" flymake-pylint-init)))
+;; (add-hook 'find-file-hook 'flymake-find-file-hook)
 
 ;; Erc setup
 (setq erc-prompt (lambda ()
@@ -119,15 +125,15 @@ Contents/Resources/mit-scheme")
 ;; Change default font for work machine
 (if (string= "JOSOIMAC27A.local" system-name)
     (progn (set-face-attribute 'default nil :height 180)
-	  (erc :server "irc.friendfinderinc.com"
-	       :port 7000
-	       :nick "jdolson"
-	       :password ffn-jdolson-pass)
-	   (erc :server "irc.freenode.net"
-		:port 6667
-		:nick "jdolson"
-		;; :full-name
-		)
+	  ;; (erc :server "irc.friendfinderinc.com"
+	  ;;      :port 7000
+	  ;;      :nick "jdolson"
+	  ;;      :password ffn-jdolson-pass)
+	  ;;  (erc :server "irc.freenode.net"
+	  ;;	:port 6667
+	  ;;	:nick "jdolson"
+	  ;;	;; :full-name
+	  ;;	)
 	  )
 )
 
@@ -158,6 +164,7 @@ Contents/Resources/mit-scheme")
  '(erc-nickserv-passwords nil)
  '(erc-prompt-for-nickserv-password nil)
  '(erc-services-mode t)
+ '(exec-path (quote ("/usr/bin" "/bin" "/usr/sbin" "/sbin" "/Applications/Emacs.app/Contents/MacOS/bin" "/Library/Frameworks/Python.framework/Versions/2.7/bin" "/usr/local/bin")))
  '(ido-create-new-buffer (quote always))
  '(ido-enable-flex-matching t)
  '(ido-everywhere t)
