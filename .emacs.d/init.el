@@ -144,6 +144,7 @@ Contents/Resources/mit-scheme")
 		:password freenode-solarmist-pass
 		;; :full-name
 		)
+	   (set-face-attribute 'default nil :height 180)
 	   )
 )
 
