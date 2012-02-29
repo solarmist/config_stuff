@@ -114,10 +114,10 @@ Contents/Resources/mit-scheme")
 		       'rear-nonsticky t
 		       'front-nonsticky t))))
 
-;; Window system specific
-(if window-system
+;; Needs 23+
+(if (or (string-match emacs-version "23") (string-match emacs-version "24"))
     (progn (color-theme-zenburn)
-	   ))
+       ))
 
 ;; Set the initial working directory
 (progn (cd "~/"))
@@ -137,7 +137,7 @@ Contents/Resources/mit-scheme")
 	  )
 )
 
-(if (string= "Haruhi.local" system-name)
+(if (and window-system (string= "Haruhi.local" system-name))
     (progn (erc :server "irc.freenode.net"
 		:port 6667
 		:nick "solarmist"
