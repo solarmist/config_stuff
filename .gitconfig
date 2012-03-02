@@ -1,0 +1,15 @@
+[user]
+	name = solarmist
+	email = joshua.olson@gmail.com
+
+[branch]
+    autosetupmerge = true
+
+[merge]
+    tool = emerge
+
+[diff]
+    color = auto
+
+[core]
+	editor = emacs
