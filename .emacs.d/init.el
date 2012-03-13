@@ -128,7 +128,7 @@ Contents/Resources/mit-scheme")
 (progn (cd "~/"))
 
 ;; Change default font for work machine
-(if (string= "JOSOIMAC27A.local" system-name)
+(if (and window-system (string= "JOSOIMAC27A.local" system-name))
     (progn (set-face-attribute 'default nil :height 180)
 	  (erc :server "irc.friendfinderinc.com"
 	       :port 7000
