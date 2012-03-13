@@ -115,7 +115,12 @@ Contents/Resources/mit-scheme")
 		       'front-nonsticky t))))
 
 ;; Needs 23+
-(if (or (string-match emacs-version "23") (string-match emacs-version "24"))
+(if (or (string-match
+	 (substring emacs-version 0 2)
+	 "23")
+	(string-match
+	 (substring emacs-version 0 2)
+	 "24"))
     (progn (color-theme-zenburn)
        ))
 
@@ -125,15 +130,14 @@ Contents/Resources/mit-scheme")
 ;; Change default font for work machine
 (if (string= "JOSOIMAC27A.local" system-name)
     (progn (set-face-attribute 'default nil :height 180)
-	  ;; (erc :server "irc.friendfinderinc.com"
-	  ;;      :port 7000
-	  ;;      :nick "jdolson"
-	  ;;      :password ffn-jdolson-pass)
-	  ;;  (erc :server "irc.freenode.net"
-	  ;;	:port 6667
-	  ;;	:nick "jdolson"
-	  ;;	;; :full-name
-	  ;;	)
+	  (erc :server "irc.friendfinderinc.com"
+	       :port 7000
+	       :nick "jdolson"
+	       :password ffn-jdolson-pass)
+	   (erc :server "irc.freenode.net"
+		:port 6667
+		:nick "jdolson"
+		)
 	  )
 )
 
@@ -142,7 +146,10 @@ Contents/Resources/mit-scheme")
 		:port 6667
 		:nick "solarmist"
 		:password freenode-solarmist-pass
-		;; :full-name
+		)
+	   (erc :server "irc.mitx.mit.edu"
+		:port 6667
+		:nick "solarmist"
 		)
 	   (set-face-attribute 'default nil :height 180)
 	   )
@@ -156,7 +163,7 @@ Contents/Resources/mit-scheme")
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(erc-autojoin-channels-alist (quote (("freenode.net" "#erc" "#screen" "#buildbot" "#emacs") ("irc.friendfinderinc.com" "#builds" "#prog"))))
+ '(erc-autojoin-channels-alist (quote (("freenode.net" "#erc" "#screen" "#buildbot" "#emacs") ("irc.friendfinderinc.com" "#builds" "#prog") ("irc.mitx.mit.edu" "#6002"))))
  '(erc-autojoin-mode t)
  '(erc-interpret-mirc-color nil)
  '(erc-mode-hook (quote (pcomplete-erc-setup erc-munge-invisibility-spec erc-move-to-prompt-setup erc-button-setup erc-imenu-setup erc-spelling-mode)))
