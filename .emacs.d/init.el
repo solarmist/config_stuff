@@ -44,7 +44,6 @@ Contents/Resources/mit-scheme")
 (progn (cd "~/.emacs.d")
        (normal-top-level-add-subdirs-to-load-path))
 (progn (split-window-horizontally)
-       (desktop-save-mode 1)
        )
 
 ;; Requires
@@ -138,6 +137,7 @@ Contents/Resources/mit-scheme")
 		:port 6667
 		:nick "jdolson"
 		)
+	   (desktop-save-mode 1)
 	  )
 )
 
@@ -151,6 +151,7 @@ Contents/Resources/mit-scheme")
 		:port 6667
 		:nick "solarmist"
 		)
+	   (desktop-save-mode 1)
 	   (set-face-attribute 'default nil :height 180)
 	   )
 )
