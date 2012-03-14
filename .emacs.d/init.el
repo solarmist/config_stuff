@@ -98,7 +98,7 @@ Contents/Resources/mit-scheme")
 
   (add-to-list 'flymake-allowed-file-name-masks
 	       '("\\.py\\'" flymake-pylint-init)))
-;; (add-hook 'find-file-hook 'flymake-find-file-hook)
+(add-hook 'find-file-hook 'flymake-find-file-hook)
 
 ;; Erc setup
 (setq erc-prompt (lambda ()
