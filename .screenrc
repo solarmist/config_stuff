@@ -1,0 +1,4 @@
+defscrollback 100000
+shell zsh
+multiuser on
+acladd root
