@@ -2,7 +2,7 @@ admin
 Associate's
 com
 config
-DEV
+dev
 dir
 Exhibitionism
 ffadult
@@ -14,6 +14,7 @@ gif
 httpd
 https
 inline
+itsdangerous
 json
 Masochism
 MQ
@@ -34,5 +35,5 @@ VirtualHost
 Voyeurism
 wsgi
 xh
-xHookups
 xhookups
+xHookups
