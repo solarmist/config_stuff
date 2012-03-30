@@ -46,7 +46,7 @@ if ! [ -f /usr/bin/sw_vers ]; then
     c="--color=always"
 fi
 
-alias gg="git grep"
+alias gg="git grep -n"
 alias glg="git log --graph"
 alias gb="git branch"
 alias gba="git branch -a"
@@ -62,7 +62,6 @@ alias easy_install="sudo easy_install"
 alias pip="sudo pip"
 alias cd..="cd .."
 alias cd...="cd ../.."
-alias .... ="cd ../../.."
 alias ..="cd .."
 alias ...="cd ../.."
 alias ls="ls -F $c"
