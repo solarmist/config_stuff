@@ -156,29 +156,29 @@ Contents/Resources/mit-scheme")
 ;; Change default font for work machine
 (if (and window-system (string= "JOSOIMAC27A.local" system-name))
     (progn (set-face-attribute 'default nil :height 180)
-	  ;; (erc :server "irc.friendfinderinc.com"
-	  ;;      :port 7000
-	  ;;      :nick "jdolson"
-	  ;;      :password ffn-jdolson-pass)
-	  ;;  (erc :server "irc.freenode.net"
-	  ;;	:port 6667
-	  ;;	:nick "jdolson"
-	  ;;	)
+	  (erc :server "irc.friendfinderinc.com"
+	       :port 7000
+	       :nick "jdolson"
+	       :password ffn-jdolson-pass)
+	   (erc :server "irc.freenode.net"
+		:port 6667
+		:nick "jdolson"
+		)
 	   (desktop-save-mode 1)
 	  )
 )
 
 (if (and window-system (string= "Haruhi.local" system-name))
     (progn (set-face-attribute 'default nil :height 180)
-	   ;; (erc :server "irc.freenode.net"
-	   ;;	   :port 6667
-	   ;;	   :nick "solarmist"
-	   ;;	   :password freenode-solarmist-pass
-	   ;;	   )
-	   ;; (erc :server "irc.mitx.mit.edu"
-	   ;;	   :port 6667
-	   ;;	   :nick "solarmist"
-	   ;;	   )
+	   (erc :server "irc.freenode.net"
+		   :port 6667
+		   :nick "solarmist"
+		   :password freenode-solarmist-pass
+		   )
+	   (erc :server "irc.mitx.mit.edu"
+		   :port 6667
+		   :nick "solarmist"
+		   )
 	   (desktop-save-mode 1)
 	   )
 )
