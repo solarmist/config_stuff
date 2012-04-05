@@ -1,15 +1,21 @@
-[user]
-	name = solarmist
-	email = joshua.olson@gmail.com
+[alias]
 
 [branch]
     autosetupmerge = true
-
-[merge]
-    tool = emerge
-
-[diff]
-    color = auto
-
+[color]
+    diff = auto
+    grep = auto
 [core]
 	editor = emacs
+[diff]
+    color = auto
+    mnemonicprefix = true
+[grep]
+    lineNumber = true
+[help]
+    format = info
+[merge]
+    tool = emerge
+[user]
+    name = solarmist
+    email = joshua.olson@gmail.com

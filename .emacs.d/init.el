@@ -8,8 +8,8 @@
 (add-to-list 'load-path "~/.emacs.d/elpa")
 ;; Third party libraries are stored in ~/.emacs.d/extern
 (add-to-list 'load-path "~/.emacs.d/extern")
-(progn (cd "~/.emacs.d/extern")
-       (normal-top-level-add-subdirs-to-load-path))
+(let ((default-directory "~/.emacs.d/extern"))
+	(normal-top-level-add-subdirs-to-load-path))
 
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (add-to-list 'auto-mode-alist
@@ -127,7 +127,7 @@ Contents/Resources/mit-scheme")
       (list "~/bin/pychecker.sh" (list temp-file)))))
 
   (add-to-list 'flymake-allowed-file-name-masks
-	       '("\\.py\\'" flymake-pylint-init)))
+	       '("*\\.py" flymake-pylint-init)))
 (add-hook 'find-file-hook 'flymake-find-file-hook)
 
 ;; Erc setup
@@ -153,6 +153,12 @@ Contents/Resources/mit-scheme")
     (progn (color-theme-zenburn)
        ))
 
+(if window-system
+    (progn (desktop-save-mode 1)
+	   (setq ispell-program-name "/opt/local/bin/ispell")
+     )
+)
+
 ;; Change default font for work machine
 (if (and window-system (string= "JOSOIMAC27A.local" system-name))
     (progn (set-face-attribute 'default nil :height 180)
@@ -164,7 +170,6 @@ Contents/Resources/mit-scheme")
 		:port 6667
 		:nick "jdolson"
 		)
-	   (desktop-save-mode 1)
 	  )
 )
 
@@ -204,7 +209,6 @@ Contents/Resources/mit-scheme")
  '(ido-create-new-buffer (quote always))
  '(ido-enable-flex-matching t)
  '(ido-everywhere t)
- '(ispell-program-name "/opt/local/bin/ispell")
  '(whitespace-style (quote (face trailing lines-tail space-before-tab empty space-after-tab))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
