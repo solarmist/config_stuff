@@ -46,15 +46,23 @@ if ! [ -f /usr/bin/sw_vers ]; then
     c="--color=always"
 fi
 
-alias gg="git grep -n"
-alias glg="git log --graph"
-alias gb="git branch"
-alias gba="git branch -a"
-alias gc="git commit -v"
-alias gd="git diff"
-alias gl=" git pull --rebase"
-alias gp="git push"
-alias gst="git status"
+alias ga='git add '
+alias gb='git branch '
+alias gba="git branch -a "
+alias gc="git commit "
+alias gd='git diff'
+alias get='git '
+alias gg="git grep -n "
+alias gk='gitk --all&'
+alias gl="git pull --rebase "
+alias glg="git log --graph "
+alias go='git checkout '
+alias got='git '
+alias gp="git push "
+alias gst="git status "
+alias gs='git status '
+alias gx='gitx --all'
+
 alias testify='testify -v'
 alias port="sudo /opt/local/bin/port"
 alias yum="sudo yum"
@@ -78,7 +86,7 @@ alias rm="rm -rv"
 alias cls="clear"
 alias g="gvim"
 alias vi="vim"
-alias psg="ps auxw | grep --color=always -i "
+alias psg="ps aux | grep --color=always -i "
 alias psptree="ps auxwww -f"
 alias df="df -hT"
 alias du="du -hc"

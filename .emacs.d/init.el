@@ -42,8 +42,10 @@ Contents/Resources/mit-scheme")
 (global-set-key (kbd "C-<f5>") 'linum-mode)
 
 ;; Setting to run right away
-(progn (split-window-horizontally)
-       )
+(if (not (daemonp))
+    (progn (split-window-horizontally)
+	   )
+)
 
 ;; Requires
 (require 'tramp)
@@ -213,6 +215,7 @@ Contents/Resources/mit-scheme")
  '(ido-create-new-buffer (quote always))
  '(ido-enable-flex-matching t)
  '(ido-everywhere t)
+ '(whitespace-line-column 79)
  '(whitespace-style (quote (face trailing lines-tail space-before-tab empty space-after-tab))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
