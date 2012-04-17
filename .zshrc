@@ -68,6 +68,7 @@ alias port="sudo /opt/local/bin/port"
 alias yum="sudo yum"
 alias easy_install="sudo easy_install"
 alias pip="sudo pip"
+alias html2ascii='lynx -force_html -stdin -dump -nolist'
 alias cd..="cd .."
 alias cd...="cd ../.."
 alias ..="cd .."

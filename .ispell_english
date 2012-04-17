@@ -16,6 +16,7 @@ httpd
 https
 inline
 itsdangerous
+jdolson
 json
 Masochism
 MQ
@@ -37,5 +38,5 @@ VirtualHost
 Voyeurism
 wsgi
 xh
-xHookups
 xhookups
+xHookups
