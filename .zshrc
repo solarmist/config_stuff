@@ -63,7 +63,7 @@ alias gst="git status "
 alias gs='git status '
 alias gx='gitx --all'
 
-alias testify='testify -v'
+#alias testify='testify -v'
 alias port="sudo /opt/local/bin/port"
 alias yum="sudo yum"
 alias easy_install="sudo easy_install"
@@ -190,11 +190,11 @@ function test_identities {
     # test whether standard identities have been added to the agent already
     ssh-add -l | grep "The agent has no identities" > /dev/null
     if [ $? -eq 0 ]; then
-        ssh-add
-        # $SSH_AUTH_SOCK broken so we start a new proper agent
-        if [ $? -eq 2 ];then
-            start_agent
-        fi
+	ssh-add
+	# $SSH_AUTH_SOCK broken so we start a new proper agent
+	if [ $? -eq 2 ];then
+	    start_agent
+	fi
     fi
 }
 
@@ -228,23 +228,23 @@ function precmd {
     if [[ "${PROMPTSIZE} + ${PWDSIZE}" -gt ${TERMWIDTH} ]]; then
 	((PR_PWDLEN=${TERMWIDTH} - ${PROMPTSIZE}))
     else
-        PR_FILLBAR="\${(l.((${TERMWIDTH} - (${PROMPTSIZE} + ${PWDSIZE})))..${PR_HBAR}.)}"
+	PR_FILLBAR="\${(l.((${TERMWIDTH} - (${PROMPTSIZE} + ${PWDSIZE})))..${PR_HBAR}.)}"
     fi
 
     # VCS
     if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null)
-            && -z $(bzr ls -R --unknown 2> /dev/null) ]]; then
-        if [[ -z $(bzr st -V 2> /dev/null) ]]; then
-            zstyle ':vcs_info:*' formats ' %F{white}[%b%c%u%F{white}]'
-        else
-            zstyle ':vcs_info:*' formats ' %F{white}[%b%c%u%F{28}●%F{white}]'
-        fi
+	    && -z $(bzr ls -R --unknown 2> /dev/null) ]]; then
+	if [[ -z $(bzr st -V 2> /dev/null) ]]; then
+	    zstyle ':vcs_info:*' formats ' %F{white}[%b%c%u%F{white}]'
+	else
+	    zstyle ':vcs_info:*' formats ' %F{white}[%b%c%u%F{28}●%F{white}]'
+	fi
     else
-        if [[ -z $(bzr st -V 2> /dev/null) ]]; then
-            zstyle ':vcs_info:*' formats ' %F{white}[%b%c%u%F{red}●%F{white}]'
-        else
-            zstyle ':vcs_info:*' formats ' %F{white}[%b%c%u%F{red}●%F{28}●%F{white}]'
-        fi
+	if [[ -z $(bzr st -V 2> /dev/null) ]]; then
+	    zstyle ':vcs_info:*' formats ' %F{white}[%b%c%u%F{red}●%F{white}]'
+	else
+	    zstyle ':vcs_info:*' formats ' %F{white}[%b%c%u%F{red}●%F{28}●%F{white}]'
+	fi
     fi
     vcs_info
 }
@@ -252,14 +252,14 @@ function precmd {
 function preexec () {
     # Screen window titles as currently running programs
     if [[ "${TERM}" == "screen-256color" ]]; then
-        local CMD="${1[(wr)^(*=*|sudo|-*)]}"
-        echo -n "\ek$CMD\e\\"
+	local CMD="${1[(wr)^(*=*|sudo|-*)]}"
+	echo -n "\ek$CMD\e\\"
     fi
 }
 
 function setprompt () {
     if [[ "${terminfo[colors]}" -ge 8 ]]; then
-        colors
+	colors
     fi
     for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
 	eval PR_"${color}"="%{${terminfo[bold]}$fg[${(L)color}]%}"
@@ -281,31 +281,31 @@ function setprompt () {
 
     # Terminal prompt settings
     case "${TERM}" in
-        dumb) # Simple prompt for dumb terminals
-            unsetopt zle
-            PROMPT='%n@%m:%~%% '
-            ;;
-        linux) # Simple prompt with Zenburn colors for the console
-            echo -en "\e]P01e2320" # zenburn black (normal black)
-            echo -en "\e]P8709080" # bright-black  (darkgrey)
-            echo -en "\e]P1705050" # red           (darkred)
-            echo -en "\e]P9dca3a3" # bright-red    (red)
-            echo -en "\e]P260b48a" # green         (darkgreen)
-            echo -en "\e]PAc3bf9f" # bright-green  (green)
-            echo -en "\e]P3dfaf8f" # yellow        (brown)
-            echo -en "\e]PBf0dfaf" # bright-yellow (yellow)
-            echo -en "\e]P4506070" # blue          (darkblue)
-            echo -en "\e]PC94bff3" # bright-blue   (blue)
-            echo -en "\e]P5dc8cc3" # purple        (darkmagenta)
-            echo -en "\e]PDec93d3" # bright-purple (magenta)
-            echo -en "\e]P68cd0d3" # cyan          (darkcyan)
-            echo -en "\e]PE93e0e3" # bright-cyan   (cyan)
-            echo -en "\e]P7dcdccc" # white         (lightgrey)
-            echo -en "\e]PFffffff" # bright-white  (white)
-            PROMPT='$PR_YELLOW%n@%m$PR_WHITE:$PR_GREEN%l$PR_WHITE:$PR_RED%~$PR_GREEN%%$PR_NO_COLOUR '
-            ;;
-        *)  # Main prompt
-            PROMPT='$PR_SET_CHARSET$PR_YELLOW$PR_SHIFT_IN$PR_ULCORNER$PR_YELLOW$PR_HBAR\
+	dumb) # Simple prompt for dumb terminals
+	    unsetopt zle
+	    PROMPT='%n@%m:%~%% '
+	    ;;
+	linux) # Simple prompt with Zenburn colors for the console
+	    echo -en "\e]P01e2320" # zenburn black (normal black)
+	    echo -en "\e]P8709080" # bright-black  (darkgrey)
+	    echo -en "\e]P1705050" # red           (darkred)
+	    echo -en "\e]P9dca3a3" # bright-red    (red)
+	    echo -en "\e]P260b48a" # green         (darkgreen)
+	    echo -en "\e]PAc3bf9f" # bright-green  (green)
+	    echo -en "\e]P3dfaf8f" # yellow        (brown)
+	    echo -en "\e]PBf0dfaf" # bright-yellow (yellow)
+	    echo -en "\e]P4506070" # blue          (darkblue)
+	    echo -en "\e]PC94bff3" # bright-blue   (blue)
+	    echo -en "\e]P5dc8cc3" # purple        (darkmagenta)
+	    echo -en "\e]PDec93d3" # bright-purple (magenta)
+	    echo -en "\e]P68cd0d3" # cyan          (darkcyan)
+	    echo -en "\e]PE93e0e3" # bright-cyan   (cyan)
+	    echo -en "\e]P7dcdccc" # white         (lightgrey)
+	    echo -en "\e]PFffffff" # bright-white  (white)
+	    PROMPT='$PR_YELLOW%n@%m$PR_WHITE:$PR_GREEN%l$PR_WHITE:$PR_RED%~$PR_GREEN%%$PR_NO_COLOUR '
+	    ;;
+	*)  # Main prompt
+	    PROMPT='$PR_SET_CHARSET$PR_YELLOW$PR_SHIFT_IN$PR_ULCORNER$PR_YELLOW$PR_HBAR\
 $PR_SHIFT_OUT($PR_YELLOW%(!.%SROOT%s.%n)$PR_YELLOW@%m$PR_WHITE:$PR_GREEN%l$PR_YELLOW)\
 $PR_SHIFT_IN$PR_HBAR$PR_YELLOW$PR_HBAR${(e)PR_FILLBAR}$PR_YELLOW$PR_HBAR$PR_SHIFT_OUT(\
 $PR_RED%$PR_PWDLEN<...<%~%<<$PR_YELLOW)$PR_SHIFT_IN$PR_HBAR$PR_YELLOW$PR_URCORNER$PR_SHIFT_OUT\
@@ -313,8 +313,8 @@ $PR_RED%$PR_PWDLEN<...<%~%<<$PR_YELLOW)$PR_SHIFT_IN$PR_HBAR$PR_YELLOW$PR_URCORNE
 $PR_YELLOW$PR_SHIFT_IN$PR_LLCORNER$PR_YELLOW$PR_HBAR$PR_SHIFT_OUT(\
 %(?..$PR_RED%?$PR_WHITE:)%(!.$PR_RED.$PR_GREEN)%#$PR_YELLOW)$PR_NO_COLOUR '
 
-            RPROMPT='${vcs_info_msg_0_}$PR_YELLOW$PR_SHIFT_IN$PR_HBAR$PR_YELLOW$PR_LRCORNER$PR_SHIFT_OUT$PR_NO_COLOUR'
-            ;;
+	    RPROMPT='${vcs_info_msg_0_}$PR_YELLOW$PR_SHIFT_IN$PR_HBAR$PR_YELLOW$PR_LRCORNER$PR_SHIFT_OUT$PR_NO_COLOUR'
+	    ;;
     esac
 }
 
