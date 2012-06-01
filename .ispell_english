@@ -29,6 +29,8 @@ pyflakes
 QM
 SOA
 SQLALCHEMY
+STDERR
+STDOUT
 sudo
 Tagalog
 TODO
@@ -40,5 +42,5 @@ VirtualHost
 Voyeurism
 wsgi
 xh
-xHookups
 xhookups
+xHookups
