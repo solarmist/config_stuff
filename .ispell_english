@@ -15,6 +15,7 @@ Flyspell
 friendfinderinc
 gearman
 gif
+hasit
 httpd
 https
 inline
@@ -24,6 +25,7 @@ json
 Masochism
 MQ
 Overridable
+pdf
 pre
 pwsid
 pyflakes
@@ -43,5 +45,5 @@ VirtualHost
 Voyeurism
 wsgi
 xh
-xHookups
 xhookups
+xHookups
