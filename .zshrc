@@ -193,7 +193,7 @@ function test_identities {
 	ssh-add
 	# $SSH_AUTH_SOCK broken so we start a new proper agent
 	if [ $? -eq 2 ];then
-	    start_agent
+            start_agent
 	fi
     fi
 }
@@ -223,7 +223,7 @@ function precmd {
     # Truncate long paths
     PR_FILLBAR=""
     PR_PWDLEN=""
-    local PROMPTSIZE="${#${(%):---(%n@%m:%l)---()--}}"
+    local PROMPTSIZE="${#${(%):---(%n@%m:%T)---()--}}"
     local PWDSIZE="${#${(%):-%~}}"
     if [[ "${PROMPTSIZE} + ${PWDSIZE}" -gt ${TERMWIDTH} ]]; then
 	((PR_PWDLEN=${TERMWIDTH} - ${PROMPTSIZE}))
@@ -233,17 +233,17 @@ function precmd {
 
     # VCS
     if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null)
-	    && -z $(bzr ls -R --unknown 2> /dev/null) ]]; then
+            && -z $(bzr ls -R --unknown 2> /dev/null) ]]; then
 	if [[ -z $(bzr st -V 2> /dev/null) ]]; then
-	    zstyle ':vcs_info:*' formats ' %F{white}[%b%c%u%F{white}]'
+            zstyle ':vcs_info:*' formats ' %F{white}[%b%c%u%F{white}]'
 	else
-	    zstyle ':vcs_info:*' formats ' %F{white}[%b%c%u%F{28}●%F{white}]'
+            zstyle ':vcs_info:*' formats ' %F{white}[%b%c%u%F{28}●%F{white}]'
 	fi
     else
 	if [[ -z $(bzr st -V 2> /dev/null) ]]; then
-	    zstyle ':vcs_info:*' formats ' %F{white}[%b%c%u%F{red}●%F{white}]'
+            zstyle ':vcs_info:*' formats ' %F{white}[%b%c%u%F{red}●%F{white}]'
 	else
-	    zstyle ':vcs_info:*' formats ' %F{white}[%b%c%u%F{red}●%F{28}●%F{white}]'
+            zstyle ':vcs_info:*' formats ' %F{white}[%b%c%u%F{red}●%F{28}●%F{white}]'
 	fi
     fi
     vcs_info
@@ -282,70 +282,45 @@ function setprompt () {
     # Terminal prompt settings
     case "${TERM}" in
 	dumb) # Simple prompt for dumb terminals
-	    unsetopt zle
-	    PROMPT='%n@%m:%~%% '
-	    ;;
+            unsetopt zle
+            PROMPT='%n@%m:%~%% '
+            ;;
 	linux) # Simple prompt with Zenburn colors for the console
-	    echo -en "\e]P01e2320" # zenburn black (normal black)
-	    echo -en "\e]P8709080" # bright-black  (darkgrey)
-	    echo -en "\e]P1705050" # red           (darkred)
-	    echo -en "\e]P9dca3a3" # bright-red    (red)
-	    echo -en "\e]P260b48a" # green         (darkgreen)
-	    echo -en "\e]PAc3bf9f" # bright-green  (green)
-	    echo -en "\e]P3dfaf8f" # yellow        (brown)
-	    echo -en "\e]PBf0dfaf" # bright-yellow (yellow)
-	    echo -en "\e]P4506070" # blue          (darkblue)
-	    echo -en "\e]PC94bff3" # bright-blue   (blue)
-	    echo -en "\e]P5dc8cc3" # purple        (darkmagenta)
-	    echo -en "\e]PDec93d3" # bright-purple (magenta)
-	    echo -en "\e]P68cd0d3" # cyan          (darkcyan)
-	    echo -en "\e]PE93e0e3" # bright-cyan   (cyan)
-	    echo -en "\e]P7dcdccc" # white         (lightgrey)
-	    echo -en "\e]PFffffff" # bright-white  (white)
-	    PROMPT='$PR_YELLOW%n@%m$PR_WHITE:$PR_GREEN%l$PR_WHITE:$PR_RED%~$PR_GREEN%%$PR_NO_COLOUR '
-	    ;;
+            echo -en "\e]P01e2320" # zenburn black (normal black)
+            echo -en "\e]P8709080" # bright-black  (darkgrey)
+            echo -en "\e]P1705050" # red           (darkred)
+            echo -en "\e]P9dca3a3" # bright-red    (red)
+            echo -en "\e]P260b48a" # green         (darkgreen)
+            echo -en "\e]PAc3bf9f" # bright-green  (green)
+            echo -en "\e]P3dfaf8f" # yellow        (brown)
+            echo -en "\e]PBf0dfaf" # bright-yellow (yellow)
+            echo -en "\e]P4506070" # blue          (darkblue)
+            echo -en "\e]PC94bff3" # bright-blue   (blue)
+            echo -en "\e]P5dc8cc3" # purple        (darkmagenta)
+            echo -en "\e]PDec93d3" # bright-purple (magenta)
+            echo -en "\e]P68cd0d3" # cyan          (darkcyan)
+            echo -en "\e]PE93e0e3" # bright-cyan   (cyan)
+            echo -en "\e]P7dcdccc" # white         (lightgrey)
+            echo -en "\e]PFffffff" # bright-white  (white)
+            PROMPT='$PR_YELLOW%n@%m$PR_WHITE:$PR_GREEN%l$PR_WHITE:$PR_RED%~\
+$PR_GREEN%%$PR_NO_COLOUR '
+            ;;
 	*)  # Main prompt
-	    PROMPT='$PR_SET_CHARSET$PR_YELLOW$PR_SHIFT_IN$PR_ULCORNER$PR_YELLOW$PR_HBAR\
-$PR_SHIFT_OUT($PR_YELLOW%(!.%SROOT%s.%n)$PR_YELLOW@%m$PR_WHITE:$PR_GREEN%l$PR_YELLOW)\
-$PR_SHIFT_IN$PR_HBAR$PR_YELLOW$PR_HBAR${(e)PR_FILLBAR}$PR_YELLOW$PR_HBAR$PR_SHIFT_OUT(\
-$PR_RED%$PR_PWDLEN<...<%~%<<$PR_YELLOW)$PR_SHIFT_IN$PR_HBAR$PR_YELLOW$PR_URCORNER$PR_SHIFT_OUT\
+            PROMPT='$PR_SET_CHARSET$PR_YELLOW$PR_SHIFT_IN$PR_ULCORNER$PR_YELLOW\
+$PR_HBAR$PR_SHIFT_OUT($PR_YELLOW%(!.%SROOT%s.%n)$PR_WHITE@$PR_BLUE%m$PR_WHITE:\
+$PR_GREEN%T$PR_YELLOW)$PR_SHIFT_IN$PR_HBAR$PR_YELLOW$PR_HBAR${(e)PR_FILLBAR}\
+$PR_YELLOW$PR_HBAR$PR_SHIFT_OUT($PR_RED%$PR_PWDLEN<...<%~%<<$PR_YELLOW)\
+$PR_SHIFT_IN$PR_HBAR$PR_YELLOW$PR_URCORNER$PR_SHIFT_OUT\
 
 $PR_YELLOW$PR_SHIFT_IN$PR_LLCORNER$PR_YELLOW$PR_HBAR$PR_SHIFT_OUT(\
 %(?..$PR_RED%?$PR_WHITE:)%(!.$PR_RED.$PR_GREEN)%#$PR_YELLOW)$PR_NO_COLOUR '
 
-	    RPROMPT='${vcs_info_msg_0_}$PR_YELLOW$PR_SHIFT_IN$PR_HBAR$PR_YELLOW$PR_LRCORNER$PR_SHIFT_OUT$PR_NO_COLOUR'
-	    ;;
+            RPROMPT='${vcs_info_msg_0_}$PR_YELLOW$PR_SHIFT_IN$PR_HBAR$PR_YELLOW\
+$PR_LRCORNER$PR_SHIFT_OUT$PR_NO_COLOUR'
+            ;;
     esac
 }
 
 # Prompt init
 chpwd
 setprompt
-
-# # Check that we aren't on Mac OS
-# if ! [ -f /usr/bin/sw_vers ]; then
-# #Setup ssh agent environment
-# SSH_ENV="$HOME/.ssh/environment"
-# # check for running ssh-agent with proper $SSH_AGENT_PID
-#     if [ -n "$SSH_AGENT_PID" ]; then
-#         ps -ef | grep "$SSH_AGENT_PID" | grep ssh-agent > /dev/null
-#         if [ $? -eq 0 ]; then
-#	    test_identities
-#	fi
-#     # if $SSH_AGENT_PID is not properly set, we might be able to load one from
-#     # $SSH_ENV
-#     else
-#	if [ -f "$SSH_ENV" ]; then
-#	    . "$SSH_ENV" > /dev/null
-#	fi
-#	ps -ef | grep "$SSH_AGENT_PID" | grep -v grep | grep ssh-agent > /dev/null
-#	if [ $? -eq 0 ]; then
-#             test_identitiesv
-#	else
-#             start_agent
-#	fi
-#     fi
-# fi
-
-# }}}
-# }}}
