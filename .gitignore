@@ -31,7 +31,17 @@
 .*_history
 .*pass
 .gem
+.anyconnect
+.matlab/
+*.lock
+*histoqueries
+.flexlmrc
+.Xauthority
+.emacs.desktop
+.emacs.d/elpa
+pgsql
 *~
+Applications/
 Desktop/
 Documents/
 Downloads/
