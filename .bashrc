@@ -63,7 +63,9 @@ PS1="\[\e]0;\u@\$(simplehost \h) working in \w\$(parse_git_branch)\007\][\[\e[32
 
 
 function parse_git_branch {
-  if [[ -x .git ]]; then
+  # We just want the success status of the command
+  git rev-parse 2> /dev/null
+  if [[ $? = 0 ]]; then
       ref=$(git symbolic-ref HEAD|awk -F/ '{print $3}') || return
       echo " ("${ref#refs/heads/}")"
   fi

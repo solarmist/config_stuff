@@ -92,50 +92,50 @@ Contents/Resources/mit-scheme")
 (setq uniquify-ignore-buffers-re "^\\*") ;; don't muck with special
 ;; buffers (or Gnus mail buffers)
 
-(if (not window-system)
-    (
-     (defun tramp-list-tramp-buffers ()
-       "Return a list of all Tramp connection buffers."
-       (append
-	(all-completions
-	 "*tramp" (mapcar 'list (mapcar 'buffer-name (buffer-list))))
-	(all-completions
-	 "*debug tramp" (mapcar 'list (mapcar 'buffer-name (buffer-list))))))
+;; (if (not window-system)
+;;     (
+;;      (defun tramp-list-tramp-buffers ()
+;;        "Return a list of all Tramp connection buffers."
+;;        (append
+;;		(all-completions
+;;		 "*tramp" (mapcar 'list (mapcar 'buffer-name (buffer-list))))
+;;		(all-completions
+;;		 "*debug tramp" (mapcar 'list (mapcar 'buffer-name (buffer-list))))))
 
-     (defun tramp-list-remote-buffers ()
-       "Return a list of all buffers with remote default-directory."
-       (delq
-	nil
-	(mapcar
-	 (lambda (x)
-	   (with-current-buffer x
-	     (when (and (stringp default-directory)
-			(file-remote-p default-directory))
-	       x)))
-	 (buffer-list))))
+;;      (defun tramp-list-remote-buffers ()
+;;        "Return a list of all buffers with remote default-directory."
+;;        (delq
+;;		nil
+;;		(mapcar
+;;		 (lambda (x)
+;;		   (with-current-buffer x
+;;		     (when (and (stringp default-directory)
+;;				(file-remote-p default-directory))
+;;		       x)))
+;;		 (buffer-list))))
 
-     (defun flymake-create-temp-in-system-tempdir (filename prefix)
-       (make-temp-file (or prefix "flymake")))
+;;      (defun flymake-create-temp-in-system-tempdir (filename prefix)
+;;        (make-temp-file (or prefix "flymake")))
 
-     ;; Flymake setup
-     (setq flymake-log-level 3)
-     (when (load "flymake" t)
-       ;; Make sure it's not a remote buffer or flymake would not work
-       (defun flymake-pylint-init ()
-	 (when (not (subsetp (list (current-buffer))
-			     (tramp-list-remote-buffers)))
-	   (let* ((temp-file (flymake-init-create-temp-buffer-copy
-			      'flymake-create-temp-in-system-tempdir))
-		  (local-file (file-relative-name
-			       temp-file
-			       (file-name-directory buffer-file-name))))
-	     (list "~/bin/pychecker.sh" (list temp-file)))))
+;;      ;; Flymake setup
+;;      (setq flymake-log-level 3)
+;;      (when (load "flymake" t)
+;;        ;; Make sure it's not a remote buffer or flymake would not work
+;;        (defun flymake-pylint-init ()
+;; 	 (when (not (subsetp (list (current-buffer))
+;; 			     (tramp-list-remote-buffers)))
+;; 	   (let* ((temp-file (flymake-init-create-temp-buffer-copy
+;; 			      'flymake-create-temp-in-system-tempdir))
+;; 		  (local-file (file-relative-name
+;; 			       temp-file
+;; 			       (file-name-directory buffer-file-name))))
+;; 	     (list "~/bin/pychecker.sh" (list temp-file)))))
 
-       (add-to-list 'flymake-allowed-file-name-masks
-		    '("*\\.py" flymake-pylint-init)))
-     (add-hook 'find-file-hook 'flymake-find-file-hook)
-     )
-)
+;;        (add-to-list 'flymake-allowed-file-name-masks
+;; 		    '("*\\.py" flymake-pylint-init)))
+;;      (add-hook 'find-file-hook 'flymake-find-file-hook)
+;;      )
+;; )
 ;; Erc setup
 (setq erc-prompt (lambda ()
      (if (and (boundp 'erc-default-recipients)
