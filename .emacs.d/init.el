@@ -179,7 +179,7 @@ Contents/Resources/mit-scheme")
 	  )
 )
 
-(if (and window-system (string= "Haruhi.local" system-name))
+(if (and window-system (string= "Haruhi" (substring system-name 0 6)))
     (progn (set-face-attribute 'default nil :height 180)
 	   (erc :server "irc.freenode.net"
 		   :port 6667

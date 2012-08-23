@@ -46,6 +46,7 @@ if ! [ -f /usr/bin/sw_vers ]; then
     c="--color=always"
 fi
 
+alias fact="elinks -dump randomfunfacts.com | sed -n '/^| /p' | tr -d \|"
 alias ga='git add '
 alias gb='git branch '
 alias gba="git branch -a "
@@ -54,7 +55,7 @@ alias gd='git diff'
 alias get='git '
 alias gg="git grep -n "
 alias gk='gitk --all&'
-alias gl="git pull --rebase "
+alias gl="fact; git pull --rebase "
 alias glg="git log --graph "
 alias go='git checkout '
 alias got='git '
@@ -63,11 +64,11 @@ alias gst="git status "
 alias gs='git status '
 alias gx='gitx --all'
 
-#alias testify='testify -v'
-alias port="sudo /opt/local/bin/port"
-alias yum="sudo yum"
-alias easy_install="sudo easy_install"
-alias pip="sudo pip"
+alias testify='testify -v'
+# alias port="sudo /opt/local/bin/port"
+# alias yum="sudo yum"
+# alias easy_install="sudo easy_install"
+# alias pip="sudo pip"
 alias html2ascii='lynx -force_html -stdin -dump -nolist'
 alias cd..="cd .."
 alias cd...="cd ../.."

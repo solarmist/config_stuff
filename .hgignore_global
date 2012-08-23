@@ -1,0 +1,23 @@
+syntax: glob
+
+*~
+*.orig
+*.rej
+*.swp
+.#*
+*.o
+.DS_Store
+.project
+.classpath
+contents.xcworkspacedata
+UserInterfaceState.xcuserstate
+*.xcbkptlist
+*.xcscheme
+xcschememanagement.plist
+.gitignore
+*.class
+RayTracer.xcodeproj
+id_rsa
+.fontconfig
+.android
+.matlab

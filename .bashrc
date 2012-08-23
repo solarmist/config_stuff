@@ -8,6 +8,7 @@ fi
 export PATH="${HOME}/bin/scripts:${HOME}/bin:/opt/local/bin:/opt/local/sbin:${PATH}"
 export PERL5LIB="$PERL5LIB:/site/lib"
 
+alias fact="elinks -dump randomfunfacts.com | sed -n '/^| /p' | tr -d \|"
 alias ga='git add '
 alias gb='git branch '
 alias gba="git branch -a "
@@ -16,7 +17,7 @@ alias gd='git diff'
 alias get='git '
 alias gg="git grep -n "
 alias gk='gitk --all&'
-alias gl="git pull --rebase "
+alias gl="fact; git pull --rebase "
 alias glg="git log --graph "
 alias go='git checkout '
 alias got='git '
