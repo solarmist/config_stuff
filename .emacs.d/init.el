@@ -32,8 +32,7 @@
 (setq default-frame-alist '((width . 85) (height . 50)))
 (setq tramp-default-method "ssh")
 (setq scheme-program-name
-      "~/Local Applications/Development/mit-scheme.app/\
-Contents/Resources/mit-scheme")
+      "/Applications/MIT-scheme.app/Contents/Resources/mit-scheme")
 
 ;; Autoload
 (autoload 'js2-mode "js2" nil t)
@@ -42,11 +41,11 @@ Contents/Resources/mit-scheme")
 (global-set-key (kbd "C-<f5>") 'linum-mode)
 
 ;; Setting to run right away
-(if (not (daemonp))
-    (progn (split-window-horizontally)
-	   )
-)
-
+;; (if (not (daemonp))
+;;     (progn (split-window-horizontally)
+;;	   )
+;; )
+;;
 ;; Requires
 (require 'tramp)
 (require 'xscheme)
@@ -55,7 +54,7 @@ Contents/Resources/mit-scheme")
 
 ;; External requires
 (require 'flymake-cursor)
-(require 'color-theme-zenburn)
+(require 'zenburn-theme)
 (require 'jinja2-mode)
 (require 'rainbow-delimiters)
 
@@ -68,7 +67,7 @@ Contents/Resources/mit-scheme")
 ;; Hooks for programming modes
 (dolist (hook (list 'c-mode-common-hook
 		    'emacs-lisp-mode-hook
-		    'scheme-mode-hoook
+		    'scheme-mode-hook
 		    'python-mode-hook
 		    'lisp-mode-hook
 		    'jinja2-mode
@@ -122,17 +121,17 @@ Contents/Resources/mit-scheme")
 ;;      (when (load "flymake" t)
 ;;        ;; Make sure it's not a remote buffer or flymake would not work
 ;;        (defun flymake-pylint-init ()
-;; 	 (when (not (subsetp (list (current-buffer))
-;; 			     (tramp-list-remote-buffers)))
-;; 	   (let* ((temp-file (flymake-init-create-temp-buffer-copy
-;; 			      'flymake-create-temp-in-system-tempdir))
-;; 		  (local-file (file-relative-name
-;; 			       temp-file
-;; 			       (file-name-directory buffer-file-name))))
-;; 	     (list "~/bin/pychecker.sh" (list temp-file)))))
+;;	 (when (not (subsetp (list (current-buffer))
+;;			     (tramp-list-remote-buffers)))
+;;	   (let* ((temp-file (flymake-init-create-temp-buffer-copy
+;;			      'flymake-create-temp-in-system-tempdir))
+;;		  (local-file (file-relative-name
+;;			       temp-file
+;;			       (file-name-directory buffer-file-name))))
+;;	     (list "~/bin/pychecker.sh" (list temp-file)))))
 
 ;;        (add-to-list 'flymake-allowed-file-name-masks
-;; 		    '("*\\.py" flymake-pylint-init)))
+;;		    '("*\\.py" flymake-pylint-init)))
 ;;      (add-hook 'find-file-hook 'flymake-find-file-hook)
 ;;      )
 ;; )
@@ -156,9 +155,10 @@ Contents/Resources/mit-scheme")
 	(string-match
 	 (substring emacs-version 0 2)
 	 "24"))
-    (progn (color-theme-zenburn)
-       ))
-
+    (+ 1 1)
+    ;; (progn (zenburn-theme)
+    ;;    )
+    )
 (if window-system
     (progn (desktop-save-mode 1)
 	   (setq ispell-program-name "/opt/local/bin/ispell")
