@@ -166,12 +166,8 @@
 )
 
 ;; Change default font for work machine
-(if (and window-system (string= "JOSOIMAC27A.local" system-name))
-    (progn (set-face-attribute 'default nil :height 180)
-	  (erc :server "irc.friendfinderinc.com"
-	       :port 7000
-	       :nick "jdolson"
-	       :password ffn-jdolson-pass)
+(if (and window-system (string= "jolson.local" system-name))
+    (progn (set-face-attribute 'default nil :height 140)
 	   (erc :server "irc.freenode.net"
 		:port 6667
 		:nick "jdolson"
