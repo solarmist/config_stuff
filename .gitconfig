@@ -23,5 +23,5 @@
 [merge]
     tool = emerge
 [user]
-    name = solarmist
-    email = joshua.olson@gmail.com
+	name = Joshua Olson
+	email = jolson@machinezone.com

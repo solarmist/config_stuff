@@ -1,4 +1,13 @@
 .CFUserTextEncoding
+.pylint.d
+.dia-etc
+project*
+.Rapp*
+.fontconfig
+com.*
+Google Drive
+.serverauth*
+*.pyc
 .DS_Store
 .Trash/
 .bash_history
