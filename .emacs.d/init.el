@@ -25,6 +25,8 @@
 (setq-default cperl-indent-level 4)
 (setq inhibit-splash-screen t)
 (setq debug-on-error t)
+;; Use scan-build for compile
+(setq compile-command "~/bin/checker-268/scan-build -k make -k")
 ;; disable backup
 (setq make-backup-files nil)
 ;; disable auto save
@@ -135,7 +137,7 @@
     )
 (if window-system
     (progn (desktop-save-mode 1)
-	   (setq ispell-program-name "/opt/local/bin/ispell")
+	   (setq ispell-program-name "/usr/local/bin/ispell")
      )
 )
 
