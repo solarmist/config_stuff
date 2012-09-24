@@ -62,6 +62,9 @@
 (require 'php-mode)
 (require 'jinja2-mode)
 (require 'rainbow-delimiters)
+(require 'pymacs)
+
+(pymacs-load "ropemacs" "rope-")
 
 
 ;; Load my passwords
