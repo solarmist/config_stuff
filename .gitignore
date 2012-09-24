@@ -1,3 +1,4 @@
+bin/checker*
 .CFUserTextEncoding
 .pylint.d
 .dia-etc
