@@ -18,7 +18,7 @@ export BROWSER="chrome"
 export XTERM="urxvtc"
 export RSYNC_PROXY="localhost:8118"
 export CLASSPATH="${CLASSPATH}:/Applications/Development/weka-3-6-4/weka.jar"
-export PATH="${HOME}/bin/scripts:${HOME}/bin:/opt/local/bin:/opt/local/sbin:${PATH}"
+export PATH="${HOME}/bin/scripts:${HOME}/bin:${HOME}/bin/checker-268:/opt/local/bin:/opt/local/sbin:${PATH}"
 export MANPATH="/opt/local/share/man:${MANPATH}"
 export CLICOLOR=1 # Colorize Mac OS
 export GREP_OPTIONS="--color=always"

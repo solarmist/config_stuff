@@ -31,9 +31,14 @@
 (setq make-backup-files nil)
 ;; disable auto save
 (setq auto-save-default nil)
-(setq initial-frame-alist '((top . 10) (left . 30)
-			    (width . 165) (height . 50)))
-(setq default-frame-alist '((width . 85) (height . 50)))
+(if (and window-system (string= "Andromeda.local" system-name))
+    (progn (setq initial-frame-alist '((top . 10) (left . 30)
+			    (width . 145) (height . 40)))
+	   (setq default-frame-alist '((width . 85) (height . 50))))
+  (progn (setq initial-frame-alist '((top . 10) (left . 30)
+				     (width . 165) (height . 50)))
+	 (setq default-frame-alist '((width . 85) (height . 50)))))
+
 (setq tramp-default-method "ssh")
 (setq scheme-program-name
       "/Applications/MIT-scheme.app/Contents/Resources/mit-scheme")
