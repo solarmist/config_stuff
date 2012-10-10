@@ -1,4 +1,6 @@
 bin/checker*
+.coverage
+*history
 .CFUserTextEncoding
 .pylint.d
 .dia-etc

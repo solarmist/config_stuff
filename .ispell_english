@@ -1,5 +1,7 @@
 admin
 API
+args
+argv
 Associate's
 blah
 com
@@ -32,6 +34,7 @@ pre
 pwsid
 pyflakes
 QM
+refactored
 SOA
 SQLALCHEMY
 STDERR
