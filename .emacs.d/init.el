@@ -12,6 +12,7 @@
 	(normal-top-level-add-subdirs-to-load-path))
 
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
 (add-to-list 'auto-mode-alist
 	     '("\\.\\([pP][Llm]\\|al\\|[tT]\\)\\'" . cperl-mode))
@@ -73,6 +74,7 @@
 ;; External requires
 (require 'flymake-cursor)
 (require 'zenburn-theme)
+(require 'yaml-mode)
 (require 'php-mode)
 (require 'jinja2-mode)
 (require 'rainbow-delimiters)
