@@ -206,6 +206,7 @@
  '(ido-create-new-buffer (quote always))
  '(ido-enable-flex-matching t)
  '(ido-everywhere t)
+ '(outline-regexp "(##)+")
  '(whitespace-line-column 79)
  '(whitespace-style (quote (face trailing lines-tail space-before-tab empty space-after-tab))))
 (custom-set-faces

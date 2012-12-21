@@ -32,7 +32,7 @@ Google Drive
 .macports/
 .pip/
 .sh_history
-.ssh
+.ssh/id*
 .subversion
 .vim/.netrwhist
 .vim/tmp/
