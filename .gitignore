@@ -33,6 +33,7 @@ Google Drive
 .pip/
 .sh_history
 .ssh/id*
+.ssh/known*
 .subversion
 .vim/.netrwhist
 .vim/tmp/
