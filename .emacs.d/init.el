@@ -22,6 +22,7 @@
 (add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
 
 ;; Set variables
+(setq outline-minor-mode-prefix (kbd "C-;"))
 (setq dired-listing-switches "-lRS")
 (setq-default cperl-indent-level 4)
 (setq inhibit-splash-screen t)
@@ -101,6 +102,7 @@
   (add-hook hook 'rainbow-delimiters-mode)
   (add-hook hook 'whitespace-mode)
   (add-hook hook 'flyspell-prog-mode)
+  (add-hook hook 'outline-minor-mode)
   )
 
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
