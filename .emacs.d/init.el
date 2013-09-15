@@ -45,12 +45,12 @@
       "/Applications/MIT-scheme.app/Contents/Resources/mit-scheme")
 
 ;; Autoload
-(autoload 'pymacs-apply "pymacs")
-(autoload 'pymacs-call "pymacs")
-(autoload 'pymacs-eval "pymacs" nil t)
-(autoload 'pymacs-exec "pymacs" nil t)
-(autoload 'pymacs-load "pymacs" nil t)
-(autoload 'pymacs-autoload "pymacs")
+;; (autoload 'pymacs-apply "pymacs")
+;; (autoload 'pymacs-call "pymacs")
+;; (autoload 'pymacs-eval "pymacs" nil t)
+;; (autoload 'pymacs-exec "pymacs" nil t)
+;; (autoload 'pymacs-load "pymacs" nil t)
+;; (autoload 'pymacs-autoload "pymacs")
 ;; Uncomment and set the next two lines if you have custom pymacs code
 ;;(eval-after-load "pymacs"
 ;;  '(add-to-list 'pymacs-load-path YOUR-PYMACS-DIRECTORY"))
@@ -78,9 +78,9 @@
 (require 'php-mode)
 (require 'jinja2-mode)
 (require 'rainbow-delimiters)
-(require 'pymacs)
+;; (require 'pymacs)
 
-(pymacs-load "ropemacs" "rope-")
+;; (pymacs-load "ropemacs" "rope-")
 
 
 ;; Load my passwords

@@ -1,3 +1,6 @@
+Applications*
+nohup.out
+build/*
 bin/checker*
 .coverage
 *history
