@@ -35,7 +35,8 @@ Google Drive
 .macports/
 .pip/
 .sh_history
-.ssh
+.ssh/id*
+.ssh/known*
 .subversion
 .vim/.netrwhist
 .vim/tmp/
@@ -69,3 +70,4 @@ Pictures/
 Public/
 config_stuff/
 sandbox/
+.rstudio-desktop/

@@ -22,6 +22,7 @@
 (add-to-list 'interpreter-mode-alist '("miniperl" . cperl-mode))
 
 ;; Set variables
+(setq outline-minor-mode-prefix (kbd "C-;"))
 (setq dired-listing-switches "-lRS")
 (setq-default cperl-indent-level 4)
 (setq inhibit-splash-screen t)
@@ -101,6 +102,7 @@
   (add-hook hook 'rainbow-delimiters-mode)
   (add-hook hook 'whitespace-mode)
   (add-hook hook 'flyspell-prog-mode)
+  (add-hook hook 'outline-minor-mode)
   )
 
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
@@ -206,6 +208,7 @@
  '(ido-create-new-buffer (quote always))
  '(ido-enable-flex-matching t)
  '(ido-everywhere t)
+ '(outline-regexp "(##)+")
  '(whitespace-line-column 79)
  '(whitespace-style (quote (face trailing lines-tail space-before-tab empty space-after-tab))))
 (custom-set-faces
