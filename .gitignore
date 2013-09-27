@@ -71,3 +71,6 @@ Public/
 config_stuff/
 sandbox/
 .rstudio-desktop/
+Parallels
+.rvm
+.erlang.cookie

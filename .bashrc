@@ -87,3 +87,5 @@ function simplehost(){
 	*) echo -n "$name";;
     esac
 }
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

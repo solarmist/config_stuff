@@ -18,10 +18,10 @@ export BROWSER="chrome"
 export XTERM="urxvtc"
 export RSYNC_PROXY="localhost:8118"
 export CLASSPATH="${CLASSPATH}:/Applications/Development/weka-3-6-4/weka.jar"
-export PATH="${HOME}/bin/scripts:${HOME}/bin:${HOME}/bin/checker-268:/opt/local/bin:/opt/local/sbin:${PATH}"
+export PATH="${PATH}:${HOME}/bin/scripts:${HOME}/bin:${HOME}/bin/checker-268:/opt/local/bin:/opt/local/sbin"
 export MANPATH="/opt/local/share/man:${MANPATH}"
 export CLICOLOR=1 # Colorize Mac OS
-export GREP_OPTIONS="--color=always"
+export GREP_OPTIONS="--color=auto"
 # By default: export WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
 # We take out the slash, period, angle brackets, dash here.
 # I like killing/moving whole paths, so comment this out
@@ -325,3 +325,5 @@ $PR_LRCORNER$PR_SHIFT_OUT$PR_NO_COLOUR'
 # Prompt init
 chpwd
 setprompt
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

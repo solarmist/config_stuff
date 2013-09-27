@@ -11,11 +11,13 @@
 (let ((default-directory "~/.emacs.d/extern"))
 	(normal-top-level-add-subdirs-to-load-path))
 
+;; (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
 (add-to-list 'auto-mode-alist
-	     '("\\.\\([pP][Llm]\\|al\\|[tT]\\)\\'" . cperl-mode))
+         '("\\.\\([pP][Llm]\\|al\\|[tT]\\)\\'" . cperl-mode))
 (add-to-list 'interpreter-mode-alist '("php" . php-mode))
 (add-to-list 'interpreter-mode-alist '("perl" . cperl-mode))
 (add-to-list 'interpreter-mode-alist '("perl5" . cperl-mode))
@@ -35,11 +37,11 @@
 (setq auto-save-default nil)
 (if (and window-system (string= "Andromeda.local" system-name))
     (progn (setq initial-frame-alist '((top . 10) (left . 30)
-			    (width . 145) (height . 40)))
-	   (setq default-frame-alist '((width . 85) (height . 50))))
+                (width . 145) (height . 40)))
+       (setq default-frame-alist '((width . 85) (height . 50))))
   (progn (setq initial-frame-alist '((top . 10) (left . 30)
-				     (width . 165) (height . 50)))
-	 (setq default-frame-alist '((width . 85) (height . 50)))))
+                     (width . 165) (height . 50)))
+     (setq default-frame-alist '((width . 85) (height . 50)))))
 
 (setq tramp-default-method "ssh")
 (setq scheme-program-name
@@ -63,9 +65,18 @@
 ;; Setting to run right away
 ;; (if (not (daemonp))
 ;;     (progn (split-window-horizontally)
-;;	   )
+;;     )
 ;; )
 ;;
+;; Setup el-get
+;; (unless (require 'el-get nil 'noerror)
+;;   (with-current-buffer
+;;       (url-retrieve-synchronously
+;;        "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
+;;     (goto-char (point-max))
+;;     (eval-print-last-sexp)))
+;; (el-get 'sync)
+
 ;; Requires
 (require 'tramp)
 (require 'xscheme)
@@ -83,6 +94,7 @@
 
 ;; (pymacs-load "ropemacs" "rope-")
 
+;; (el-get 'sync)
 
 ;; Load my passwords
 (load "~/.emacs.d/.ercpass")
@@ -91,18 +103,19 @@
 
 ;; Hooks for programming modes
 (dolist (hook (list 'c-mode-common-hook
-		    'emacs-lisp-mode-hook
-		    'scheme-mode-hook
-		    'python-mode-hook
-		    'lisp-mode-hook
-		    'jinja2-mode
-		    'css-mode
-		    'html-mode
-		    ))
+            'emacs-lisp-mode-hook
+            'scheme-mode-hook
+            'python-mode-hook
+            'lisp-mode-hook
+            'jinja2-mode
+            'css-mode
+            'html-mode
+            ))
   (add-hook hook 'rainbow-delimiters-mode)
   (add-hook hook 'whitespace-mode)
   (add-hook hook 'flyspell-prog-mode)
   (add-hook hook 'outline-minor-mode)
+  ;; (add-hook hook 'git-gutter-mode)
   )
 
 (add-hook 'mouse-leave-buffer-hook 'stop-using-minibuffer)
@@ -135,56 +148,56 @@
 ;; Erc setup
 (setq erc-prompt (lambda ()
      (if (and (boundp 'erc-default-recipients)
-	      (erc-default-target))
-	 (erc-propertize (concat (erc-default-target) ">")
-			 'read-only t
-			 'rear-nonsticky t
-			 'front-nonsticky t)
+          (erc-default-target))
+     (erc-propertize (concat (erc-default-target) ">")
+             'read-only t
+             'rear-nonsticky t
+             'front-nonsticky t)
        (erc-propertize (concat "ERC>")
-		       'read-only t
-		       'rear-nonsticky t
-		       'front-nonsticky t))))
+               'read-only t
+               'rear-nonsticky t
+               'front-nonsticky t))))
 
 ;; Needs 23+
 (if (or (string-match
-	 (substring emacs-version 0 2)
-	 "23")
+     (substring emacs-version 0 2)
+     "23")
 	(string-match
-	 (substring emacs-version 0 2)
-	 "24"))
+     (substring emacs-version 0 2)
+     "24"))
     (+ 1 1)
     ;; (progn (zenburn-theme)
     ;;    )
     )
 (if window-system
     (progn (desktop-save-mode 1)
-	   (setq ispell-program-name "/usr/local/bin/ispell")
+       (setq ispell-program-name "/usr/local/bin/ispell")
      )
 )
 
 ;; Change default font for work machine
 (if (and window-system (string= "jolson.local" system-name))
     (progn (set-face-attribute 'default nil :height 140)
-	   (erc :server "irc.freenode.net"
+       (erc :server "irc.freenode.net"
 		:port 6667
 		:nick "jdolson"
 		)
-	  )
+      )
 )
 
 (if (and window-system (string= "Haruhi" (substring system-name 0 6)))
     (progn (set-face-attribute 'default nil :height 180)
-	   (erc :server "irc.freenode.net"
-		   :port 6667
-		   :nick "solarmist"
-		   :password freenode-solarmist-pass
-		   )
-	   (erc :server "irc.mitx.mit.edu"
-		   :port 6667
-		   :nick "solarmist"
-		   )
-	   (desktop-save-mode 1)
-	   )
+       (erc :server "irc.freenode.net"
+           :port 6667
+           :nick "solarmist"
+           :password freenode-solarmist-pass
+           )
+       (erc :server "irc.mitx.mit.edu"
+           :port 6667
+           :nick "solarmist"
+           )
+       (desktop-save-mode 1)
+       )
 )
 
 
@@ -208,7 +221,9 @@
  '(ido-create-new-buffer (quote always))
  '(ido-enable-flex-matching t)
  '(ido-everywhere t)
+ '(indent-tabs-mode nil)
  '(outline-regexp "(##)+")
+ '(tab-width 4)
  '(whitespace-line-column 79)
  '(whitespace-style (quote (face trailing lines-tail space-before-tab empty space-after-tab))))
 (custom-set-faces
@@ -223,3 +238,4 @@
   "kill the minibuffer"
   (when (and (>= (recursion-depth) 1) (active-minibuffer-window))
     (abort-recursive-edit)))
+(put 'downcase-region 'disabled nil)

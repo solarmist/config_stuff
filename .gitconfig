@@ -8,11 +8,15 @@
     dump = cat-file -p
 [branch]
     autosetupmerge = true
+	autosetuprebase = always
 [color]
     diff = auto
     grep = auto
+	ui = true
 [core]
 	editor = emacs
+	excludesfile = /Users/jolson/.gitignore_global
+	trustctime = false
 [diff]
     color = auto
     mnemonicprefix = true
@@ -24,4 +28,12 @@
     tool = emerge
 [user]
 	name = Joshua Olson
-	email = joshua.olson@gmail.com
+	email = jolson@machinezone.com
+[push]
+	default = upstream
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
