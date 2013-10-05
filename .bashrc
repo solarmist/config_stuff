@@ -59,9 +59,7 @@ alias spell="ispell -a <<< "
 alias passgen="< /dev/urandom tr -cd \[:graph:\] | fold -w 32 | head -n 5"
 alias pjson='python -mjson.tool'
 
-
 PS1="\[\e]0;\u@\$(simplehost \h) working in \w\$(parse_git_branch)\007\][\[\e[32m\]\u@\$(simplehost \h) \[\e[1;34m\](\t)\[\e[1;33m\]\$(parse_git_branch) \[\e[1;31m\]\w]\[\e[0m\] "
-
 
 function parse_git_branch {
   # We just want the success status of the command
@@ -71,7 +69,6 @@ function parse_git_branch {
       echo " ("${ref#refs/heads/}")"
   fi
 }
-
 
 function simplehost(){
     name=$1

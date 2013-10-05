@@ -15,7 +15,7 @@
 	ui = true
 [core]
 	editor = emacs
-	excludesfile = /Users/jolson/.gitignore_global
+	excludesfile = /Volumes/Yuki/solarmist/.gitignore_global
 	trustctime = false
 [diff]
     color = auto
@@ -28,9 +28,9 @@
     tool = emerge
 [user]
 	name = Joshua Olson
-	email = jolson@machinezone.com
+	email = joshua.olson@gmail.com
 [push]
-	default = upstream
+	default = matching
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 

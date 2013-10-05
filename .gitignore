@@ -74,3 +74,5 @@ sandbox/
 Parallels
 .rvm
 .erlang.cookie
+.mplayer
+.rnd

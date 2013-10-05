@@ -215,7 +215,6 @@ function eave () { diff <(lsof -p $1) <(sleep 10; lsof -p $1) }
 
 # {{{ Terminal and prompt
 
-
 function precmd {
     # Terminal width = width - 1 (for lineup)
     local TERMWIDTH
