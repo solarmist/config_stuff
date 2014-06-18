@@ -22,8 +22,6 @@
     mnemonicprefix = true
 [grep]
     lineNumber = true
-[help]
-    format = info
 [merge]
     tool = emerge
 [user]
