@@ -4,6 +4,6 @@
 [submodule ".emacs.d/extern/zenburn-emacs"]
 	path = .emacs.d/extern/zenburn-emacs
 	url = https://github.com/bbatsov/zenburn-emacs.git
-[submodule "/Users/jolson/.emacs.d/extern/yaml-mode"]
-	path = /Users/jolson/.emacs.d/extern/yaml-mode
+[submodule ".emacs.d/extern/yaml-mode"]
+	path = .emacs.d/extern/yaml-mode
 	url = https://github.com/yoshiki/yaml-mode
