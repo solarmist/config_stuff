@@ -4,22 +4,27 @@
 # http://sysphere.org/~anrxc/
 # modified by Danny Navarro
 
+#Add direnv zsh hook
+eval "$(direnv hook zsh)"
+
 # {{{ User settings
+export PEP8_IGNORE="E501\|E111\|E114"
+export PIP_DOWNLOAD_CACHE=${HOME}/.pip/cache
 
 # {{{ Environment
+export PATH="${PATH}:/usr/local/sbin:${HOME}/bin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:${HOME}/bin/scripts:${HOME}/bin:/opt/local/bin:/opt/local/sbin"
+export TIME_STYLE=long-iso
 export HISTFILE="${HOME}/.zsh_history"
-export HISTSIZE=1000000
-export SAVEHIST=1000000
+export HISTSIZE=100000000
+export SAVEHIST=100000000
 export LESSHISTFILE="-"
-# export PAGER="${HOME}/bin/vimpager"
-export READNULLCMD="${PAGER}"
 export EDITOR="emacs"
 export BROWSER="chrome"
 export XTERM="urxvtc"
 export RSYNC_PROXY="localhost:8118"
-export CLASSPATH="${CLASSPATH}:/Applications/Development/weka-3-6-4/weka.jar"
-export PATH="${PATH}:${HOME}/bin/scripts:${HOME}/bin:${HOME}/bin/checker-268:/opt/local/bin:/opt/local/sbin"
+
 export MANPATH="/opt/local/share/man:${MANPATH}"
+export CFLAGS="-I/usr/local/opt/openssl101/include"
 export CLICOLOR=1 # Colorize Mac OS
 export GREP_OPTIONS="--color=auto"
 # By default: export WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
@@ -43,10 +48,16 @@ export LESS_TERMCAP_us=$'\E[1;32m'    # begin underline
 # {{{ Aliases
 # If this is linux then add --color=always to ls
 if ! [ -f /usr/bin/sw_vers ]; then
-    c="--color=always"
+    c="--color=auto"
+    l="-l --time-style=long-iso"
+else
+    c=""
+    l="-l -T"
 fi
 
+alias liversion="cat /export/content/linkedin/DISTRIBUTION | python -c \"import json, sys; obj=json.load(sys.stdin); print obj['name'], 'version:', obj['version']; print; print '\n'.join(sorted([('%21s' % unit['name']) + '\tversion: ' + unit['version'] for unit in obj['units']], cmp=lambda x,y: cmp(x.strip(), y.strip())))\""
 alias fact="elinks -dump randomfunfacts.com | sed -n '/^| /p' | tr -d \|"
+alias git_line='git log --format=format:%H $1 | xargs -L 1 git blame $1 -L $2,$2'
 alias ga='git add '
 alias gb='git branch '
 alias gba="git branch -a "
@@ -55,8 +66,8 @@ alias gd='git diff'
 alias get='git '
 alias gg="git grep -n "
 alias gk='gitk --all&'
-alias gl="fact; git pull --rebase "
-alias glg="git log --graph "
+alias gl="fact; stashed=false; if ! git diff --quiet; then git stash --include-untracked; stashed=true; echo 'Stashing'; fi; git pull --rebase; if $stashed; then git stash pop --index; echo 'Popping'; fi"
+alias glg="git log --graph --decorate"
 alias go='git checkout '
 alias got='git '
 alias gp="git push "
@@ -65,25 +76,19 @@ alias gs='git status '
 alias gx='gitx --all'
 
 alias testify='testify -v'
-# alias port="sudo /opt/local/bin/port"
-# alias yum="sudo yum"
-# alias easy_install="sudo easy_install"
-# alias pip="sudo pip"
 alias html2ascii='lynx -force_html -stdin -dump -nolist'
 alias cd..="cd .."
 alias cd...="cd ../.."
 alias ..="cd .."
 alias ...="cd ../.."
 alias ls="ls -Fh $c"
-alias ll="ls -lhF $c"
+alias ll="ls -hF $c $l"
 alias la="ls -AhF $c"
-alias lla="ls -AlhF $c"
-alias lfi="ls -lFh $c| egrep -v '^d'"
-alias ldi="ls -lhF $c| egrep  '^d'"
-alias lst="ls -hthlF $c| grep `date +%Y-%m-%d`"
-alias grep="grep"
+alias lla="ls -AhF $c $l"
+alias lfi="ls -Fh $c $l| egrep -v '^d'"
+alias ldi="ls -hF $c $l| egrep  '^d'"
+alias lst="ls -hthF $c $l| grep `date +%Y-%m-%d`"
 alias cp="cp -a"
-alias mv="mv"
 alias rm="rm -rv"
 alias cls="clear"
 alias g="gvim"
@@ -111,218 +116,86 @@ alias pjson='python -mjson.tool'
 compctl -k "(add delete draft edit list import preview publish update)" nb
 # }}}
 
-# {{{ Virtualenv wrapper
-if $(which 'virtualenvwrapper.sh') ; then
-    export WORKON_HOME=$HOME/sandbox/virtualenvs
-    source $(which 'virtualenvwrapper.sh')
-fi
-# }}}
-# }}}
 
-# {{{ ZSH settings
-setopt nohup
-setopt autocd
-setopt cdablevars
-setopt nobgnice
-setopt noclobber
-setopt shwordsplit
-setopt interactivecomments
-setopt autopushd pushdminus pushdsilent pushdtohome
-setopt histreduceblanks histignorespace inc_append_history
-setopt nobeep
-
-# keybindings
-bindkey -e # emacs
-bindkey "\e[A" up-line-or-search
-bindkey "\e[B" down-line-or-search
-bindkey '^xx' backward-kill-word
-# Allow killing of part of a word/path
-zle -N backward-kill-partial-word
-bindkey '^w' backward-kill-partial-word
-
-# Prompt requirements
-setopt extended_glob prompt_subst
-autoload colors zsh/terminfo
-
-# New style completion system
-autoload -U compinit; compinit
-#  * List of completers to use
-zstyle ":completion:*" completer _complete _match _approximate
-#  * Allow approximate
-zstyle ":completion:*:match:*" original only
-zstyle ":completion:*:approximate:*" max-errors 1 numeric
-#  * Selection prompt as menu
-zstyle ":completion:*" menu select=1
-#  * Menu selection for PID completion
-zstyle ":completion:*:*:kill:*" menu yes select
-zstyle ":completion:*:kill:*" force-list always
-zstyle ":completion:*:processes" command "ps -au$USER"
-zstyle ":completion:*:*:kill:*:processes" list-colors "=(#b) #([0-9]#)*=0=01;32"
-#  * Don't select parent dir on cd
-zstyle ":completion:*:cd:*" ignore-parents parent pwd
-#  * Complete with colors
-zstyle ":completion:*" list-colors ""
-
-# vcs_info
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' stagedstr '%F{28}●'
-zstyle ':vcs_info:*' unstagedstr '%F{11}●'
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:[svn]' formats '[%b%c%u]'
-zstyle ':vcs_info:*' enable hg git
-
-# }}}
 
 # {{{ Functions
 
-# start the ssh-agent
-function start_agent {
-    echo "Initializing new SSH agent..."
-    # spawn ssh-agent
-    ssh-agent | sed 's/^echo/#echo/' > "$SSH_ENV"
-    echo succeeded
-    chmod 600 "$SSH_ENV"
-    . "$SSH_ENV" > /dev/null
-    ssh-add
-}
+function make_envrc {
+    local preferred_app="${1}"
 
-# test for identities
-function test_identities {
-    # test whether standard identities have been added to the agent already
-    ssh-add -l | grep "The agent has no identities" > /dev/null
-    if [ $? -eq 0 ]; then
-	ssh-add
-	# $SSH_AUTH_SOCK broken so we start a new proper agent
-	if [ $? -eq 2 ];then
-            start_agent
-	fi
+    local repo_root="$(git worktree list | grep master | cut -d' ' -f1)"
+    local mp_name="$(get_product_spec_value name)"
+    local apps="$(find ${repo_root} -type d -depth 1 -not -path ./.git -not -path ./acl -not -path ./build -not -path ./docs -not -path ./.gradle -not -path ./config -not -path ./bin -not -path ./ligradle -not -path ./test-site -not -path ./.svn  | sed 's|./||g')"
+    local num_apps="$(echo $apps | wc -l)"
+
+    local mp_var="export MP_NAME='${mp_name}'\n"
+    local preferred_app=""
+    if [ -n "${preferred_app}" ]; then
+	local preferred_app="export APP_NAME='${app}'\n"
     fi
-}
 
-function chpwd() {
-    print -Pn "\e]2;%n@%m: %c\a"
-}
+    # If there are more than 1 app then make envrcs for all of the applications
+    if [ "${num_apps}" -gt 1 ]; then
+	for app in $apps; do
+	    if [ -d "${repo_root}/${app}" ]; then
+		local app_var="export APP_NAME='${app}'\n"
+		local path_var="PATH_add 'build/${app}/venv/bin'\n"
+		local envrc="${repo_root}/${app}/.envrc"
 
-function cl () { cd $1 && ls }
-function covtest () {
-    nosetests --cover-package=$1 --cover-erase --with-coverage
-}
-function backward-kill-partial-word {
-    local WORDCHARS="${WORDCHARS//[\/.]/}"
-	zle backward-kill-word "$@"
-}
-function eave () { diff <(lsof -p $1) <(sleep 10; lsof -p $1) }
+		rm -f ${repo_root}/${app}/.envrc
+		echo "${mp_var}${app_var}${path_var}" > ${envrc}
+	    fi
+	done
+    fi
+    # Create an MP level .envrc
+    local envrc="${repo_root}/.envrc"
+    local path_var="PATH_add 'build/${mp_name}/venv/bin'\n"
 
-# {{{ Terminal and prompt
-
-function precmd {
-    # Terminal width = width - 1 (for lineup)
-    local TERMWIDTH
-    ((TERMWIDTH=${COLUMNS} - 1))
-
-    # Truncate long paths
-    PR_FILLBAR=""
-    PR_PWDLEN=""
-    local PROMPTSIZE="${#${(%):---(%n@%m:%T)---()--}}"
-    local PWDSIZE="${#${(%):-%~}}"
-    if [[ "${PROMPTSIZE} + ${PWDSIZE}" -gt ${TERMWIDTH} ]]; then
-	((PR_PWDLEN=${TERMWIDTH} - ${PROMPTSIZE}))
+    rm -f ${envrc}
+    # If we only have one app then we don't need to include a preferred app
+    if [ "${num_apps}" -ne 1 ]; then
+	echo "${mp_var}${path_var}" > ${envrc}
     else
-	PR_FILLBAR="\${(l.((${TERMWIDTH} - (${PROMPTSIZE} + ${PWDSIZE})))..${PR_HBAR}.)}"
+	echo "${mp_var}${preferred_app}${path_var}" > ${envrc}
     fi
-
-    # VCS
-    if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null)
-            && -z $(bzr ls -R --unknown 2> /dev/null) ]]; then
-	if [[ -z $(bzr st -V 2> /dev/null) ]]; then
-            zstyle ':vcs_info:*' formats ' %F{white}[%F{green}%s%F{white}:%F{blue}%b%c%u%F{white}]'
-	else
-            zstyle ':vcs_info:*' formats ' %F{white}[%F{green}%s%F{white}:%F{blue}%b%c%u%F{28}●%F{white}]'
-	fi
-    else
-	if [[ -z $(bzr st -V 2> /dev/null) ]]; then
-            zstyle ':vcs_info:*' formats ' %F{white}[%F{green}%s%F{white}:%F{blue}%b%c%u%F{red}●%F{white}]'
-	else
-            zstyle ':vcs_info:*' formats ' %F{white}[%F{green}%s%F{white}:%F{blue}%b%c%u%F{red}●%F{28}●%F{white}]'
-	fi
-    fi
-    vcs_info
+    direnv allow
 }
 
-function preexec () {
-    # Screen window titles as currently running programs
-    if [[ "${TERM}" == "screen-256color" ]]; then
-	local CMD="${1[(wr)^(*=*|sudo|-*)]}"
-	echo -n "\ek$CMD\e\\"
-    fi
-}
-
-function setprompt () {
-    if [[ "${terminfo[colors]}" -ge 8 ]]; then
-	colors
-    fi
-    for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
-	eval PR_"${color}"="%{${terminfo[bold]}$fg[${(L)color}]%}"
-	eval PR_LIGHT_"${color}"="%{$fg[${(L)color}]%}"
-    done
-    PR_NO_COLOUR="%{${terminfo[sgr0]}%}"
-
-    # Try to use extended characters to look nicer
-    typeset -A altchar
-    set -A altchar ${(s..)terminfo[acsc]}
-    PR_SET_CHARSET="%{${terminfo[enacs]}%}"
-    PR_SHIFT_IN="%{${terminfo[smacs]}%}"
-    PR_SHIFT_OUT="%{${terminfo[rmacs]}%}"
-    PR_HBAR="${altchar[q]:--}"
-    PR_ULCORNER="${altchar[l]:--}"
-    PR_LLCORNER="${altchar[m]:--}"
-    PR_LRCORNER="${altchar[j]:--}"
-    PR_URCORNER="${altchar[k]:--}"
-
-    # Terminal prompt settings
-    case "${TERM}" in
-	dumb) # Simple prompt for dumb terminals
-            unsetopt zle
-            PROMPT='%n@%m:%~%% '
-            ;;
-	linux) # Simple prompt with Zenburn colors for the console
-            echo -en "\e]P01e2320" # zenburn black (normal black)
-            echo -en "\e]P8709080" # bright-black  (darkgrey)
-            echo -en "\e]P1705050" # red           (darkred)
-            echo -en "\e]P9dca3a3" # bright-red    (red)
-            echo -en "\e]P260b48a" # green         (darkgreen)
-            echo -en "\e]PAc3bf9f" # bright-green  (green)
-            echo -en "\e]P3dfaf8f" # yellow        (brown)
-            echo -en "\e]PBf0dfaf" # bright-yellow (yellow)
-            echo -en "\e]P4506070" # blue          (darkblue)
-            echo -en "\e]PC94bff3" # bright-blue   (blue)
-            echo -en "\e]P5dc8cc3" # purple        (darkmagenta)
-            echo -en "\e]PDec93d3" # bright-purple (magenta)
-            echo -en "\e]P68cd0d3" # cyan          (darkcyan)
-            echo -en "\e]PE93e0e3" # bright-cyan   (cyan)
-            echo -en "\e]P7dcdccc" # white         (lightgrey)
-            echo -en "\e]PFffffff" # bright-white  (white)
-            PROMPT='$PR_YELLOW%n@%m$PR_WHITE:$PR_GREEN%l$PR_WHITE:$PR_RED%~\
-$PR_GREEN%%$PR_NO_COLOUR '
-            ;;
-	*)  # Main prompt
-            PROMPT='$PR_SET_CHARSET$PR_YELLOW$PR_SHIFT_IN$PR_ULCORNER$PR_YELLOW\
-$PR_HBAR$PR_SHIFT_OUT($PR_YELLOW%(!.%SROOT%s.%n)$PR_WHITE@$PR_BLUE%m$PR_WHITE:\
-$PR_GREEN%T$PR_YELLOW)$PR_SHIFT_IN$PR_HBAR$PR_YELLOW$PR_HBAR${(e)PR_FILLBAR}\
-$PR_YELLOW$PR_HBAR$PR_SHIFT_OUT($PR_RED%$PR_PWDLEN<...<%~%<<$PR_YELLOW)\
-$PR_SHIFT_IN$PR_HBAR$PR_YELLOW$PR_URCORNER$PR_SHIFT_OUT\
-
-$PR_YELLOW$PR_SHIFT_IN$PR_LLCORNER$PR_YELLOW$PR_HBAR$PR_SHIFT_OUT(\
-%(?..$PR_RED%?$PR_WHITE:)%(!.$PR_RED.$PR_GREEN)%#$PR_YELLOW)$PR_NO_COLOUR '
-
-            RPROMPT='${vcs_info_msg_0_}$PR_YELLOW$PR_SHIFT_IN$PR_HBAR$PR_YELLOW\
-$PR_LRCORNER$PR_SHIFT_OUT$PR_NO_COLOUR'
-            ;;
+function vpn {
+    case $1 in
+	"disconnect")
+	    /opt/cisco/anyconnect/bin/vpn disconnect
+	    ;;
+	*)
+	    local yubikey=$1;
+	    local password="$(security -q find-generic-password -l "Enterprise Connect" -w)"
+	    local command="\n${password}${yubikey}\ny\n"
+	    # Clear any dialogs from a previous disconnect
+	    # osascript -e "tell application 'System Events'"
+	    # osascript -e "tell process 'Finder'"
+	    # osascript -e "tell its window"
+	    # osascript -e "click button 'OK'"
+	    # osascript -e "end tell"
+	    # osascript -e "tell its window"
+	    # osascript -e "click button 'OK'"
+	    # osascript -e "end tell"
+	    # osascript -e "end tell"
+	    # osascript -e "end tell"
+	    echo "${command}" | /opt/cisco/anyconnect/bin/vpn -s connect 1
+	    ;;
     esac
 }
 
+function chpwd {
+    # -P prompt expansion
+    print -Pn "\e]2;%n@%m: %c\a"
+}
+
+
+source ~/.zshrc_macos
+source ~/.zsh_settings
+
 # Prompt init
+source ~/.zsh_prompt
 chpwd
 setprompt
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

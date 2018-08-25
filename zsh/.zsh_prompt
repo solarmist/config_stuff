@@ -1,0 +1,144 @@
+function venv_prompt {
+    R_BRACKET="%F{yellow}]"
+    L_BRACKET="%F{yellow}["
+    mp_name=""
+    app_name=""
+    if [ -n "${MP_NAME}" ]; then
+	mp_name="%F{green}MP%F{white}:%F{blue}${MP_NAME}"
+	if [ -n "${APP_NAME}" ]; then
+	    app_name="%F{green}App%F{white}:%F{blue}${APP_NAME}"
+	fi
+	echo "$L_BRACKET$mp_name $app_name$R_BRACKET"
+    elif [ -n "${VIRTUAL_ENV}" ]; then
+	echo "%F{yellow}[%F{blue}${VIRTUAL_ENV}%F{yellow}]"
+    else
+	echo ""
+    fi
+}
+
+# {{{ Terminal and prompt
+
+function precmd {
+    # Terminal width = width - 1 (for lineup)
+    local TERMWIDTH
+    ((TERMWIDTH=${COLUMNS} - 1))
+
+    # Truncate long paths
+    PR_FILLBAR=""
+    PR_PWDLEN=""
+    local PROMPTSIZE="${#${(%):---(%n@%m:%T)---()--}}"
+    local PWDSIZE="${#${(%):-%~}}"
+    if [[ "${PROMPTSIZE} + ${PWDSIZE}" -gt ${TERMWIDTH} ]]; then
+	((PR_PWDLEN=${TERMWIDTH} - ${PROMPTSIZE}))
+    else
+	PR_FILLBAR="\${(l.((${TERMWIDTH} - (${PROMPTSIZE} + ${PWDSIZE})))..${PR_HBAR}.)}"
+    fi
+
+    # VCS
+    if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null)
+	    && -z $(bzr ls -R --unknown 2> /dev/null) ]]; then
+	if [[ -z $(bzr st -V 2> /dev/null) ]]; then
+	    zstyle ':vcs_info:*' formats ' %F{yellow}[%F{green}%s%F{white}:%F{blue}%b%c%u%F{yellow}]'
+	else
+	    zstyle ':vcs_info:*' formats ' %F{yellow}[%F{green}%s%F{white}:%F{blue}%b%c%u%F{28}●%F{yellow}]'
+	fi
+    else
+	if [[ -z $(bzr st -V 2> /dev/null) ]]; then
+	    zstyle ':vcs_info:*' formats ' %F{yellow}[%F{green}%s%F{white}:%F{blue}%b%c%u%F{red}●%F{yellow}]'
+	else
+	    zstyle ':vcs_info:*' formats ' %F{yellow}[%F{green}%s%F{white}:%F{blue}%b%c%u%F{red}●%F{28}●%F{yellow}]'
+	fi
+    fi
+    vcs_info
+}
+
+function preexec {
+    # Screen window titles as currently running programs
+    if [[ "${TERM}" == "screen-256color" ]]; then
+	# TODO: Descipher this
+	local CMD="${1[(wr)^(*=*|sudo|-*)]}"
+	echo -n "\ek$CMD\e\\"
+    fi
+}
+
+function setprompt {
+    if [[ "${terminfo[colors]}" -ge 8 ]]; then
+	colors
+    fi
+    for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
+	eval PR_"${color}"="%{${terminfo[bold]}$fg[${(L)color}]%}"
+	eval PR_LIGHT_"${color}"="%{$fg[${(L)color}]%}"
+    done
+    PR_NO_COLOUR="%{${terminfo[sgr0]}%}"
+    # Use parameter expansion (!) against a value like "$PR_YELLOW"
+    # Escape the ! and $ so they aren't evaluated immediately
+    COLOR_NAME="\${!$(color_user)}"
+    # TODO(jolson): Find out how to make this detect the username and change color based on that
+    export LINE_COLOR="$PR_YELLOW"
+
+    # Try to use extended characters to look nicer
+    # typeset = declare  (A very weak form of typing)
+    typeset -A altchar  # altchar is an array
+    # TermInfo database
+    # http://pubs.opengroup.org/onlinepubs/7908799/xcurses/terminfo.html
+    # NCURSES Extended Characters Quick Reference Charts and Screen Layout Chart
+    # http://melvilletheatre.com/articles/ncurses-extended-characters/index.html
+    set -A altchar ${(s..)terminfo[acsc]}  # Graphic acs_chars charset pairs aAbBcC
+    # The () is a specifying a parameter flag
+    # Guess: (s..) s is to force field splitting on . and .
+    # My guess is that gets the next two characters and sets them as the key:value pair
+    # in a hash map from a-z to the alternative character set
+
+    PR_SET_CHARSET="%{${terminfo[enacs]}%}"  # Enable alternate character set
+    PR_SHIFT_IN="%{${terminfo[smacs]}%}"  # Start alternate character set
+    PR_SHIFT_OUT="%{${terminfo[rmacs]}%}" # End alternate character set
+    PR_HBAR="${altchar[q]:--}"  #
+    PR_ULCORNER="${altchar[l]:--}"
+    PR_LLCORNER="${altchar[m]:--}"
+    PR_LRCORNER="${altchar[j]:--}"
+    PR_URCORNER="${altchar[k]:--}"
+
+
+    # https://www-s.acm.illinois.edu/workshops/zsh/prompt/formatting.html
+
+    # Terminal prompt settings
+    case "${TERM}" in
+	dumb) # Simple prompt for dumb terminals
+	    unsetopt zle
+	    PROMPT='%n@%m:%~%% '
+	    ;;
+	linux) # Simple prompt with Zenburn colors for the console
+	    echo -en "\e]P01e2320" # zenburn black (normal black)
+	    echo -en "\e]P8709080" # bright-black  (darkgrey)
+	    echo -en "\e]P1705050" # red           (darkred)
+	    echo -en "\e]P9dca3a3" # bright-red    (red)
+	    echo -en "\e]P260b48a" # green         (darkgreen)
+	    echo -en "\e]PAc3bf9f" # bright-green  (green)
+	    echo -en "\e]P3dfaf8f" # yellow        (brown)
+	    echo -en "\e]PBf0dfaf" # bright-yellow (yellow)
+	    echo -en "\e]P4506070" # blue          (darkblue)
+	    echo -en "\e]PC94bff3" # bright-blue   (blue)
+	    echo -en "\e]P5dc8cc3" # purple        (darkmagenta)
+	    echo -en "\e]PDec93d3" # bright-purple (magenta)
+	    echo -en "\e]P68cd0d3" # cyan          (darkcyan)
+	    echo -en "\e]PE93e0e3" # bright-cyan   (cyan)
+	    echo -en "\e]P7dcdccc" # white         (lightgrey)
+	    echo -en "\e]PFffffff" # bright-white  (white)
+	    PROMPT='$LINE_COLOR%n@%m$PR_WHITE:$PR_GREEN%l$PR_WHITE:$PR_RED%~\
+$PR_GREEN%%$PR_NO_COLOUR '
+	    ;;
+	*)  # Main prompt
+	    PROMPT='$PR_SET_CHARSET$LINE_COLOR$PR_SHIFT_IN$PR_ULCORNER$LINE_COLOR\
+$PR_HBAR$PR_SHIFT_OUT($LINE_COLOR%(!.%SROOT%s.%n)$PR_WHITE@$PR_BLUE%m$PR_WHITE:\
+$PR_GREEN%T$LINE_COLOR)$PR_SHIFT_IN$PR_HBAR$LINE_COLOR$PR_HBAR${(e)PR_FILLBAR}\
+$LINE_COLOR$PR_HBAR$PR_SHIFT_OUT($PR_RED%$PR_PWDLEN<...<%~%<<$LINE_COLOR)\
+$PR_SHIFT_IN$PR_HBAR$LINE_COLOR$PR_URCORNER$PR_SHIFT_OUT\
+
+$LINE_COLOR$PR_SHIFT_IN$PR_LLCORNER$LINE_COLOR$PR_HBAR$PR_SHIFT_OUT(\
+%(?..$PR_RED%?$PR_WHITE:)%(!.$PR_RED.$PR_GREEN)%#$LINE_COLOR)$PR_NO_COLOUR '
+
+	    RPROMPT='$PR_GREEN$(venv_prompt)$PR_NO_COLOUR${vcs_info_msg_0_}$LINE_COLOR$PR_SHIFT_IN$PR_HBAR$LINE_COLOR\
+$PR_LRCORNER$PR_SHIFT_OUT$PR_NO_COLOUR'
+	    ;;
+    esac
+}

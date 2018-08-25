@@ -4,8 +4,8 @@
 # General UI/UX                                                               #
 ###############################################################################
 # Set computer name (as done via System Preferences → Sharing)
-scutil --set ComputerName "Haruhi"
-scutil --set HostName "Haruhi"
+# scutil --set ComputerName "Haruhi"
+# scutil --set HostName "Haruhi"
 # scutil --set LocalHostName "Haruhi.local"
 
 # Menu bar: hide the useless Time Machine and Volume icons
