@@ -1,14 +1,35 @@
-Host solarmist
-     HostName solarmist.net
+# Re-enable the ssh-dss (DSA) public key algorithm
+Host *
+     Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc
+     HostkeyAlgorithms +ssh-dss
+     PubkeyAcceptedKeyTypes +ssh-dss
+     UseKeychain yes
+     AddKeysToAgent yes
+     ForwardAgent    yes
+     IdentityFile    %d/.ssh/jolson_at_linkedin.com_ssh_key
+     IdentityFile    %d/.ssh/%u_at_linkedin.com_ssh_key
+     IdentityFile    %d/.ssh/tester_at_linkedin.com_dsa_key
+     IdentityFile    %d/.ssh/svc_acctmgr_id_rsa
+
+Host *prod *prod.linkedin.com *prod.linkedin.com. *stg *stg.linkedin.com *stg.linkedin.com.
+     ProxyCommand ssh -A -T eng-portal.corp.linkedin.com nc %h %p
+     ForwardAgent yes
+
+Host 192.168.1.1 192.168.1.80
      User solarmist
 
-Host github*
-     User git
-     PreferredAuthentications publickey
 
-Host *
-     ServerAliveInterval 240
-     IdentitiesOnly yes
-     ForwardAgent no
+Host solarmist.net
+     User solarmist
 
-# Work configs
+Host solarmist.network
+     User solarmist
+
+Host mihoshi.solarmist.network
+     User solarmist
+
+Host eng-portal*
+     ForwardAgent yes
+     ControlMaster auto
+     ControlPath ~/.ssh/master-%r@%h:%p
+     ControlPersist 72h

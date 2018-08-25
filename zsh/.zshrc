@@ -125,8 +125,8 @@ function make_envrc {
 
     local repo_root="$(git worktree list | grep master | cut -d' ' -f1)"
     local mp_name="$(get_product_spec_value name)"
-    local apps="$(find ${repo_root} -type d -depth 1 -not -path ./.git -not -path ./acl -not -path ./build -not -path ./docs -not -path ./.gradle -not -path ./config -not -path ./bin -not -path ./ligradle -not -path ./test-site -not -path ./.svn  | sed 's|./||g')"
-    local num_apps="$(echo $apps | wc -l)"
+    local apps="$(find ${repo_root}/build -type d -depth 2 -name venv | sed "s|${repo_root}/build/||g" | sed "s|/venv||g")"
+    local num_apps="$(echo $apps | wc -w)"
 
     local mp_var="export MP_NAME='${mp_name}'\n"
     local preferred_app=""

@@ -1,22 +1,42 @@
-function venv_prompt {
-    R_BRACKET="%F{yellow}]"
-    L_BRACKET="%F{yellow}["
-    mp_name=""
-    app_name=""
-    if [ -n "${MP_NAME}" ]; then
-	mp_name="%F{green}MP%F{white}:%F{blue}${MP_NAME}"
-	if [ -n "${APP_NAME}" ]; then
-	    app_name="%F{green}App%F{white}:%F{blue}${APP_NAME}"
-	fi
-	echo "$L_BRACKET$mp_name $app_name$R_BRACKET"
-    elif [ -n "${VIRTUAL_ENV}" ]; then
-	echo "%F{yellow}[%F{blue}${VIRTUAL_ENV}%F{yellow}]"
-    else
-	echo ""
-    fi
-}
+# {{{ ZSH prompt setup
+
+# Include zsh-git-prompt
+source ~/bin/zsh-git-prompt/zshrc.sh
+
+
+# Prompt requirements
+setopt extended_glob prompt_subst
+autoload colors zsh/terminfo
+
+# vcs_info
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' stagedstr '%F{28}●'
+zstyle ':vcs_info:*' unstagedstr '%F{11}●'
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:[svn]' formats '[%b%c%u]'
+zstyle ':vcs_info:*' enable hg git svn
+
 
 # {{{ Terminal and prompt
+
+function venv_prompt {
+    mp_name=""
+    app_name=""
+    VENV_COLOR=$PR_LIGHT_BLUE
+    if [ -n "${MP_NAME}" ]; then
+	mp_name="$VENV_COLOR${MP_NAME}"
+	if [ -n "${APP_NAME}" ]; then
+	    app_name="$PR_WHITE:$VENV_COLOR${APP_NAME}"
+	fi
+	output="$mp_name$app_name"
+    elif [ -n "${VIRTUAL_ENV}" ]; then
+	output="$VENV_COLOR${VIRTUAL_ENV}"
+    fi
+
+    if [ -n "$output" ]; then
+	echo "${PR_YELLOW}[${PR_LIGHT_GREEN}Venv${PR_WHITE}:$output$PR_YELLOW]"
+    fi
+}
 
 function precmd {
     # Terminal width = width - 1 (for lineup)
@@ -38,15 +58,15 @@ function precmd {
     if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null)
 	    && -z $(bzr ls -R --unknown 2> /dev/null) ]]; then
 	if [[ -z $(bzr st -V 2> /dev/null) ]]; then
-	    zstyle ':vcs_info:*' formats ' %F{yellow}[%F{green}%s%F{white}:%F{blue}%b%c%u%F{yellow}]'
+	    zstyle ':vcs_info:*' formats '%F{yellow}(%F{green}%s%F{white}:%F{blue}%b%c%u%F{yellow})'
 	else
-	    zstyle ':vcs_info:*' formats ' %F{yellow}[%F{green}%s%F{white}:%F{blue}%b%c%u%F{28}●%F{yellow}]'
+	    zstyle ':vcs_info:*' formats '%F{yellow}(%F{green}%s%F{white}:%F{blue}%b%c%u%F{28}●%F{yellow})'
 	fi
     else
 	if [[ -z $(bzr st -V 2> /dev/null) ]]; then
-	    zstyle ':vcs_info:*' formats ' %F{yellow}[%F{green}%s%F{white}:%F{blue}%b%c%u%F{red}●%F{yellow}]'
+	    zstyle ':vcs_info:*' formats '%F{yellow}(%F{green}%s%F{white}:%F{blue}%b%c%u%F{red}●%F{yellow})'
 	else
-	    zstyle ':vcs_info:*' formats ' %F{yellow}[%F{green}%s%F{white}:%F{blue}%b%c%u%F{red}●%F{28}●%F{yellow}]'
+	    zstyle ':vcs_info:*' formats '%F{yellow}(%F{green}%s%F{white}:%F{blue}%b%c%u%F{red}●%F{28}●%F{yellow})'
 	fi
     fi
     vcs_info
@@ -65,16 +85,12 @@ function setprompt {
     if [[ "${terminfo[colors]}" -ge 8 ]]; then
 	colors
     fi
+    PR_NO_COLOUR="%{${terminfo[sgr0]}%}"
     for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
 	eval PR_"${color}"="%{${terminfo[bold]}$fg[${(L)color}]%}"
 	eval PR_LIGHT_"${color}"="%{$fg[${(L)color}]%}"
     done
-    PR_NO_COLOUR="%{${terminfo[sgr0]}%}"
-    # Use parameter expansion (!) against a value like "$PR_YELLOW"
-    # Escape the ! and $ so they aren't evaluated immediately
-    COLOR_NAME="\${!$(color_user)}"
-    # TODO(jolson): Find out how to make this detect the username and change color based on that
-    export LINE_COLOR="$PR_YELLOW"
+    LINE_COLOR="$PR_YELLOW"
 
     # Try to use extended characters to look nicer
     # typeset = declare  (A very weak form of typing)
@@ -92,15 +108,22 @@ function setprompt {
     PR_SET_CHARSET="%{${terminfo[enacs]}%}"  # Enable alternate character set
     PR_SHIFT_IN="%{${terminfo[smacs]}%}"  # Start alternate character set
     PR_SHIFT_OUT="%{${terminfo[rmacs]}%}" # End alternate character set
-    PR_HBAR="${altchar[q]:--}"  #
-    PR_ULCORNER="${altchar[l]:--}"
-    PR_LLCORNER="${altchar[m]:--}"
-    PR_LRCORNER="${altchar[j]:--}"
-    PR_URCORNER="${altchar[k]:--}"
+    PR_HBAR="${altchar[q]:--}"  # ─
+    PR_ULCORNER="${altchar[l]:--}" # ┌
+    PR_LLCORNER="${altchar[m]:--}" # └
+    PR_LRCORNER="${altchar[j]:--}" # ┐
+    PR_URCORNER="${altchar[k]:--}" # ┘
+    ME_EMOJI=(🐶 🐱 🐭 🐹 🐰 🦊 🐻 🐼 🐨 🐯 🦁 🐮 🐷 🐸 🐵 🐙)
+    function RANDOM_ME_EMOJI {
+	echo "${ME_EMOJI[$((RANDOM%14))]}"
+    }
 
+    function disable_altcharset {
+	local string="$1"
+	echo "$PR_SHIFT_OUT${string}$PR_SHIFT_IN$LINE_COLOR"
+    }
 
     # https://www-s.acm.illinois.edu/workshops/zsh/prompt/formatting.html
-
     # Terminal prompt settings
     case "${TERM}" in
 	dumb) # Simple prompt for dumb terminals
@@ -128,17 +151,39 @@ function setprompt {
 $PR_GREEN%%$PR_NO_COLOUR '
 	    ;;
 	*)  # Main prompt
-	    PROMPT='$PR_SET_CHARSET$LINE_COLOR$PR_SHIFT_IN$PR_ULCORNER$LINE_COLOR\
-$PR_HBAR$PR_SHIFT_OUT($LINE_COLOR%(!.%SROOT%s.%n)$PR_WHITE@$PR_BLUE%m$PR_WHITE:\
-$PR_GREEN%T$LINE_COLOR)$PR_SHIFT_IN$PR_HBAR$LINE_COLOR$PR_HBAR${(e)PR_FILLBAR}\
-$LINE_COLOR$PR_HBAR$PR_SHIFT_OUT($PR_RED%$PR_PWDLEN<...<%~%<<$LINE_COLOR)\
-$PR_SHIFT_IN$PR_HBAR$LINE_COLOR$PR_URCORNER$PR_SHIFT_OUT\
+	    ZSH_THEME_GIT_PROMPT_AHEAD="%{⬆️ %G%}"
+	    ZSH_THEME_GIT_PROMPT_BEHIND="%{⬇️ %G%}"
+	    ZSH_THEME_GIT_PROMPT_BRANCH="%{$PR_MAGENTA%}"
+	    ZSH_THEME_GIT_PROMPT_CHANGED="%{$PR_BLUE%}%{👷🏻‍♀️%G%}"
+	    ZSH_THEME_GIT_PROMPT_CLEAN="%{$PR_GREEN%}%{✅ %G%}"
+	    ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$PR_RED%}%{🙅🏼‍♀️ %G%}"
+	    ZSH_THEME_GIT_PROMPT_PREFIX="$PR_YELLOW("
+	    ZSH_THEME_GIT_PROMPT_SEPARATOR="$PR_WHITE|"
+	    ZSH_THEME_GIT_PROMPT_STAGED="%{$PR_RED%}%{📨 %G%}"
+	    ZSH_THEME_GIT_PROMPT_SUFFIX="$PR_YELLOW)"
+	    ZSH_THEME_GIT_PROMPT_UNTRACKED="%{🌌%G%}"
 
-$LINE_COLOR$PR_SHIFT_IN$PR_LLCORNER$LINE_COLOR$PR_HBAR$PR_SHIFT_OUT(\
-%(?..$PR_RED%?$PR_WHITE:)%(!.$PR_RED.$PR_GREEN)%#$LINE_COLOR)$PR_NO_COLOUR '
+	    UL_CORNER='$PR_ULCORNER$PR_HBAR(' # ┌─(
+	    LL_CORNER='$PR_LLCORNER$LINE_COLOR$PR_HBAR(' # └─(
+	    UR_CORNER=')$PR_HBAR$PR_URCORNER' # )─┐
+	    LR_CORNER='$PR_HBAR$PR_LRCORNER' # ─┘
+	    HBAR=')$PR_HBAR$PR_HBAR${(e)PR_FILLBAR}$PR_HBAR(' # )─...─(
 
-	    RPROMPT='$PR_GREEN$(venv_prompt)$PR_NO_COLOUR${vcs_info_msg_0_}$LINE_COLOR$PR_SHIFT_IN$PR_HBAR$LINE_COLOR\
-$PR_LRCORNER$PR_SHIFT_OUT$PR_NO_COLOUR'
+	    # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
+	    # %(x.true-text.false-text)
+	    # x =
+	    # ! - True if the shell is running with privileges
+	    # # - True if the effective uid of the current process is n
+	    # ? - True if the exit status of the last command was n.
+	    # %S...%s - ... is standout text
+	    UL_PROMPT='%(!.%SROOT%s.%n)$PR_WHITE@$PR_BLUE%m$PR_WHITE:$PR_GREEN%T' # {username/ROOT}@{short hostname}:{24 hour time}
+	    UR_PROMPT='$PR_RED%$PR_PWDLEN<...<%~%<<'  # {short pwd}
+	    L_PROMPT="%(?.$(RANDOM_ME_EMOJI).$PR_RED%?$PR_WHITE:)%(!.$PR_RED.$PR_GREEN)%#" # [cmd error code:]{% or #}
+	    R_PROMPT='$(venv_prompt) $(git_super_status)'
+	    PROMPT="$PR_SET_CHARSET$PR_SHIFT_IN$LINE_COLOR${UL_CORNER}$(disable_altcharset ${UL_PROMPT})${HBAR}$(disable_altcharset ${UR_PROMPT})${UR_CORNER}
+${LL_CORNER}$(disable_altcharset ${L_PROMPT}))$PR_SHIFT_OUT$PR_NO_COLOUR "
+
+	    RPROMPT="$PR_SET_CHARSET$PR_SHIFT_IN $LINE_COLOR$(disable_altcharset "${R_PROMPT}")${LR_CORNER}$PR_SHIFT_OUT$PR_NO_COLOUR"
 	    ;;
     esac
 }

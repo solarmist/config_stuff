@@ -1,2 +1,11 @@
 These are all the shell scripts I carry around with myself so I can have a
 consistant user experience
+
+
+Notes:
+iTerm2
+
+Enable the following:
+modern scroll wheel accumulator
+Scroll wheel sends arrow keys when in altenate screen mode
+Profiles>Terminal>Silence Bell
