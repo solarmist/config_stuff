@@ -1,9 +1,0 @@
-[submodule ".emacs.d/extern/jinja2"]
-	path = .emacs.d/extern/jinja2
-	url = git://github.com/paradoxxxzero/jinja2-mode.git
-[submodule ".emacs.d/extern/zenburn-emacs"]
-	path = .emacs.d/extern/zenburn-emacs
-	url = https://github.com/bbatsov/zenburn-emacs.git
-[submodule ".emacs.d/extern/yaml-mode"]
-	path = .emacs.d/extern/yaml-mode
-	url = https://github.com/yoshiki/yaml-mode
