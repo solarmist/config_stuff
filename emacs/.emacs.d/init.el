@@ -2,7 +2,7 @@
 ; Joshua Olson init.el
 (require 'package) ;; You might already have this line
 (add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+	     '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
 (load-theme 'zenburn t)
 
@@ -15,12 +15,13 @@
  '(backup-directory-alist (quote (("." . "~/.saves"))))
  '(desktop-save t)
  '(desktop-save-mode t)
+ '(direnv-mode t nil (direnv))
  '(flycheck-global-modes t)
  '(global-whitespace-cleanup-mode t)
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (magit zenburn-theme direnv flycheck jinja2-mode yaml-mode rainbow-mode rainbow-delimiters whitespace-cleanup-mode python-mode)))
+    (xref-js2 js2-refactor js2-mode haskell-mode gradle-mode groovy-mode sphinx-mode sphinx-doc flyspell-correct flymake-python-pyflakes flymake-haskell-multi magit zenburn-theme direnv flycheck jinja2-mode yaml-mode rainbow-mode rainbow-delimiters whitespace-cleanup-mode python-mode)))
  '(pyenv-mode t)
  '(show-trailing-whitespace t)
  '(whitespace-cleanup-mode-only-if-initially-clean nil))

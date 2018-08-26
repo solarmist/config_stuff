@@ -151,6 +151,7 @@ function setprompt {
 $PR_GREEN%%$PR_NO_COLOUR '
 	    ;;
 	*)  # Main prompt
+	    # TODO: Figure out how to get zsh to recognize the width of my Rprompt
 	    ZSH_THEME_GIT_PROMPT_AHEAD="%{⬆️%G%}"
 	    ZSH_THEME_GIT_PROMPT_BEHIND="%{⬇️%G%}"
 	    ZSH_THEME_GIT_PROMPT_BRANCH="%{$PR_MAGENTA%}"

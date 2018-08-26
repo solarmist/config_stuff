@@ -10,8 +10,6 @@ if [ "$(uname -s)" = "Darwin" ]; then
     ${pwd}/setup_env_macos.sh
 fi
 
-
-
 # Install Linux stuff
 if [ "$(uname -s)" = "Linux" ]; then
     ${pwd}/setup_env_linux.sh
