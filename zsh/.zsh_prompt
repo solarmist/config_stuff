@@ -38,6 +38,11 @@ function venv_prompt {
     fi
 }
 
+function chpwd {
+    # -P prompt expansion
+    print -Pn "\e]2;%n@%m: %c\a"
+}
+
 function precmd {
     # Terminal width = width - 1 (for lineup)
     local TERMWIDTH

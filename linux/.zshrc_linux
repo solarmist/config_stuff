@@ -1,0 +1,12 @@
+l="-l --time-style=long-iso"
+
+# Aliases I don't know what they do.
+alias lfi="ls -Fh $l| egrep -v '^d'"
+alias lst="ls -Fht $l| grep `date +%Y-%m-%d`"
+alias ldi="ls -Fh $l| egrep  '^d'"
+
+# CD & LS aliases & common options for frequently used commands
+alias la="ls -AFh"
+alias lla="ls -AFh $l"
+alias ll="ls -Fh $l"
+alias ls="ls -Fh"

@@ -4,21 +4,31 @@
 # http://sysphere.org/~anrxc/
 # modified by Danny Navarro
 
+# Import OS specific setting
+if [ "$(uname -s)" = "Darwin" ]; then
+    source ~/.zshrc_macos
+elif [ "$(uname -s)" = "Linux" ]; then
+    source ~/.zshrc_linux
+fi
+source ~/.zsh_settings
+
+# Prompt init
+source ~/.zsh_prompt
+chpwd
+setprompt
+
 #Add direnv zsh hook
 eval "$(direnv hook zsh)"
 
 # {{{ User settings
-export PEP8_IGNORE="E501\|E111\|E114"
 export PIP_DOWNLOAD_CACHE=${HOME}/.pip/cache
 
 # {{{ Environment
-export PATH="${PATH}:/usr/local/sbin:${HOME}/bin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:${HOME}/bin/scripts:${HOME}/bin:/opt/local/bin:/opt/local/sbin"
+export PATH="${PATH}:${HOME}/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin"
 export TIME_STYLE=long-iso
 export LESSHISTFILE="-"
 export EDITOR="emacs"
 export BROWSER="chrome"
-export XTERM="urxvtc"
-export RSYNC_PROXY="localhost:8118"
 
 export MANPATH="/opt/local/share/man:${MANPATH}"
 export CFLAGS="-I/usr/local/opt/openssl101/include"
@@ -42,18 +52,8 @@ export LESS_TERMCAP_us=$'\E[1;32m'    # begin underline
 # }}}
 
 # {{{ Aliases
-# If this is linux then add --color=always to ls
-if ! [ -f /usr/bin/sw_vers ]; then
-    c="--color=auto"
-    l="-l --time-style=long-iso"
-else
-    c=""
-    l="-l -T"
-fi
 
-alias liversion="cat /export/content/linkedin/DISTRIBUTION | python -c \"import json, sys; obj=json.load(sys.stdin); print obj['name'], 'version:', obj['version']; print; print '\n'.join(sorted([('%21s' % unit['name']) + '\tversion: ' + unit['version'] for unit in obj['units']], cmp=lambda x,y: cmp(x.strip(), y.strip())))\""
-alias fact="elinks -dump randomfunfacts.com | sed -n '/^| /p' | tr -d \|"
-alias git_line='git log --format=format:%H $1 | xargs -L 1 git blame $1 -L $2,$2'
+# Git Aliases
 alias ga='git add '
 alias gb='git branch '
 alias gba="git branch -a "
@@ -61,57 +61,49 @@ alias gc="git commit "
 alias gd='git diff'
 alias get='git '
 alias gg="git grep -n "
+alias git_line='git log --format=format:%H $1 | xargs -L 1 git blame $1 -L $2,$2'
 alias gk='gitk --all&'
 alias gl="fact; stashed=false; if ! git diff --quiet; then git stash --include-untracked; stashed=true; echo 'Stashing'; fi; git pull --rebase; if $stashed; then git stash pop --index; echo 'Popping'; fi"
 alias glg="git log --graph --decorate"
 alias go='git checkout '
 alias got='git '
 alias gp="git push "
-alias gst="git status "
 alias gs='git status '
+alias gst="git status "
 alias gx='gitx --all'
 
-alias testify='testify -v'
-alias html2ascii='lynx -force_html -stdin -dump -nolist'
-alias cd..="cd .."
-alias cd...="cd ../.."
-alias ..="cd .."
-alias ...="cd ../.."
-alias ls="ls -Fh $c"
-alias ll="ls -hF $c $l"
-alias la="ls -AhF $c"
-alias lla="ls -AhF $c $l"
-alias lfi="ls -Fh $c $l| egrep -v '^d'"
-alias ldi="ls -hF $c $l| egrep  '^d'"
-alias lst="ls -hthF $c $l| grep `date +%Y-%m-%d`"
-alias cp="cp -a"
-alias rm="rm -rv"
-alias cls="clear"
-alias g="gvim"
-alias vi="vim"
+# Aliases I don't know what they do.
+alias free="free -m"
 alias psg="ps aux | grep --color=always -i "
 alias psptree="ps auxwww -f"
-alias df="df -hT"
 alias du="du -hc"
 alias dus="du -S | sort -n"
-alias free="free -m"
+
+# CD & LS aliases & common options for frequently used commands
+alias ...="cd ../.."
+alias ..="cd .."
+alias cd...="cd ../.."
+alias cd..="cd .."
+
+alias cp="cp -a"
 alias su="su - "
-alias eject="eject -v "
-alias retract="eject -t -v "
-alias ping="ping -c 5"
-alias sat="date +%R"
-alias calc="bc -l <<<"
-alias spell="ispell -a <<< "
-alias passgen="< /dev/urandom tr -cd \[:graph:\] | fold -w 32 | head -n 5"
+alias vi="vim"
+alias rm="rm -rv"
 alias pjson='python -mjson.tool'
-#alias less=$PAGER
-#alias zless=$PAGER
-# }}}
 
-# {{{ Completion
-compctl -k "(add delete draft edit list import preview publish update)" nb
+# Other Aliases
+alias calc="bc -l <<<"
+alias cls="clear"
+alias emacs="emacs --no-desktop"
+alias fact="elinks -dump randomfunfacts.com | sed -n '/^| /p' | tr -d \|"
+alias g="gvim"
+alias html2ascii='lynx -force_html -stdin -dump -nolist'
+# alias less=$PAGER
+alias passgen="< /dev/urandom tr -cd \[:graph:\] | fold -w 32 | head -n 5"
+alias ping="ping -c 5"
+alias spell="aspell -a <<< "
+# alias zless=$PAGER
 # }}}
-
 
 
 # {{{ Functions
@@ -181,18 +173,3 @@ function vpn {
 	    ;;
     esac
 }
-
-function chpwd {
-    # -P prompt expansion
-    print -Pn "\e]2;%n@%m: %c\a"
-}
-
-
-source ~/.zshrc_macos
-unalias imgcat
-source ~/.zsh_settings
-
-# Prompt init
-source ~/.zsh_prompt
-chpwd
-setprompt

@@ -1,5 +1,19 @@
 export CLICOLOR=1 # Colorize Mac OS
 
+# When used with the -l option, display complete time information for the file
+l="-l -T"
+# Aliases I don't know what they do.
+alias lfi="ls -Fh $l| egrep -v '^d'"
+alias lst="ls -Fht $l| grep `date +%Y-%m-%d`"
+alias ldi="ls -Fh $l| egrep  '^d'"
+
+# CD & LS aliases & common options for frequently used commands
+alias la="ls -AFh"
+alias lla="ls -AFh $l"
+alias ll="ls -Fh $l"
+alias ls="ls -Fh"
+
+
 [[ -e "${HOME}/.iterm2_shell_integration.zsh" ]] && source "${HOME}/.iterm2_shell_integration.zsh"
 if [[ $TERM_PROGRAM = 'iTerm.app' ]] && [[ $STY = '' ]];
 then
@@ -8,3 +22,5 @@ then
     sleep $(( $(gifduration -q ~/.splashscreen) + 0.5 ))
     printf '\033]1337;ClearScrollback\a'
 fi
+
+unalias imgcat
