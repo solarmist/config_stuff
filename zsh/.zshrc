@@ -14,9 +14,6 @@ export PIP_DOWNLOAD_CACHE=${HOME}/.pip/cache
 # {{{ Environment
 export PATH="${PATH}:/usr/local/sbin:${HOME}/bin:/usr/local/opt/icu4c/bin:/usr/local/opt/icu4c/sbin:${HOME}/bin/scripts:${HOME}/bin:/opt/local/bin:/opt/local/sbin"
 export TIME_STYLE=long-iso
-export HISTFILE="${HOME}/.zsh_history"
-export HISTSIZE=100000000
-export SAVEHIST=100000000
 export LESSHISTFILE="-"
 export EDITOR="emacs"
 export BROWSER="chrome"
@@ -25,7 +22,6 @@ export RSYNC_PROXY="localhost:8118"
 
 export MANPATH="/opt/local/share/man:${MANPATH}"
 export CFLAGS="-I/usr/local/opt/openssl101/include"
-export CLICOLOR=1 # Colorize Mac OS
 export GREP_OPTIONS="--color=auto"
 # By default: export WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
 # We take out the slash, period, angle brackets, dash here.

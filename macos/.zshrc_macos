@@ -1,5 +1,6 @@
-[[ -e "${HOME}/.iterm2_shell_integration.zsh" ]] && source "${HOME}/.iterm2_shell_integration.zsh"
+export CLICOLOR=1 # Colorize Mac OS
 
+[[ -e "${HOME}/.iterm2_shell_integration.zsh" ]] && source "${HOME}/.iterm2_shell_integration.zsh"
 if [[ $TERM_PROGRAM = 'iTerm.app' ]] && [[ $STY = '' ]];
 then
     printf '\033]1337;ClearScrollback\a'

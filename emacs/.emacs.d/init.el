@@ -13,7 +13,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(backup-directory-alist (quote (("." . "~/.saves"))))
- '(desktop-save t)
+ '(desktop-save (quote ask-if-exists))
  '(desktop-save-mode t)
  '(direnv-mode t nil (direnv))
  '(flycheck-global-modes t)
