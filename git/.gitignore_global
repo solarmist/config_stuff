@@ -13,7 +13,6 @@ UserInterfaceState.xcuserstate
 *.xcbkptlist
 *.xcscheme
 xcschememanagement.plist
-.gitignore
 *.class
 RayTracer.xcodeproj
 id_rsa

@@ -193,6 +193,7 @@ function chpwd {
 
 
 source ~/.zshrc_macos
+unalias imgcat
 source ~/.zsh_settings
 
 # Prompt init

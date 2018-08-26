@@ -20,7 +20,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (zenburn-theme direnv flycheck jinja2-mode yaml-mode rainbow-mode rainbow-delimiters whitespace-cleanup-mode python-mode)))
+    (magit zenburn-theme direnv flycheck jinja2-mode yaml-mode rainbow-mode rainbow-delimiters whitespace-cleanup-mode python-mode)))
  '(pyenv-mode t)
  '(show-trailing-whitespace t)
  '(whitespace-cleanup-mode-only-if-initially-clean nil))
