@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 export CLICOLOR=1 # Colorize Mac OS
 
 # When used with the -l option, display complete time information for the file

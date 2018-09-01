@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # {{{ ZSH prompt setup
 
 # Include zsh-git-prompt
@@ -24,17 +25,17 @@ function venv_prompt {
     app_name=""
     VENV_COLOR=$PR_LIGHT_BLUE
     if [ -n "${MP_NAME}" ]; then
-	mp_name="$VENV_COLOR${MP_NAME}"
-	if [ -n "${APP_NAME}" ]; then
-	    app_name="$PR_WHITE:$VENV_COLOR${APP_NAME}"
-	fi
-	output="$mp_name$app_name"
+        mp_name="$VENV_COLOR${MP_NAME}"
+        if [ -n "${APP_NAME}" ]; then
+            app_name="$PR_WHITE:$VENV_COLOR${APP_NAME}"
+        fi
+        output="$mp_name$app_name"
     elif [ -n "${VIRTUAL_ENV}" ]; then
-	output="$VENV_COLOR${VIRTUAL_ENV}"
+        output="$VENV_COLOR${VIRTUAL_ENV}"
     fi
 
     if [ -n "$output" ]; then
-	echo "${PR_YELLOW}[${PR_LIGHT_GREEN}Venv${PR_WHITE}:$output$PR_YELLOW]"
+        echo "${PR_YELLOW}[${PR_LIGHT_GREEN}Venv${PR_WHITE}:$output$PR_YELLOW]"
     fi
 }
 
@@ -54,25 +55,25 @@ function precmd {
     local PROMPTSIZE="${#${(%):---(%n@%m:%T)---()--}}"
     local PWDSIZE="${#${(%):-%~}}"
     if [[ "${PROMPTSIZE} + ${PWDSIZE}" -gt ${TERMWIDTH} ]]; then
-	((PR_PWDLEN=${TERMWIDTH} - ${PROMPTSIZE}))
+        ((PR_PWDLEN=${TERMWIDTH} - ${PROMPTSIZE}))
     else
-	PR_FILLBAR="\${(l.((${TERMWIDTH} - (${PROMPTSIZE} + ${PWDSIZE})))..${PR_HBAR}.)}"
+        PR_FILLBAR="\${(l.((${TERMWIDTH} - (${PROMPTSIZE} + ${PWDSIZE})))..${PR_HBAR}.)}"
     fi
 
     # VCS
     if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null)
-	    && -z $(bzr ls -R --unknown 2> /dev/null) ]]; then
-	if [[ -z $(bzr st -V 2> /dev/null) ]]; then
-	    zstyle ':vcs_info:*' formats '%F{yellow}(%F{green}%s%F{white}:%F{blue}%b%c%u%F{yellow})'
-	else
-	    zstyle ':vcs_info:*' formats '%F{yellow}(%F{green}%s%F{white}:%F{blue}%b%c%u%F{28}●%F{yellow})'
-	fi
+            && -z $(bzr ls -R --unknown 2> /dev/null) ]]; then
+        if [[ -z $(bzr st -V 2> /dev/null) ]]; then
+            zstyle ':vcs_info:*' formats '%F{yellow}(%F{green}%s%F{white}:%F{blue}%b%c%u%F{yellow})'
+        else
+            zstyle ':vcs_info:*' formats '%F{yellow}(%F{green}%s%F{white}:%F{blue}%b%c%u%F{28}●%F{yellow})'
+        fi
     else
-	if [[ -z $(bzr st -V 2> /dev/null) ]]; then
-	    zstyle ':vcs_info:*' formats '%F{yellow}(%F{green}%s%F{white}:%F{blue}%b%c%u%F{red}●%F{yellow})'
-	else
-	    zstyle ':vcs_info:*' formats '%F{yellow}(%F{green}%s%F{white}:%F{blue}%b%c%u%F{red}●%F{28}●%F{yellow})'
-	fi
+        if [[ -z $(bzr st -V 2> /dev/null) ]]; then
+            zstyle ':vcs_info:*' formats '%F{yellow}(%F{green}%s%F{white}:%F{blue}%b%c%u%F{red}●%F{yellow})'
+        else
+            zstyle ':vcs_info:*' formats '%F{yellow}(%F{green}%s%F{white}:%F{blue}%b%c%u%F{red}●%F{28}●%F{yellow})'
+        fi
     fi
     vcs_info
 }
@@ -80,20 +81,20 @@ function precmd {
 function preexec {
     # Screen window titles as currently running programs
     if [[ "${TERM}" == "screen-256color" ]]; then
-	# TODO: Descipher this
-	local CMD="${1[(wr)^(*=*|sudo|-*)]}"
-	echo -n "\ek$CMD\e\\"
+        # TODO: Descipher this
+        local CMD="${1[(wr)^(*=*|sudo|-*)]}"
+        echo -n "\ek$CMD\e\\"
     fi
 }
 
 function setprompt {
     if [[ "${terminfo[colors]}" -ge 8 ]]; then
-	colors
+        colors
     fi
     PR_NO_COLOUR="%{${terminfo[sgr0]}%}"
     for color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; do
-	eval PR_"${color}"="%{${terminfo[bold]}$fg[${(L)color}]%}"
-	eval PR_LIGHT_"${color}"="%{$fg[${(L)color}]%}"
+        eval PR_"${color}"="%{${terminfo[bold]}$fg[${(L)color}]%}"
+        eval PR_LIGHT_"${color}"="%{$fg[${(L)color}]%}"
     done
     LINE_COLOR="$PR_YELLOW"
 
@@ -120,76 +121,76 @@ function setprompt {
     PR_URCORNER="${altchar[k]:--}" # ┘
     ME_EMOJI=(🐶 🐱 🐭 🐹 🐰 🦊 🐻 🐼 🐨 🐯 🦁 🐮 🐷 🐸 🐵 🐙)
     function RANDOM_ME_EMOJI {
-	echo "${ME_EMOJI[$((RANDOM%14))]}"
+        echo "${ME_EMOJI[$((RANDOM%14))]}"
     }
 
     function disable_altcharset {
-	local string="$1"
-	echo "$PR_SHIFT_OUT${string}$PR_SHIFT_IN$LINE_COLOR"
+        local string="$1"
+        echo "$PR_SHIFT_OUT${string}$PR_SHIFT_IN$LINE_COLOR"
     }
 
     # https://www-s.acm.illinois.edu/workshops/zsh/prompt/formatting.html
     # Terminal prompt settings
     case "${TERM}" in
-	dumb) # Simple prompt for dumb terminals
-	    unsetopt zle
-	    PROMPT='%n@%m:%~%% '
-	    ;;
-	linux) # Simple prompt with Zenburn colors for the console
-	    echo -en "\e]P01e2320" # zenburn black (normal black)
-	    echo -en "\e]P8709080" # bright-black  (darkgrey)
-	    echo -en "\e]P1705050" # red           (darkred)
-	    echo -en "\e]P9dca3a3" # bright-red    (red)
-	    echo -en "\e]P260b48a" # green         (darkgreen)
-	    echo -en "\e]PAc3bf9f" # bright-green  (green)
-	    echo -en "\e]P3dfaf8f" # yellow        (brown)
-	    echo -en "\e]PBf0dfaf" # bright-yellow (yellow)
-	    echo -en "\e]P4506070" # blue          (darkblue)
-	    echo -en "\e]PC94bff3" # bright-blue   (blue)
-	    echo -en "\e]P5dc8cc3" # purple        (darkmagenta)
-	    echo -en "\e]PDec93d3" # bright-purple (magenta)
-	    echo -en "\e]P68cd0d3" # cyan          (darkcyan)
-	    echo -en "\e]PE93e0e3" # bright-cyan   (cyan)
-	    echo -en "\e]P7dcdccc" # white         (lightgrey)
-	    echo -en "\e]PFffffff" # bright-white  (white)
-	    PROMPT='$LINE_COLOR%n@%m$PR_WHITE:$PR_GREEN%l$PR_WHITE:$PR_RED%~\
+        dumb) # Simple prompt for dumb terminals
+            unsetopt zle
+            PROMPT='%n@%m:%~%% '
+            ;;
+        linux) # Simple prompt with Zenburn colors for the console
+            echo -en "\e]P01e2320" # zenburn black (normal black)
+            echo -en "\e]P8709080" # bright-black  (darkgrey)
+            echo -en "\e]P1705050" # red           (darkred)
+            echo -en "\e]P9dca3a3" # bright-red    (red)
+            echo -en "\e]P260b48a" # green         (darkgreen)
+            echo -en "\e]PAc3bf9f" # bright-green  (green)
+            echo -en "\e]P3dfaf8f" # yellow        (brown)
+            echo -en "\e]PBf0dfaf" # bright-yellow (yellow)
+            echo -en "\e]P4506070" # blue          (darkblue)
+            echo -en "\e]PC94bff3" # bright-blue   (blue)
+            echo -en "\e]P5dc8cc3" # purple        (darkmagenta)
+            echo -en "\e]PDec93d3" # bright-purple (magenta)
+            echo -en "\e]P68cd0d3" # cyan          (darkcyan)
+            echo -en "\e]PE93e0e3" # bright-cyan   (cyan)
+            echo -en "\e]P7dcdccc" # white         (lightgrey)
+            echo -en "\e]PFffffff" # bright-white  (white)
+            PROMPT='$LINE_COLOR%n@%m$PR_WHITE:$PR_GREEN%l$PR_WHITE:$PR_RED%~\
 $PR_GREEN%%$PR_NO_COLOUR '
-	    ;;
-	*)  # Main prompt
-	    # TODO: Figure out how to get zsh to recognize the width of my Rprompt
-	    ZSH_THEME_GIT_PROMPT_AHEAD="%{⬆️%G%}"
-	    ZSH_THEME_GIT_PROMPT_BEHIND="%{⬇️%G%}"
-	    ZSH_THEME_GIT_PROMPT_BRANCH="%{$PR_MAGENTA%}"
-	    ZSH_THEME_GIT_PROMPT_CHANGED="%{$PR_BLUE%}%{👷🏻‍♀️%G%}"
-	    ZSH_THEME_GIT_PROMPT_CLEAN="%{$PR_GREEN%}%{✅ %G%}"
-	    ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$PR_RED%}%{🙅🏼‍♀️%G%}"
-	    ZSH_THEME_GIT_PROMPT_PREFIX="$PR_YELLOW("
-	    ZSH_THEME_GIT_PROMPT_SEPARATOR="$PR_WHITE⎮"
-	    ZSH_THEME_GIT_PROMPT_STAGED="%{$PR_RED%}%{📨 %G%}"
-	    ZSH_THEME_GIT_PROMPT_SUFFIX="$PR_YELLOW)"
-	    ZSH_THEME_GIT_PROMPT_UNTRACKED="%{🌌%G%}"
+            ;;
+        *)  # Main prompt
+            # TODO: Figure out how to get zsh to recognize the width of my Rprompt
+            ZSH_THEME_GIT_PROMPT_AHEAD="%{⬆️%G%}"
+            ZSH_THEME_GIT_PROMPT_BEHIND="%{⬇️%G%}"
+            ZSH_THEME_GIT_PROMPT_BRANCH="%{$PR_MAGENTA%}"
+            ZSH_THEME_GIT_PROMPT_CHANGED="%{$PR_BLUE%}%{👷🏻‍♀️%G%}"
+            ZSH_THEME_GIT_PROMPT_CLEAN="%{$PR_GREEN%}%{✅ %G%}"
+            ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$PR_RED%}%{🙅🏼‍♀️%G%}"
+            ZSH_THEME_GIT_PROMPT_PREFIX="$PR_YELLOW("
+            ZSH_THEME_GIT_PROMPT_SEPARATOR="$PR_WHITE⎮"
+            ZSH_THEME_GIT_PROMPT_STAGED="%{$PR_RED%}%{📨 %G%}"
+            ZSH_THEME_GIT_PROMPT_SUFFIX="$PR_YELLOW)"
+            ZSH_THEME_GIT_PROMPT_UNTRACKED="%{🌌%G%}"
 
-	    UL_CORNER='$PR_ULCORNER$PR_HBAR(' # ┌─(
-	    LL_CORNER='$PR_LLCORNER$LINE_COLOR$PR_HBAR(' # └─(
-	    UR_CORNER=')$PR_HBAR$PR_URCORNER' # )─┐
-	    LR_CORNER='$PR_HBAR$PR_LRCORNER' # ─┘
-	    HBAR=')$PR_HBAR$PR_HBAR${(e)PR_FILLBAR}$PR_HBAR(' # )─...─(
+            UL_CORNER='$PR_ULCORNER$PR_HBAR(' # ┌─(
+            LL_CORNER='$PR_LLCORNER$LINE_COLOR$PR_HBAR(' # └─(
+            UR_CORNER=')$PR_HBAR$PR_URCORNER' # )─┐
+            LR_CORNER='$PR_HBAR$PR_LRCORNER' # ─┘
+            HBAR=')$PR_HBAR$PR_HBAR${(e)PR_FILLBAR}$PR_HBAR(' # )─...─(
 
-	    # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
-	    # %(x.true-text.false-text)
-	    # x =
-	    # ! - True if the shell is running with privileges
-	    # # - True if the effective uid of the current process is n
-	    # ? - True if the exit status of the last command was n.
-	    # %S...%s - ... is standout text
-	    UL_PROMPT='%(!.%SROOT%s.%n)$PR_WHITE@$PR_BLUE%m$PR_WHITE:$PR_GREEN%T' # {username/ROOT}@{short hostname}:{24 hour time}
-	    UR_PROMPT='$PR_RED%$PR_PWDLEN<...<%~%<<'  # {short pwd}
-	    L_PROMPT="%(?.$(RANDOM_ME_EMOJI).$PR_RED%?$PR_WHITE:)%(!.$PR_RED.$PR_GREEN)%#" # [cmd error code:]{% or #}
-	    R_PROMPT='$(venv_prompt) $(git_super_status)'
-	    PROMPT="$PR_SET_CHARSET$PR_SHIFT_IN$LINE_COLOR${UL_CORNER}$(disable_altcharset ${UL_PROMPT})${HBAR}$(disable_altcharset ${UR_PROMPT})${UR_CORNER}
+            # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
+            # %(x.true-text.false-text)
+            # x =
+            # ! - True if the shell is running with privileges
+            # # - True if the effective uid of the current process is n
+            # ? - True if the exit status of the last command was n.
+            # %S...%s - ... is standout text
+            UL_PROMPT='%(!.%SROOT%s.%n)$PR_WHITE@$PR_BLUE%m$PR_WHITE:$PR_GREEN%T' # {username/ROOT}@{short hostname}:{24 hour time}
+            UR_PROMPT='$PR_RED%$PR_PWDLEN<...<%~%<<'  # {short pwd}
+            L_PROMPT="%(?.$(RANDOM_ME_EMOJI).$PR_RED%?$PR_WHITE:)%(!.$PR_RED.$PR_GREEN)%#" # [cmd error code:]{% or #}
+            R_PROMPT='$(venv_prompt) $(git_super_status)'
+            PROMPT="$PR_SET_CHARSET$PR_SHIFT_IN$LINE_COLOR${UL_CORNER}$(disable_altcharset ${UL_PROMPT})${HBAR}$(disable_altcharset ${UR_PROMPT})${UR_CORNER}
 ${LL_CORNER}$(disable_altcharset ${L_PROMPT}))$PR_SHIFT_OUT$PR_NO_COLOUR "
 
-	    RPROMPT="$PR_SET_CHARSET$PR_SHIFT_IN $LINE_COLOR$(disable_altcharset "${R_PROMPT}")${LR_CORNER}$PR_SHIFT_OUT$PR_NO_COLOUR"
-	    ;;
+            RPROMPT="$PR_SET_CHARSET$PR_SHIFT_IN $LINE_COLOR$(disable_altcharset "${R_PROMPT}")${LR_CORNER}$PR_SHIFT_OUT$PR_NO_COLOUR"
+            ;;
     esac
 }

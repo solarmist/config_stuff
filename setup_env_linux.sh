@@ -2,4 +2,5 @@
 
 # Install Linux stuff
 # https://www.cyberciti.biz/faq/find-linux-distribution-name-version-number/
-"cat /etc/*-release"  # Linux Distro info
+# "cat /etc/*-release"  # Linux Distro info
+# hostnamectl | grep "Operating System"

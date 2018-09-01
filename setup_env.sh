@@ -1,28 +1,30 @@
-#!/usr/bin/bash
-
-# Setup universal stuff
-mkdir -p ~/bin
-git clone https://github.com/olivierverdier/zsh-git-prompt.git ~/bin/zsh-git-prompt
+#!/usr/bin/env bash
 
 pwd="$(dirname $0)"
-# Install MacOS stuff
-if [ "$(uname -s)" = "Darwin" ]; then
-    ${pwd}/setup_env_macos.sh
-fi
+source ${pwd}/utils.sh
 
-# Install Linux stuff
-if [ "$(uname -s)" = "Linux" ]; then
-    ${pwd}/setup_env_linux.sh
-fi
+# Setup universal stuff
+mkdir -p ${HOME}/bin
+# Requires git and ssh key to be setup
+! [ -e ${HOME}/bin/zsh-git-prompt ] && git clone https://github.com/olivierverdier/zsh-git-prompt.git ${HOME}/bin/zsh-git-prompt
 
-# Link things into place
-stow --target=${HOME} ${pwd}/emacs
-stow --target=${HOME} ${pwd}/git
-stow --target=${HOME} ${pwd}/images
-stow --target=${HOME} ${pwd}/ispell
-stow --target=${HOME} ${pwd}/macos
-stow --target=${HOME} ${pwd}/pip
-stow --target=${HOME} ${pwd}/zsh
+find $pwd -name ".DS_Store" -delete
 
+# Link all the packages
+excluded="ssh vim"
+link_packages `find_stow_packages $excluded`
 # Special setups
-stow --target=${HOME}/.ssh/ ${pwd}/ssh
+echo "Linking: ssh"
+stow --target=${HOME}/.ssh/ ssh
+
+# OS Specific setups
+case "$(uname -s)" in
+    Darwin) # Install macOS stuff
+	echo "Installing macOS specific things"
+	${pwd}/setup_env_macos.sh
+	;;
+    Linux) # Install Linux stuff
+	echo "Installing Linux specific things"
+	${pwd}/setup_env_linux.sh
+	;;
+esac

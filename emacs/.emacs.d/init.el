@@ -2,7 +2,7 @@
 ; Joshua Olson init.el
 (require 'package) ;; You might already have this line
 (add-to-list 'package-archives
-	     '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
 (load-theme 'zenburn t)
 
@@ -18,6 +18,7 @@
  '(direnv-mode t nil (direnv))
  '(flycheck-global-modes t)
  '(global-whitespace-cleanup-mode t)
+ '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote

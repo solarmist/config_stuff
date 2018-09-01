@@ -1,15 +1,19 @@
 # -*- shell-script -*-
 #
-# anrxc's init file for Z-SHELL 4.3.10 on Arch GNU/Linux.
-# http://sysphere.org/~anrxc/
-# modified by Danny Navarro
+# solarmist's .zshrc based on
+#     anrxc's init file for Z-SHELL 4.3.10 on Arch GNU/Linux.
+#     http://sysphere.org/~anrxc/
+#     modified by Danny Navarro
 
 # Import OS specific setting
-if [ "$(uname -s)" = "Darwin" ]; then
-    source ~/.zshrc_macos
-elif [ "$(uname -s)" = "Linux" ]; then
-    source ~/.zshrc_linux
-fi
+case "$(uname -s)" in
+    Darwin)
+	source ~/.zshrc_macos;;
+    Linux)
+	source ~/.zshrc_linux;;
+esac
+
+# zsh settings
 source ~/.zsh_settings
 
 # Prompt init
@@ -31,7 +35,6 @@ export EDITOR="emacs"
 export BROWSER="chrome"
 
 export MANPATH="/opt/local/share/man:${MANPATH}"
-export CFLAGS="-I/usr/local/opt/openssl101/include"
 export GREP_OPTIONS="--color=auto"
 # By default: export WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
 # We take out the slash, period, angle brackets, dash here.
@@ -113,6 +116,7 @@ function make_envrc {
 
     local repo_root="$(git worktree list | grep master | cut -d' ' -f1)"
     local mp_name="$(get_product_spec_value name)"
+    # Find venv within the build dir
     local apps="$(find ${repo_root}/build -type d -depth 2 -name venv | sed "s|${repo_root}/build/||g" | sed "s|/venv||g")"
     local num_apps="$(echo $apps | wc -w)"
 
@@ -169,7 +173,7 @@ function vpn {
 	    # osascript -e "end tell"
 	    # osascript -e "end tell"
 	    # osascript -e "end tell"
-	    echo "${command}" | /opt/cisco/anyconnect/bin/vpn -s connect 1
+	    echo "${command}" | /opt/cisco/anyconnect/bin/vpn -s connect "1. Auto (Recommended)"
 	    ;;
     esac
 }
