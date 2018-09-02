@@ -8,7 +8,7 @@ if ! which brew >/dev/null; then
     $(which ruby) -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     # brew options {package_name}
     # https://github.com/mrowa44/emojify
-    brew install aspell bash direnv emojify imagemagick
+    brew install aspell bash direnv emojify httpie imagemagick
     brew install git --with-pcre2 --with-persistent-https --with-gettext
     brew install zsh --with-unicode9
     # https://www.reddit.com/r/emacs/comments/6ig02i/osx_if_youre_not_already_using_the_railwaycat/

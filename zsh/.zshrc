@@ -152,28 +152,3 @@ function make_envrc {
     fi
     direnv allow
 }
-
-function vpn {
-    case $1 in
-	"disconnect")
-	    /opt/cisco/anyconnect/bin/vpn disconnect
-	    ;;
-	*)
-	    local yubikey=$1;
-	    local password="$(security -q find-generic-password -l "Enterprise Connect" -w)"
-	    local command="\n${password}${yubikey}\ny\n"
-	    # Clear any dialogs from a previous disconnect
-	    # osascript -e "tell application 'System Events'"
-	    # osascript -e "tell process 'Finder'"
-	    # osascript -e "tell its window"
-	    # osascript -e "click button 'OK'"
-	    # osascript -e "end tell"
-	    # osascript -e "tell its window"
-	    # osascript -e "click button 'OK'"
-	    # osascript -e "end tell"
-	    # osascript -e "end tell"
-	    # osascript -e "end tell"
-	    echo "${command}" | /opt/cisco/anyconnect/bin/vpn -s connect "1. Auto (Recommended)"
-	    ;;
-    esac
-}
