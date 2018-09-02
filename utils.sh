@@ -2,11 +2,11 @@
 
 function find_stow_packages {
     # Always exclude .git path
-    local exclude_paths="-not -path *.git"
+    local exclude_paths="-not -path *.git -not -path ."
     for exclude in $@; do
 	exclude_paths="$exclude_paths -not -path */${exclude}"
     done
-    find_cmd="$(find ${pwd} -type d -depth 1 ${exclude_paths} | sort)"
+    find_cmd="$(find ${pwd} -maxdepth 1 -type d ${exclude_paths} | sort)"
     local dirs=""
     while read -r line; do
 	dirs="$dirs $(basename $line)"

@@ -5,7 +5,8 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
-export PATH="${HOME}/bin/scripts:${HOME}/bin:/opt/local/bin:/opt/local/sbin:${PATH}"
+export SUDO_ASKPASS=${HOME}/.ssh/SudoPass.sh
+export PATH="${HOME}/bin/scripts:${HOME}/bin:/opt/local/bin:/opt/local/sbin:/usr/local/linkedin/bin:${PATH}"
 export PERL5LIB="$PERL5LIB:/site/lib"
 
 alias fact="elinks -dump randomfunfacts.com | sed -n '/^| /p' | tr -d \|"
@@ -86,3 +87,7 @@ function simplehost(){
 }
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
