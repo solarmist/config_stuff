@@ -16,6 +16,6 @@ if ! which brew >/dev/null; then
     brew tap railwaycat/emacsmacport
     brew install emacs-mac --with-imagemagick --with-modern-icon --with-natural-title-bar --with-xml2
     # Link Emacs in place so that finder can index it
-    ! [[ -d "/Application/Emacs.app" ]]; && osascript -e "$link_emacs"
+    ! [[ -d "/Application/Emacs.app" ]] && osascript -e "$link_emacs"
 
 fi

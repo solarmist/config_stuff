@@ -21,10 +21,10 @@ stow --target=${HOME}/.ssh/ ssh
 case "$(uname -s)" in
     Darwin) # Install macOS stuff
 	echo "Installing macOS specific things"
-	${pwd}/setup_env_macos.sh
+	${pwd}/setup_macos_env.sh
 	;;
     Linux) # Install Linux stuff
 	echo "Installing Linux specific things"
-	${pwd}/setup_env_linux.sh
+	${pwd}/setup_linux_env.sh
 	;;
 esac
