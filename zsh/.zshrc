@@ -27,6 +27,11 @@ eval "$(direnv hook zsh)"
 # {{{ User settings
 export PIP_DOWNLOAD_CACHE=${HOME}/.pip/cache
 
+# LI Specific stuff
+if [[ -e ${HOME}/.zshrc_li ]]; then
+    source ${HOME}/.zshrc_li
+fi
+
 # {{{ Environment
 export PATH="${PATH}:${HOME}/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin"
 export TIME_STYLE=long-iso

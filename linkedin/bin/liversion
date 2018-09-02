@@ -1,0 +1,26 @@
+#!/usr/bin/env python3.7
+
+import json, sys
+
+
+def main(name=None, *args):
+    data = json.load(open('/export/content/linkedin/DISTRIBUTION'))
+    package = data['name']
+    version = data['version']
+    packages = {pkg['name']: pkg['version'] for pkg in data['units']}
+
+    print()
+    print(f'{package}	 Version: {version}')
+    print()
+    if name:
+        print(f'{packages["{name}"]}: {version}')
+    else:
+        name_width = max([len(f) for f in packages]) + 1
+        lines = sorted([f'{name:{name_width}}: {version}'
+                        for name, version in packages.items()])
+        print('\n'.join(lines))
+    print()
+
+
+if __name__ == '__main__':
+    main(*sys.argv[1:])

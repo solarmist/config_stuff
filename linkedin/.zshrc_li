@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+# Sensitive LI stuff
+[[ -e ${HOME}/.ssh/li_credentials ]] && source ${HOME}/.ssh/li_credentials
+
+alias app-status="app-status -fg corp"
+
+function mco {
+    mint checkout $1 --destination $1
+}
+
+function get_product_spec_value {
+    local PRODUCT_SPEC="$(git worktree list | grep master | cut -d' ' -f1)/product-spec.json"
+    local FIELD="$1"
+    local SECTION="$2"
+
+    python - <<GET_VALUE
+from __future__ import print_function
+import json, sys
+section = '${SECTION}' or None
+field = '${FIELD}'
+product_spec = json.load(open('${PRODUCT_SPEC}'))
+section = product_spec.get(section, {}) if section else product_spec
+value = section.get(field, 'None')
+print(value)
+GET_VALUE
+}
+
+function change_password {
+    local user=$1
+    local password="$2"
+    for host in "$GERRIT_CLUSTERS"; do
+	echo 'Setting password for $user on $host'
+	ssh -p 29418  $host gerrit set-account $user --http-password "$password"
+	if http --auth $user:"$password" https://${host}:1367/a/accounts/self/; then
+	    echo "Validated"
+	else
+	    echo "Validation failed for: $host"
+    done
+}
+
+
+function vpn {
+    case $1 in
+	"clear")
+	    /usr/bin/osascript -e <<EOF
+		tell application "System Events"
+		    click UI element "OK" of window "Cisco AnyConnect Secure Mobility Client" of application process "Finder"
+		end tell
+EOF
+	;;
+	"disconnect")
+	    /opt/cisco/anyconnect/bin/vpn disconnect;;
+	*)
+	    local yubikey=$1;
+	    local password="$(security -q find-generic-password -l "Enterprise Connect" -w)"
+	    local command="\n${password}${yubikey}\ny\n"
+	    # Clear any dialogs from a previous disconnect
+	    # osascript -e "tell application 'System Events'"
+	    # osascript -e "tell process 'Finder'"
+	    # osascript -e "tell its window"
+	    # osascript -e "click button 'OK'"
+	    # osascript -e "end tell"
+	    # osascript -e "tell its window"
+	    # osascript -e "click button 'OK'"
+	    # osascript -e "end tell"
+	    # osascript -e "end tell"
+	    # osascript -e "end tell"
+	    echo "${command}" | /opt/cisco/anyconnect/bin/vpn -s connect "1. Auto (Recommended)";;
+    esac
+}
