@@ -5,6 +5,10 @@ consistant user experience
 Notes:
 iTerm2
 
+TODO: Get code for `fullscreen` and `gifduration` commands from LI computer
+
+Preferences>Profile>Keys - load preset Natural Text Editing
+
 Enable the following:
 modern scroll wheel accumulator
 Scroll wheel sends arrow keys when in altenate screen mode
