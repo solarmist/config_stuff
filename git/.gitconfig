@@ -1,2 +1,5 @@
 [merge]
-	tool = emerge
+        tool = emerge
+[user]
+        name = Joshua Olson
+        email = joshua.olson@gmail.com
