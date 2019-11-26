@@ -2,6 +2,9 @@
 
 export CLICOLOR=1 # Colorize Mac OS
 
+# Apr-util is needed for ReviewBoard to run locally
+export PATH="/usr/local/opt/apr-util/bin:/usr/local/opt/apr/bin:$PATH"
+
 # When used with the -l option, display complete time information for the file
 l="-l -T"
 # Aliases I don't know what they do.

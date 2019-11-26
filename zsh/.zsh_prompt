@@ -119,10 +119,6 @@ function setprompt {
     PR_LLCORNER="${altchar[m]:--}" # └
     PR_LRCORNER="${altchar[j]:--}" # ┐
     PR_URCORNER="${altchar[k]:--}" # ┘
-    ME_EMOJI=(🐶 🐱 🐭 🐹 🐰 🦊 🐻 🐼 🐨 🐯 🦁 🐮 🐷 🐸 🐵 🐙)
-    function RANDOM_ME_EMOJI {
-        echo "${ME_EMOJI[$((RANDOM%14))]}"
-    }
 
     function disable_altcharset {
         local string="$1"
@@ -158,17 +154,17 @@ $PR_GREEN%%$PR_NO_COLOUR '
             ;;
         *)  # Main prompt
             # TODO: Figure out how to get zsh to recognize the width of my Rprompt
-            ZSH_THEME_GIT_PROMPT_AHEAD="%{⬆️%G%}"
-            ZSH_THEME_GIT_PROMPT_BEHIND="%{⬇️%G%}"
+            ZSH_THEME_GIT_PROMPT_AHEAD="%{A:%G%}"
+            ZSH_THEME_GIT_PROMPT_BEHIND="%{B:%G%}"
             ZSH_THEME_GIT_PROMPT_BRANCH="%{$PR_MAGENTA%}"
-            ZSH_THEME_GIT_PROMPT_CHANGED="%{$PR_BLUE%}%{👷🏻‍♀️%G%}"
-            ZSH_THEME_GIT_PROMPT_CLEAN="%{$PR_GREEN%}%{✅ %G%}"
-            ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$PR_RED%}%{🙅🏼‍♀️%G%}"
+            ZSH_THEME_GIT_PROMPT_CHANGED="%{$PR_BLUE%}%{C:%G%}"
+            ZSH_THEME_GIT_PROMPT_CLEAN="%{$PR_GREEN%}%{%G%}"
+            ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$PR_RED%}%{CF:%G%}"
             ZSH_THEME_GIT_PROMPT_PREFIX="$PR_YELLOW("
             ZSH_THEME_GIT_PROMPT_SEPARATOR="$PR_WHITE⎮"
-            ZSH_THEME_GIT_PROMPT_STAGED="%{$PR_RED%}%{📨 %G%}"
+            ZSH_THEME_GIT_PROMPT_STAGED="%{$PR_RED%}%{S:%G%}"
             ZSH_THEME_GIT_PROMPT_SUFFIX="$PR_YELLOW)"
-            ZSH_THEME_GIT_PROMPT_UNTRACKED="%{🌌%G%}"
+            ZSH_THEME_GIT_PROMPT_UNTRACKED="%{U:%G%}"
 
             UL_CORNER='$PR_ULCORNER$PR_HBAR(' # ┌─(
             LL_CORNER='$PR_LLCORNER$LINE_COLOR$PR_HBAR(' # └─(
@@ -185,7 +181,7 @@ $PR_GREEN%%$PR_NO_COLOUR '
             # %S...%s - ... is standout text
             UL_PROMPT='%(!.%SROOT%s.%n)$PR_WHITE@$PR_BLUE%m$PR_WHITE:$PR_GREEN%T' # {username/ROOT}@{short hostname}:{24 hour time}
             UR_PROMPT='$PR_RED%$PR_PWDLEN<...<%~%<<'  # {short pwd}
-            L_PROMPT="%(?.$(RANDOM_ME_EMOJI).$PR_RED%?$PR_WHITE:)%(!.$PR_RED.$PR_GREEN)%#" # [cmd error code:]{% or #}
+            L_PROMPT="%(?..$PR_RED%?$PR_WHITE:)%(!.$PR_RED.$PR_GREEN)%#" # [cmd error code:]{% or #}
             R_PROMPT='$(venv_prompt) $(git_super_status)'
             PROMPT="$PR_SET_CHARSET$PR_SHIFT_IN$LINE_COLOR${UL_CORNER}$(disable_altcharset ${UL_PROMPT})${HBAR}$(disable_altcharset ${UR_PROMPT})${UR_CORNER}
 ${LL_CORNER}$(disable_altcharset ${L_PROMPT}))$PR_SHIFT_OUT$PR_NO_COLOUR "

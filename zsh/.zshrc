@@ -8,9 +8,9 @@
 # Import OS specific setting
 case "$(uname -s)" in
     Darwin)
-	source ~/.zshrc_macos;;
+        source ~/.zshrc_macos;;
     Linux)
-	source ~/.zshrc_linux;;
+        source ~/.zshrc_linux;;
 esac
 
 # zsh settings
@@ -128,21 +128,21 @@ function make_envrc {
     local mp_var="export MP_NAME='${mp_name}'\n"
     local preferred_app=""
     if [ -n "${preferred_app}" ]; then
-	local preferred_app="export APP_NAME='${app}'\n"
+        local preferred_app="export APP_NAME='${app}'\n"
     fi
 
     # If there are more than 1 app then make envrcs for all of the applications
     if [ "${num_apps}" -gt 1 ]; then
-	for app in $apps; do
-	    if [ -d "${repo_root}/${app}" ]; then
-		local app_var="export APP_NAME='${app}'\n"
-		local path_var="PATH_add 'build/${app}/venv/bin'\n"
-		local envrc="${repo_root}/${app}/.envrc"
+        for app in $apps; do
+            if [ -d "${repo_root}/${app}" ]; then
+                local app_var="export APP_NAME='${app}'\n"
+                local path_var="PATH_add 'build/${app}/venv/bin'\n"
+                local envrc="${repo_root}/${app}/.envrc"
 
-		rm -f ${repo_root}/${app}/.envrc
-		echo "${mp_var}${app_var}${path_var}" > ${envrc}
-	    fi
-	done
+                rm -f ${repo_root}/${app}/.envrc
+                echo "${mp_var}${app_var}${path_var}" > ${envrc}
+            fi
+        done
     fi
     # Create an MP level .envrc
     local envrc="${repo_root}/.envrc"
@@ -151,9 +151,9 @@ function make_envrc {
     rm -f ${envrc}
     # If we only have one app then we don't need to include a preferred app
     if [ "${num_apps}" -ne 1 ]; then
-	echo "${mp_var}${path_var}" > ${envrc}
+        echo "${mp_var}${path_var}" > ${envrc}
     else
-	echo "${mp_var}${preferred_app}${path_var}" > ${envrc}
+        echo "${mp_var}${preferred_app}${path_var}" > ${envrc}
     fi
     direnv allow
 }
