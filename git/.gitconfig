@@ -2,6 +2,6 @@
         tool = emerge
 [user]
         name = Joshua Olson
-        email = joshua.olson@gmail.com
+        email = joshua.olson+github@gmail.com
 [core]
         excludesfile = /Users/jolson/.gitignore_global
