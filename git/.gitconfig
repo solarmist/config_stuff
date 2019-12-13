@@ -1,7 +1,12 @@
 [merge]
-        tool = emerge
+	tool = emerge
 [user]
-        name = Joshua Olson
-        email = jolson@linkedin.com
+	name = Joshua Olson
+	email = jolson@linkedin.com
 [core]
         excludesfile = /Users/jolson/.gitignore_global
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
