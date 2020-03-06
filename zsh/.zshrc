@@ -36,7 +36,7 @@ fi
 export PATH="${PATH}:${HOME}/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin"
 export TIME_STYLE=long-iso
 export LESSHISTFILE="-"
-export EDITOR="emacs"
+export EDITOR="emacs --no-desktop"
 export BROWSER="chrome"
 
 export MANPATH="/opt/local/share/man:${MANPATH}"
@@ -157,3 +157,9 @@ function make_envrc {
     fi
     direnv allow
 }
+
+export VOLTA_HOME="$HOME/.volta"
+[ -s "$VOLTA_HOME/load.sh" ] && . "$VOLTA_HOME/load.sh"
+
+export PATH="$VOLTA_HOME/bin:$PATH"
+export PATH="/usr/local/opt/mysql-client/bin:$PATH"

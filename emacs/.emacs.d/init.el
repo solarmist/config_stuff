@@ -26,8 +26,7 @@
   :ensure t)
 
 (load-theme 'zenburn t)
-(when (window-system)
-  (set-frame-font "Fira Code"))
+(set-frame-font "Fira Code")
 (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
                (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
                (36 . ".\\(?:>\\)")
@@ -65,8 +64,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(backup-directory-alist (quote (("." . "~/.saves"))))
- '(desktop-save (quote ask-if-exists))
- '(desktop-save-mode t)
+ '(desktop-save-mode f)
  '(direnv-mode t nil (direnv))
  '(flycheck-global-modes t)
  '(global-whitespace-cleanup-mode t)
@@ -122,6 +120,12 @@
 ;; (use-package company-lsp
 ;;   :ensure t
 )
+
+;; Only use the desktop-save-mode in a GUI
+(when (window-system)
+  (custom-set-variables
+    '(desktop-save-mode t)
+    '(desktop-save (quote ask-if-exists)))
 
 ;; Fix for using flyspell with Apple trackpad
 (eval-after-load "flyspell"
