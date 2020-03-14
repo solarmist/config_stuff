@@ -8,6 +8,10 @@ iTerm2
 TODO: Get code for `fullscreen` and `gifduration` commands from LI computer
 
 Preferences>Profile>Keys - load preset Natural Text Editing
+Also set left option key as Esc+
+
+http://azaleasays.com/2013/07/05/setting-up-mac-os-x-and-iterm2-for-emacs/
+
 
 Enable the following:
 modern scroll wheel accumulator

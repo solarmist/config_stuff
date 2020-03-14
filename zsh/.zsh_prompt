@@ -31,7 +31,7 @@ function venv_prompt {
         fi
         output="$mp_name$app_name"
     elif [ -n "${VIRTUAL_ENV}" ]; then
-        output="$VENV_COLOR${VIRTUAL_ENV}"
+        output="$VENV_COLOR${APP_NAME}"
     fi
 
     if [ -n "$output" ]; then

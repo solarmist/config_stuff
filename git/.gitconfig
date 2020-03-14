@@ -1,7 +1,11 @@
-[merge]
-        tool = emerge
-[user]
-        name = Joshua Olson
-        email = joshua.olson+github@gmail.com
+[alias]
+    co = checkout
 [core]
-        excludesfile = /Users/jolson/.gitignore_global
+    excludesfile = /Users/jolson/.gitignore_global
+[merge]
+    tool = emerge
+[pull]
+    rebase = true
+[user]
+    name = Joshua Olson
+    email = joshua.olson+github@gmail.com

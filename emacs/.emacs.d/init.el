@@ -38,6 +38,8 @@
                           `([,(cdr char-regexp) 0 font-shape-gstring]))))
 
 
+
+
 (mac-auto-operator-composition-mode)
 (setq mac-option-modifier 'meta)
 (custom-set-variables
@@ -45,7 +47,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(auto-save-file-name-transforms
+   (quote
+    (("\\`/[^/]*:\\([^/]*/\\)*\\([^/]*\\)\\'" "/Users/solarmist/.saves/\\2" t))))
  '(backup-directory-alist (quote (("." . "~/.saves"))))
+ '(column-number-mode t)
  '(desktop-save (quote ask-if-exists))
  '(desktop-save-mode t)
  '(direnv-mode t nil (direnv))
@@ -55,32 +61,10 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (
-     direnv
-     flycheck
-     flymake-haskell-multi
-     flymake-python-pyflakes
-     flyspell-correct
-     gradle-mode
-     groovy-mode
-     haskell-mode
-     jinja2-mode
-     js2-mode
-     js2-refactor
-     magit
-     python-mode
-     rainbow-delimiters
-     rainbow-mode
-     sphinx-doc
-     sphinx-mode
-     whitespace-cleanup-mode
-     xref-js2
-     yaml-mode
-     zenburn-theme
-     )))
+    (py-isort direnv flycheck flymake-haskell-multi flymake-python-pyflakes flyspell-correct gradle-mode groovy-mode haskell-mode jinja2-mode js2-mode js2-refactor magit python-mode rainbow-delimiters rainbow-mode sphinx-doc sphinx-mode whitespace-cleanup-mode xref-js2 yaml-mode zenburn-theme)))
  '(pyenv-mode t)
  '(show-trailing-whitespace t)
- '(whitespace-cleanup-mode-only-if-initially-clean nil))
+ '(whitespace-cleanup-mode-only-if-initially-clean t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
