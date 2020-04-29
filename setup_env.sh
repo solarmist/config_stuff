@@ -2,7 +2,6 @@
 # set -o xtrace  # Turn on echo variable
 # set -o verbose # Turn on echo debugging
 
-
 pwd="$(dirname $0)"
 # Install stuff before depending on it with later commands
 # OS Specific setups
@@ -10,6 +9,8 @@ case "$(uname -s)" in
     Darwin) # Install macOS stuff
 	echo "Installing macOS specific things"
 	${pwd}/setup_macos_env.sh
+	echo "Profiles for programs."
+	ls -l ./macos_themes
 	;;
     Linux) # Install Linux stuff
 	echo "Installing Linux specific things"
@@ -29,3 +30,5 @@ mkdir -p ${HOME}/bin
 # Link all the packages
 excluded="vim"
 link_packages `find_stow_packages $excluded`
+
+cat README

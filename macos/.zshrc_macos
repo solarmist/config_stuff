@@ -15,14 +15,23 @@ alias lla="ls -AFh $l"
 alias ll="ls -Fh $l"
 alias ls="ls -Fh"
 
-
 [[ -e "${HOME}/.iterm2_shell_integration.zsh" ]] && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# Setup and display splashscreen
+if [[ -e ${HOME}/.splacescreen ]];
+then
+    rm ${HOME}/.splacescreen
+fi
+
+if ! [[ -e ${HOME}/.splacescreen ]];
+then
+    # TODO: Randomize this
+    ln -s ${HOME}/.cli_images/splashscreens/e-corp.gif  ${HOME}/.splashscreen
+fi
 if [[ $TERM_PROGRAM = 'iTerm.app' ]] && [[ $STY = '' ]];
 then
     printf '\033]1337;ClearScrollback\a'
-    fullscreen ~/.splashscreen
-    sleep $(( $(gifduration -q ~/.splashscreen) + 0.5 ))
+    ${HOME}/bin/fullscreen ${HOME}/.splashscreen
+    sleep $(( $(exiftool -S -Duration ${HOME}/.splashscreen | awk '{print $2}') + 0.5 ))
     printf '\033]1337;ClearScrollback\a'
 fi
-
-unalias imgcat

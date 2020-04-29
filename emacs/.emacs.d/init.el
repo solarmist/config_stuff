@@ -4,7 +4,8 @@
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
-(load-theme 'zenburn t)
+(setq mac-option-modifier 'meta)
+(mac-auto-operator-composition-mode)
 (when (window-system)
   (set-frame-font "Fira Code"))
 (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
@@ -37,11 +38,11 @@
     (set-char-table-range composition-function-table (car char-regexp)
                           `([,(cdr char-regexp) 0 font-shape-gstring]))))
 
+;; If setting up emacs comment out the following code for the time being
+;; https://github.com/emacsmirror/python-mode for python-mode
+(setq py-install-directory "/Users/solarmist/packages/python-mode") (add-to-list 'load-path py-install-directory) (require 'python-mode)
 
-
-
-(mac-auto-operator-composition-mode)
-(setq mac-option-modifier 'meta)
+(load-theme 'zenburn t)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -61,7 +62,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (py-isort direnv flycheck flymake-haskell-multi flymake-python-pyflakes flyspell-correct gradle-mode groovy-mode haskell-mode jinja2-mode js2-mode js2-refactor magit python-mode rainbow-delimiters rainbow-mode sphinx-doc sphinx-mode whitespace-cleanup-mode xref-js2 yaml-mode zenburn-theme)))
+    (py-isort direnv flycheck flymake-haskell-multi flymake-python-pyflakes flyspell-correct haskell-mode jinja2-mode js2-mode js2-refactor magit python-mode rainbow-delimiters rainbow-mode sphinx-doc sphinx-mode whitespace-cleanup-mode xref-js2 yaml-mode zenburn-theme)))
  '(pyenv-mode t)
  '(show-trailing-whitespace t)
  '(whitespace-cleanup-mode-only-if-initially-clean t))
