@@ -27,5 +27,23 @@ echo "Please re-run setup_env.sh because the bash version has been upgraded"
 brew tap railwaycat/emacsmacport
 brew install emacs-mac --with-imagemagick --with-modern-icon --with-natural-title-bar --with-xml2
 
+# azuredevspaces.azds
+# bajdzis.vscode-database
+# DotJoshJohnson.xml
+# gerane.Theme-Zenburn
+# lfs.vscode-emacs-friendly
+# ms-azuretools.vscode-azurefunctions
+# ms-azuretools.vscode-docker
+# ms-kubernetes-tools.vscode-aks-tools
+# ms-kubernetes-tools.vscode-kubernetes-tools
+# ms-python.python
+# ms-vscode.azure-account
+# ms-vscode.azurecli
+# octref.vetur
+# publicus.org-checkbox
+# redhat.vscode-yaml
+# Rubymaniac.vscode-direnv
+# tootone.org-mode
+
 # Link Emacs in place so that finder can index it
 ! [[ -d "/Application/Emacs.app" ]] && osascript -e "$link_emacs"
