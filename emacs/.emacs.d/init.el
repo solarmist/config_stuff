@@ -7,7 +7,7 @@
 (setq mac-option-modifier 'meta)
 (mac-auto-operator-composition-mode)
 (when (window-system)
-  (set-frame-font "Fira Code"))
+  (set-frame-font "Fira Code-14"))
 (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
                (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
                (36 . ".\\(?:>\\)")
@@ -60,6 +60,9 @@
  '(global-whitespace-cleanup-mode t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
+ '(org-agenda-files
+   (quote
+    ("~/Dropbox/Business/Writing/2020-06-28-Summary.org")))
  '(package-selected-packages
    (quote
     (py-isort direnv flycheck flymake-haskell-multi flymake-python-pyflakes flyspell-correct haskell-mode jinja2-mode js2-mode js2-refactor magit python-mode rainbow-delimiters rainbow-mode sphinx-doc sphinx-mode whitespace-cleanup-mode xref-js2 yaml-mode zenburn-theme)))
@@ -72,3 +75,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'downcase-region 'disabled nil)
