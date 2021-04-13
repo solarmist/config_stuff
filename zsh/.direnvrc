@@ -1,12 +1,19 @@
 # PUT this here
 layout_poetry() {
-  if [[ ! -f pyproject.toml ]]; then
+  PYPROJECT=./pyproject.toml
+  # Check if there's just a single pyproject.toml elsewhere in the dir
+  if [[ $(($(find . -name "pyproject.toml" | wc -l ))) == 1 ]]; then
+    PYPROJECT=$(find . -name "pyproject.toml")
+  elif [[ ! -f pyproject.toml ]]; then
     log_error 'No pyproject.toml found.  Use `poetry new` or `poetry init` to create one first.'
     exit 2
   fi
 
+  pushd $(dirname $PYPROJECT)
   local VENV=$(dirname $(poetry run which python))
-  export APP_NAME=$(awk -F' ' '/name/ {gsub("\"", "", $3); print $3}' pyproject.toml)
+  popd
+
+  export APP_NAME=$(awk -F' ' '/name/ {gsub("\"", "", $3); print $3}' $PYPROJECT)
   export VIRTUAL_ENV=$(echo "$VENV" | rev | cut -d'/' -f2- | rev)
   export POETRY_ACTIVE=1
   export PYTHONBREAKPOINT=ipdb.set_trace
