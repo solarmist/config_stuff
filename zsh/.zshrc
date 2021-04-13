@@ -28,7 +28,7 @@ eval "$(direnv hook zsh)"
 export PIP_DOWNLOAD_CACHE=${HOME}/.pip/cache
 
 # {{{ Environment
-export PATH="${PATH}:${HOME}/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin"
+export PATH="${PATH}:${HOME}/.poetry/bin:${HOME}/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin"
 export TIME_STYLE=long-iso
 export LESSHISTFILE="-"
 export EDITOR="emacs"

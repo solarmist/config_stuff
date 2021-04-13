@@ -1,11 +1,39 @@
 [alias]
+    br = branch
+    ignore-change = update-index --assume-unchanged
+    ci = commit
     co = checkout
+    dump = cat-file -p
+    hist = log --pretty=format:\"%h %ad |[%an] %s%d\" --graph --date=short
+    st = status
+    type = cat-file -t
+[branch]
+    autosetupmerge = true
+    autosetuprebase = always
+[color]
+    diff = auto
+    grep = auto
+    ui = true
 [core]
-    excludesfile = /Users/jolson/.gitignore_global
+    editor = emacs
+    excludesfile = /Users/solarmist/.gitignore_global
+    trustctime = false
+[diff]
+    color = auto
+    mnemonicprefix = true
+[grep]
+    lineNumber = true
 [merge]
     tool = emerge
 [pull]
     rebase = true
+[push]
+    default = matching
 [user]
     name = Joshua Olson
     email = joshua.olson+github@gmail.com
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
