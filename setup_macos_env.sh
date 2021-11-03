@@ -25,7 +25,7 @@ echo "Please re-run setup_env.sh because the bash version has been upgraded"
 # https://www.reddit.com/r/emacs/comments/6ig02i/osx_if_youre_not_already_using_the_railwaycat/
 # https://github.com/railwaycat/homebrew-emacsmacport
 brew tap railwaycat/emacsmacport
-brew install emacs-mac --with-imagemagick --with-modern-icon --with-natural-title-bar --with-xml2
+brew install emacs-mac --with-imagemagick --with-emacs-sexy-icon --with-natural-title-bar --with-mac-metal --with-rsvg
 
 # azuredevspaces.azds
 # bajdzis.vscode-database

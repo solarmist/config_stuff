@@ -9,11 +9,12 @@ layout_poetry() {
     exit 2
   fi
 
-  pushd $(dirname $PYPROJECT)
+  pushd "$(dirname $PYPROJECT)"
   local VENV=$(dirname $(poetry run which python))
   popd
 
-  export APP_NAME=$(awk -F' ' '/name/ {gsub("\"", "", $3); print $3}' $PYPROJECT)
+  # Get only lines starting with "name"
+  export APP_NAME=$(awk -F' ' '/^name/ {gsub("\"", "", $3); print $3}' $PYPROJECT)
   export VIRTUAL_ENV=$(echo "$VENV" | rev | cut -d'/' -f2- | rev)
   export POETRY_ACTIVE=1
   export PYTHONBREAKPOINT=ipdb.set_trace
