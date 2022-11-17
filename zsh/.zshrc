@@ -97,7 +97,7 @@ alias pjson='python -mjson.tool'
 # Other Aliases
 alias calc="bc -l <<<"
 alias cls="clear"
-alias emacs="emacs --no-desktop"
+alias emacs="emacs --no-window-system --no-desktop"
 alias fact="elinks -dump randomfunfacts.com | sed -n '/^| /p' | tr -d \|"
 alias g="gvim"
 alias html2ascii='lynx -force_html -stdin -dump -nolist'
