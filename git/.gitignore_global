@@ -21,3 +21,5 @@ id_rsa
 .android
 .matlab
 Applications*
+
+**/.claude/settings.local.json
