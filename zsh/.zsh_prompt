@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # {{{ ZSH prompt setup
 
 # Include zsh-git-prompt
@@ -8,14 +8,6 @@ source ~/bin/zsh-git-prompt/zshrc.sh
 # Prompt requirements
 setopt extended_glob prompt_subst
 autoload colors zsh/terminfo
-
-# vcs_info
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' stagedstr '%F{28}●'
-zstyle ':vcs_info:*' unstagedstr '%F{11}●'
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:[svn]' formats '[%b%c%u]'
-zstyle ':vcs_info:*' enable hg git svn
 
 
 # {{{ Terminal and prompt
@@ -59,23 +51,6 @@ function precmd {
     else
         PR_FILLBAR="\${(l.((${TERMWIDTH} - (${PROMPTSIZE} + ${PWDSIZE})))..${PR_HBAR}.)}"
     fi
-
-    # VCS
-    if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null)
-            && -z $(bzr ls -R --unknown 2> /dev/null) ]]; then
-        if [[ -z $(bzr st -V 2> /dev/null) ]]; then
-            zstyle ':vcs_info:*' formats '%F{yellow}(%F{green}%s%F{white}:%F{blue}%b%c%u%F{yellow})'
-        else
-            zstyle ':vcs_info:*' formats '%F{yellow}(%F{green}%s%F{white}:%F{blue}%b%c%u%F{28}●%F{yellow})'
-        fi
-    else
-        if [[ -z $(bzr st -V 2> /dev/null) ]]; then
-            zstyle ':vcs_info:*' formats '%F{yellow}(%F{green}%s%F{white}:%F{blue}%b%c%u%F{red}●%F{yellow})'
-        else
-            zstyle ':vcs_info:*' formats '%F{yellow}(%F{green}%s%F{white}:%F{blue}%b%c%u%F{red}●%F{28}●%F{yellow})'
-        fi
-    fi
-    vcs_info
 }
 
 function preexec {
@@ -119,11 +94,6 @@ function setprompt {
     PR_LLCORNER="${altchar[m]:--}" # └
     PR_LRCORNER="${altchar[j]:--}" # ┐
     PR_URCORNER="${altchar[k]:--}" # ┘
-    ME_EMOJI=(🐶 🐱 🐭 🐹 🐰 🦊 🐻 🐼 🐨 🐯 🦁 🐮 🐷 🐸 🐵 🐙)
-    function RANDOM_ME_EMOJI {
-        echo "${ME_EMOJI[$((RANDOM%14))]}"
-    }
-
     function disable_altcharset {
         local string="$1"
         echo "$PR_SHIFT_OUT${string}$PR_SHIFT_IN$LINE_COLOR"
@@ -157,18 +127,20 @@ function setprompt {
 $PR_GREEN%%$PR_NO_COLOUR '
             ;;
         *)  # Main prompt
-            # TODO: Figure out how to get zsh to recognize the width of my Rprompt
-            ZSH_THEME_GIT_PROMPT_AHEAD="%{⬆️%G%}"
-            ZSH_THEME_GIT_PROMPT_BEHIND="%{⬇️%G%}"
+            # Single-width glyphs only: emoji are double-width (some are
+            # multi-codepoint sequences), which zsh can't measure, so they
+            # break RPROMPT alignment and cursor placement while editing.
+            ZSH_THEME_GIT_PROMPT_AHEAD="%{↑%G%}"
+            ZSH_THEME_GIT_PROMPT_BEHIND="%{↓%G%}"
             ZSH_THEME_GIT_PROMPT_BRANCH="%{$PR_MAGENTA%}"
-            ZSH_THEME_GIT_PROMPT_CHANGED="%{$PR_BLUE%}%{👷🏻‍♀️%G%}"
-            ZSH_THEME_GIT_PROMPT_CLEAN="%{$PR_GREEN%}%{✅ %G%}"
-            ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$PR_RED%}%{🙅🏼‍♀️%G%}"
+            ZSH_THEME_GIT_PROMPT_CHANGED="%{$PR_BLUE%}%{✚%G%}"
+            ZSH_THEME_GIT_PROMPT_CLEAN="%{$PR_GREEN%}%{✔%G%}"
+            ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$PR_RED%}%{✖%G%}"
             ZSH_THEME_GIT_PROMPT_PREFIX="$PR_YELLOW("
             ZSH_THEME_GIT_PROMPT_SEPARATOR="$PR_WHITE⎮"
-            ZSH_THEME_GIT_PROMPT_STAGED="%{$PR_RED%}%{📨 %G%}"
+            ZSH_THEME_GIT_PROMPT_STAGED="%{$PR_RED%}%{●%G%}"
             ZSH_THEME_GIT_PROMPT_SUFFIX="$PR_YELLOW)"
-            ZSH_THEME_GIT_PROMPT_UNTRACKED="%{🌌%G%}"
+            ZSH_THEME_GIT_PROMPT_UNTRACKED="%{…%G%}"
 
             UL_CORNER='$PR_ULCORNER$PR_HBAR(' # ┌─(
             LL_CORNER='$PR_LLCORNER$LINE_COLOR$PR_HBAR(' # └─(
@@ -185,7 +157,7 @@ $PR_GREEN%%$PR_NO_COLOUR '
             # %S...%s - ... is standout text
             UL_PROMPT='%(!.%SROOT%s.%n)$PR_WHITE@$PR_BLUE%m$PR_WHITE:$PR_GREEN%T' # {username/ROOT}@{short hostname}:{24 hour time}
             UR_PROMPT='$PR_RED%$PR_PWDLEN<...<%~%<<'  # {short pwd}
-            L_PROMPT="%(?.$(RANDOM_ME_EMOJI).$PR_RED%?$PR_WHITE:)%(!.$PR_RED.$PR_GREEN)%#" # [cmd error code:]{% or #}
+            L_PROMPT='%(?..$PR_RED%?$PR_WHITE:)%(!.$PR_RED.$PR_GREEN)%#' # [cmd error code:]{% or #}
             R_PROMPT='$(venv_prompt) $(git_super_status)'
             PROMPT="$PR_SET_CHARSET$PR_SHIFT_IN$LINE_COLOR${UL_CORNER}$(disable_altcharset ${UL_PROMPT})${HBAR}$(disable_altcharset ${UR_PROMPT})${UR_CORNER}
 ${LL_CORNER}$(disable_altcharset ${L_PROMPT}))$PR_SHIFT_OUT$PR_NO_COLOUR "
