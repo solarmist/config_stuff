@@ -10,7 +10,7 @@ case "$(uname -s)" in
 	echo "Installing macOS specific things"
 	${pwd}/setup_macos_env.sh
 	echo "Profiles for programs."
-	ls -l ./macos_themes
+	ls -l "${pwd}/macos/macos_app_settings"
 	;;
     Linux) # Install Linux stuff
 	echo "Installing Linux specific things"
@@ -19,12 +19,11 @@ case "$(uname -s)" in
 esac
 
 find ${pwd} -name ".DS_Store" -delete
-# TODO: This makes the script fail if bash 4+ isn't already installed.
 source ${pwd}/utils.sh
 
 # Setup universal stuff
 mkdir -p ${HOME}/bin
-# Requires git and ssh key to be setup
+# Requires git to be setup
 ! [ -e ${HOME}/bin/zsh-git-prompt ] && git clone https://github.com/olivierverdier/zsh-git-prompt.git ${HOME}/bin/zsh-git-prompt
 
 # Link all the packages

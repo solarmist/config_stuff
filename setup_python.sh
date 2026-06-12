@@ -1,3 +1,3 @@
 #!/bin/sh
 
-sudo easy_install pip readline twisted ipdb ipython pep8 pyflakes pipenv
+python3 -m pip install --user --upgrade pip uv gnureadline ipdb ipython pycodestyle pyflakes
