@@ -35,7 +35,8 @@ export EDITOR="emacs"
 export BROWSER="chrome"
 
 export MANPATH="/opt/local/share/man:${MANPATH}"
-export GREP_OPTIONS="--color=auto"
+# GREP_OPTIONS is deprecated (GNU grep warns on every use); alias instead
+alias grep="grep --color=auto"
 # By default: export WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
 # We take out the slash, period, angle brackets, dash here.
 # I like killing/moving whole paths, so comment this out
@@ -186,8 +187,3 @@ function make_envrc {
 }
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-
-autoload -Uz compinit
-zstyle ':completion:*' menu select
-fpath+=~/.zfunc
