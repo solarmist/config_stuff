@@ -1,7 +1,11 @@
 #!/usr/bin/env zsh
 # {{{ ZSH prompt setup
 
-# Include zsh-git-prompt
+# Include zsh-git-prompt; it shells out to `python`, which modern macOS
+# doesn't ship, so shim it to python3 when only python3 exists
+if (( ! $+commands[python] )) && (( $+commands[python3] )); then
+    function python { python3 "$@" }
+fi
 source ~/bin/zsh-git-prompt/zshrc.sh
 
 
