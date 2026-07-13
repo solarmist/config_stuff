@@ -1,13 +1,45 @@
-;;; Package --- Summary
-; Joshua Olson init.el
-(require 'package) ;; You might already have this line
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+;;; init.el --- Joshua Olson's Emacs configuration  -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; Code:
+
+(require 'cl-lib)
+(require 'package)
+
+;; Keep installed packages / native-comp cache OUT of this (stow-linked) repo
+;; directory so Emacs runtime state never pollutes config_stuff.
+(setq package-user-dir (expand-file-name "~/.cache/emacs/elpa"))
+(when (and (fboundp 'startup-redirect-eln-cache)
+           (boundp 'native-comp-eln-load-path))
+  (startup-redirect-eln-cache (expand-file-name "~/.cache/emacs/eln-cache/")))
+
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
+
+;; Packages this config expects. Keep in sync with `package-selected-packages'
+;; in the custom block below. Installed on first run; failures warn but don't
+;; abort init.
+(defvar my/packages
+  '(py-isort direnv flycheck flymake-haskell-multi flymake-python-pyflakes
+    flyspell-correct haskell-mode jinja2-mode js2-mode js2-refactor magit
+    python-mode rainbow-delimiters rainbow-mode sphinx-doc sphinx-mode
+    whitespace-cleanup-mode xref-js2 yaml-mode zenburn-theme)
+  "Packages required by this configuration.")
+
+(unless (cl-every #'package-installed-p my/packages)
+  (package-refresh-contents)
+  (dolist (pkg my/packages)
+    (unless (package-installed-p pkg)
+      (condition-case err
+          (package-install pkg)
+        (error (warn "init.el: failed to install %s: %s" pkg err))))))
+
+;; macOS modifier keys + ligatures (emacs-mac / railwaycat build).
 (setq mac-option-modifier 'meta)
-(mac-auto-operator-composition-mode)
+(when (fboundp 'mac-auto-operator-composition-mode)
+  (mac-auto-operator-composition-mode))
 (when (window-system)
-  (set-frame-font "Fira Code-14"))
+  (set-frame-font "Fira Code-14" t t))
 (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
                (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
                (36 . ".\\(?:>\\)")
@@ -38,20 +70,28 @@
     (set-char-table-range composition-function-table (car char-regexp)
                           `([,(cdr char-regexp) 0 font-shape-gstring]))))
 
-;; If setting up emacs comment out the following code for the time being
-;; https://github.com/emacsmirror/python-mode for python-mode
-(setq py-install-directory "/Users/solarmist/packages/python-mode") (add-to-list 'load-path py-install-directory) (require 'python-mode)
+;; Keep runtime state out of the (stow-linked) repo: backups/auto-saves under
+;; ~/.saves, and Emacs bookkeeping (auto-save-list, desktop) under ~/.cache.
+(let ((saves (expand-file-name "~/.saves/"))
+      (cache (expand-file-name "~/.cache/emacs/")))
+  (make-directory saves t)
+  (make-directory cache t)
+  (setq backup-directory-alist `(("." . ,saves))
+        auto-save-file-name-transforms
+        `(("\\`/[^/]*:\\([^/]*/\\)*\\([^/]*\\)\\'" ,(concat saves "\\2") t))
+        auto-save-list-file-prefix (concat cache "auto-save-list/.saves-")
+        desktop-path (list cache)
+        desktop-dirname cache))
 
-(load-theme 'zenburn t)
+;; Theme (guarded in case the install failed).
+(when (package-installed-p 'zenburn-theme)
+  (load-theme 'zenburn t))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(auto-save-file-name-transforms
-   (quote
-    (("\\`/[^/]*:\\([^/]*/\\)*\\([^/]*\\)\\'" "/Users/solarmist/.saves/\\2" t))))
- '(backup-directory-alist (quote (("." . "~/.saves"))))
  '(column-number-mode t)
  '(desktop-save (quote ask-if-exists))
  '(desktop-save-mode t)
@@ -76,3 +116,6 @@
  ;; If there is more than one, they won't work right.
  )
 (put 'downcase-region 'disabled nil)
+
+(provide 'init)
+;;; init.el ends here
