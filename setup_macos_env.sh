@@ -22,7 +22,7 @@ brew install --cask font-fira-code font-hasklig
 # https://www.reddit.com/r/emacs/comments/6ig02i/osx_if_youre_not_already_using_the_railwaycat/
 # https://github.com/railwaycat/homebrew-emacsmacport
 brew tap railwaycat/emacsmacport
-brew install emacs-mac
+brew install emacs-mac --with-imagemagick --with-emacs-sexy-icon --with-natural-title-bar --with-mac-metal
 
 # azuredevspaces.azds
 # bajdzis.vscode-database

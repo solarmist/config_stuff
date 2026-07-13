@@ -18,15 +18,10 @@ alias ls="ls -Fh"
 [[ -e "${HOME}/.iterm2_shell_integration.zsh" ]] && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # Setup and display splashscreen
-if [[ -e ${HOME}/.splacescreen ]];
-then
-    rm ${HOME}/.splacescreen
-fi
-
-if ! [[ -e ${HOME}/.splacescreen ]];
-then
-    # TODO: Randomize this
-    ln -s ${HOME}/.cli_images/splashscreens/e-corp.gif  ${HOME}/.splashscreen
+splash_dir="${HOME}/.cli_images/splashscreens"
+if [[ -d $splash_dir ]]; then
+    pick=$(find "$splash_dir" -type f \( -iname '*.gif' -o -iname '*.png' -o -iname '*.jpg' \) | sort -R | head -n 1)
+    [[ -n $pick ]] && ln -sfn "$pick" "${HOME}/.splashscreen"
 fi
 if [[ $TERM_PROGRAM = 'iTerm.app' ]] && [[ $STY = '' ]];
 then
