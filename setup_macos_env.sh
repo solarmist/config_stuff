@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 brew_prefix=$(brew --prefix 2>/dev/null || echo "/opt/homebrew")
-link_emacs="tell application \"Finder\" to make alias file to POSIX file \"${brew_prefix}/opt/emacs-mac/Emacs.app\" at POSIX file \"/Applications\""
+link_emacs="tell application \"Finder\" to make alias file to POSIX file \"${brew_prefix}/opt/emacs-mac/Emacs.app\" at (path to applications folder)"
 
 # Install homebrew if it isn't installed
 if ! which brew >/dev/null; then
@@ -17,7 +17,6 @@ curl -L https://iterm2.com/shell_integration/install_shell_integration_and_utili
 # brew options {package_name}
 # https://github.com/mrowa44/emojify
 brew install exiftool stow aspell bash direnv pipenv emojify httpie imagemagick git wget zsh
-# brew install --with-debug --with-gpgme --with-libmetalink --with-pcre wget
 brew install --cask font-fira-code font-hasklig
 # https://www.reddit.com/r/emacs/comments/6ig02i/osx_if_youre_not_already_using_the_railwaycat/
 # https://github.com/railwaycat/homebrew-emacsmacport
@@ -42,5 +41,7 @@ brew install emacs-mac --with-imagemagick --with-emacs-sexy-icon --with-natural-
 # Rubymaniac.vscode-direnv
 # tootone.org-mode
 
-# Link Emacs in place so that finder can index it
-! [[ -d "/Applications/Emacs.app" ]] && osascript -e "$link_emacs"
+# Link Emacs in place so that finder can index it.
+# The Finder alias is a *file* named "Emacs" (not a dir "Emacs.app"), so guard
+# on -e /Applications/Emacs to stay idempotent and avoid duplicate aliases.
+! [[ -e "/Applications/Emacs" ]] && osascript -e "$link_emacs"
