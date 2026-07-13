@@ -11,7 +11,6 @@ Templates with the expected fields live in examples/ (not linked by stow).
 Copy the relevant examples/*.local.example to the matching ~/.*.local.
 
 Notes:
-TODO: Automatically setup VS Code
 TODO: Configure iTerm
 TODO: compaudit warnings
 	There are insecure directories:
