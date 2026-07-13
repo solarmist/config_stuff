@@ -10,13 +10,12 @@ goes in this repo. Instead:
 Templates with the expected fields live in examples/ (not linked by stow).
 Copy the relevant examples/*.local.example to the matching ~/.*.local.
 
-Notes:
-TODO: Configure iTerm
-
-
-FYI at this point:
-http://azaleasays.com/2013/07/05/setting-up-mac-os-x-and-iterm2-for-emacs/
-
-Enable the following in iTerm:
-General>Preferences>Load preferences ...
-from: /Users/solarmist/config_stuff/macos/macos_themes
+iTerm2 (macOS):
+Preferences are managed as a scrubbed snapshot at
+macos/macos_app_settings/com.googlecode.iterm2.plist. setup_macos_env.sh seeds
+it into ~/Library/Preferences on a fresh machine (never overwriting an existing
+local file) and enables window/session restoration on reopen.
+To refresh the snapshot after changing settings in the iTerm GUI, run:
+  ./capture_iterm2_prefs.sh
+then commit the updated plist. The script strips machine-local NoSync* keys and
+absolute /Users paths, so no machine context is committed.

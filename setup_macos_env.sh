@@ -14,6 +14,18 @@ fi
 echo "Setting up iterm2 integrations"
 curl -L https://iterm2.com/shell_integration/install_shell_integration_and_utilities.sh | zsh
 
+# iTerm2: on a fresh machine, seed prefs from the committed snapshot (see
+# capture_iterm2_prefs.sh). Never clobber an existing local prefs file.
+script_dir="$(cd "$(dirname "$0")" && pwd)"
+iterm_plist="${HOME}/Library/Preferences/com.googlecode.iterm2.plist"
+if [ ! -f "${iterm_plist}" ]; then
+    echo "Restoring iTerm2 preferences from repo snapshot"
+    cp "${script_dir}/macos/macos_app_settings/com.googlecode.iterm2.plist" "${iterm_plist}"
+fi
+# Restore windows + session scrollback on reopen (iTerm defers to this macOS
+# switch; = unchecking "Close windows when quitting an application").
+defaults write -g NSQuitAlwaysKeepsWindows -bool true
+
 # brew options {package_name}
 # https://github.com/mrowa44/emojify
 brew install exiftool stow aspell bash direnv pipenv emojify httpie imagemagick git wget zsh
