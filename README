@@ -11,8 +11,6 @@ Templates with the expected fields live in examples/ (not linked by stow).
 Copy the relevant examples/*.local.example to the matching ~/.*.local.
 
 Notes:
-TODO: Automatically install emacs packages
-TODO: Prevent emacs from being linked multiple times
 TODO: Automatically setup VS Code
 TODO: Configure iTerm
 TODO: compaudit warnings
