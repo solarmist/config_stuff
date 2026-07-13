@@ -43,7 +43,11 @@ select-word-style bash
 
 # New style completion system
 fpath+=~/.zfunc  # Must be on fpath before compinit runs
-autoload -U compinit; compinit
+autoload -Uz compinit
+# Fix perms on any group/world-writable fpath dirs (e.g. /usr/local/share/zsh),
+# then init with -i so an insecure dir never blocks completion or prompts.
+compaudit 2>/dev/null | xargs -r chmod g-w,o-w 2>/dev/null
+compinit -i
 #  * List of completers to use
 zstyle ":completion:*" completer _complete _match _approximate
 #  * Allow approximate

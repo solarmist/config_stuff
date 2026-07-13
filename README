@@ -12,10 +12,6 @@ Copy the relevant examples/*.local.example to the matching ~/.*.local.
 
 Notes:
 TODO: Configure iTerm
-TODO: compaudit warnings
-	There are insecure directories:
-	/usr/local/share/zsh/site-functions
-	/usr/local/share/zsh
 
 
 FYI at this point:
