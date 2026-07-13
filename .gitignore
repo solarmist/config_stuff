@@ -2,3 +2,16 @@
 .emacs.desktop*
 *auto-save-list
 *~
+
+# Machine context must never be committed. See CONTEXT.md.
+*.local
+
+# Secrets / machine-specific SSH state — never commit keys (public or private).
+ssh/.ssh/id_ed25519*
+ssh/.ssh/*.pub
+ssh/.ssh/known_hosts*
+
+.DS_Store
+
+# Claude Code session data — plans, memory, local settings.
+.claude/

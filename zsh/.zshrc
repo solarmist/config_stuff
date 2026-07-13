@@ -187,3 +187,6 @@ function make_envrc {
 }
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# Machine context — untracked, never committed. See config_stuff/CONTEXT.md.
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local

@@ -16,7 +16,7 @@
     ui = true
 [core]
     editor = emacs
-    excludesfile = /Users/solarmist/.gitignore_global
+    excludesfile = ~/.gitignore_global
     trustctime = false
 [diff]
     color = auto
@@ -30,8 +30,7 @@
 [push]
     default = matching
 [user]
-    name = Joshua Olson
-    email = joshua.olson+github@gmail.com
+	name = Josh Olson
 [filter "lfs"]
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
@@ -39,3 +38,7 @@
 	clean = git-lfs clean -- %f
 [init]
 	defaultBranch = main
+# Machine context — untracked, never committed. See config_stuff/CONTEXT.md.
+# A missing include is silently ignored by git.
+[include]
+	path = ~/.gitconfig.local

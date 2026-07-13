@@ -27,7 +27,7 @@ mkdir -p ${HOME}/bin
 ! [ -e ${HOME}/bin/zsh-git-prompt ] && git clone https://github.com/olivierverdier/zsh-git-prompt.git ${HOME}/bin/zsh-git-prompt
 
 # Link all the packages
-excluded="vim"
-link_packages `find_stow_packages $excluded`
+excluded=(vim examples)
+link_packages `find_stow_packages ${excluded[@]}`
 
 cat README

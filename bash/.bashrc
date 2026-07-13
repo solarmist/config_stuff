@@ -6,8 +6,7 @@ if [ -f /etc/bashrc ]; then
 fi
 
 export SUDO_ASKPASS=${HOME}/.ssh/SudoPass.sh
-export PATH="${HOME}/bin/scripts:${HOME}/bin:/opt/local/bin:/opt/local/sbin:/usr/local/linkedin/bin:${PATH}"
-export PERL5LIB="$PERL5LIB:/site/lib"
+export PATH="${HOME}/bin/scripts:${HOME}/bin:/opt/local/bin:/opt/local/sbin:${PATH}"
 
 alias fact="elinks -dump randomfunfacts.com | sed -n '/^| /p' | tr -d \|"
 alias ga='git add '
@@ -74,14 +73,6 @@ function parse_git_branch {
 function simplehost(){
     name=$1
     case $name in
-	ii52-25) echo -n "DEV7:$name";;
-	ii52-26) echo -n "DEV8:$name";;
-	ii52-27) echo -n "DEV9:$name";;
-	ii50-9) echo -n "DEV12:$name";;
-	ii50-10) echo -n "DEV13:$name";;
-	ii50-11) echo -n "DEV14:$name";;
-	ii50-15) echo -n "DEV15:$name";;
-	bi*) echo -n "DEVLAB=DEVLAB=DEVLAB:$name";;
 	*) echo -n "$name";;
     esac
 }
@@ -91,3 +82,7 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+. "$HOME/.cargo/env"
+
+# Machine context — untracked, never committed. See config_stuff/CONTEXT.md.
+[ -f ~/.bashrc.local ] && . ~/.bashrc.local

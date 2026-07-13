@@ -1,0 +1,5 @@
+# git machine context. Copy to ~/.gitconfig.local and fill in.
+# This file is machine-specific and MUST NOT be committed to this repo.
+# It is included from ~/.gitconfig, so it can override shared defaults.
+[user]
+	email = you@example.com
