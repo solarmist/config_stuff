@@ -4,8 +4,10 @@ export CLICOLOR=1 # Colorize Mac OS
 
 # Put pip --user console scripts on PATH. The macOS framework Python installs
 # them under ~/Library/Python/<ver>/bin (not ~/.local/bin), e.g. ipython, ipdb3.
-# (N) = null-glob so this is a no-op when nothing matches.
-for _pybin in "$HOME"/Library/Python/*/bin(N); do path+=("$_pybin"); done
+# (N) = null-glob so this is a no-op when nothing matches. Wrapped in an
+# anonymous function with `emulate -L zsh` so the (N) qualifier is honored even
+# if bare_glob_qual has been disabled earlier in startup (options auto-restore).
+() { emulate -L zsh; for _pybin in "$HOME"/Library/Python/*/bin(N); do path+=("$_pybin"); done }
 unset _pybin
 
 # When used with the -l option, display complete time information for the file
